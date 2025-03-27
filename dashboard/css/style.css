@@ -11,15 +11,20 @@
     border-bottom: 2px solid rgb(218, 218, 218);
 }
 .icon_term img{
-    width: 50px;
+    width: 30px;
     float: none;
     margin: 0;
 }
 .value{
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 600;
+    color: rgb(0, 124, 0);
 }
 .graf_term{
-    width: 100%;
-    height: 200px;
+    width: 100% !important;
+    height: 100% !important;
+}
+.c_graf{
+    height: 300px;
+    margin-top: 30px;
 }
