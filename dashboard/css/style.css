@@ -1,0 +1,25 @@
+*{
+    box-sizing: border-box;
+}
+.flex{
+    display: flex;
+    justify-content: space-between;
+}
+.block_term{
+    width: 100%;
+    padding: 10px 5px;
+    border-bottom: 2px solid rgb(218, 218, 218);
+}
+.icon_term img{
+    width: 50px;
+    float: none;
+    margin: 0;
+}
+.value{
+    font-size: 30px;
+    font-weight: 600;
+}
+.graf_term{
+    width: 100%;
+    height: 200px;
+}
