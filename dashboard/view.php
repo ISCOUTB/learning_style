@@ -7,9 +7,9 @@
         </div>
         <div class="value">10/30</div>
     </div>
-    <b>
+    <span>
         Encuestados
-    </b>
+    </span>
 </div>
 <div class="block_term">
     <div class="flex">
@@ -18,9 +18,9 @@
         </div>
         <div class="value">Activo</div>
     </div>
-    <b>
+    <span>
         Estilo dominante
-    </b>
+    </span>
 </div>
 <div class="block_term">
     <div class="flex">
@@ -29,14 +29,18 @@
         </div>
         <div class="value">Reflexivo</div>
     </div>
-    <b>
+    <span>
         Estilo menos dominante
-    </b>
+    </span>
+</div>
+<div class="c_graf">
+    <canvas id="distr_pie" class="graf_term" style="width: 100%; height: auto;"></canvas>
+</div>
+<div class="c_graf">
+    <canvas id="distr_bar" class="graf_term" height="300px"></canvas>
 </div>
 
-<canvas id="distr_pie" class="graf_term"></canvas>
-<canvas id="distr_bar" class="graf_term"></canvas>
 
-<script src="../blocks/learning_style/dashboard/js/chart.js"></script>
+<script src="../blocks/learning_style/dashboard/js/chart.js" ></script>
 <script src="../blocks/learning_style/dashboard/js/main.js"></script>
 
