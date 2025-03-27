@@ -146,12 +146,8 @@ class block_learning_style extends block_base
         } else {
             if (isset($this->config->learning_style_content) && isset($this->config->learning_style_content["text"])) {
                 //Aquí se debe maquetar el dashboard
-                $this->content->text = "
-                <h3>DASHBOARD</h3>
-                <h4>Distribución de estilos de aprendizaje</h4>
-                <canvas></canvas>
-                
-                ";
+                $view = file_get_contents($CFG->dirroot . '/blocks/learning_style/dashboard/view.php');
+                $this->content->text = $view;
             } else {
                 $this->content->text = "<img src='" . $OUTPUT->pix_url('warning', 'block_learning_style') . "'>" . get_string('learning_style_configempty', 'block_learning_style');
             }
