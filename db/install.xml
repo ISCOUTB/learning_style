@@ -11,11 +11,19 @@
         <FIELD NAME="user" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="state"/>
         <FIELD NAME="state" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="user" NEXT="course"/>
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="state" NEXT="act_ref"/>
-        <FIELD NAME="act_ref" TYPE="text" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="state" NEXT="sen_int"/>
-        <FIELD NAME="sen_int" TYPE="text" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="state" NEXT="vis_vrb"/>
-        <FIELD NAME="vis_vrb" TYPE="text" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="state" NEXT="seq_glo"/>
-        <FIELD NAME="seq_glo" TYPE="text" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="state" NEXT="created_at"/>
-        <FIELD NAME="created_at" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="course"  NEXT="updated_at"/>
+        <FIELD NAME="act_ref" TYPE="text" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="course" NEXT="sen_int"/>
+        <FIELD NAME="sen_int" TYPE="text" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="act_ref" NEXT="vis_vrb"/>
+        <FIELD NAME="vis_vrb" TYPE="text" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="sen_int" NEXT="seq_glo"/>
+        <FIELD NAME="seq_glo" TYPE="text" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="vis_vrb" NEXT="ap_active"/>
+        <FIELD NAME="ap_active" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="seq_glo" NEXT="ap_reflexivo"/>
+        <FIELD NAME="ap_reflexivo" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="ap_active" NEXT="ap_sensorial"/>
+        <FIELD NAME="ap_sensorial" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="ap_reflexivo" NEXT="ap_intuitivo"/>
+        <FIELD NAME="ap_intuitivo" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="ap_sensorial" NEXT="ap_visual"/>
+        <FIELD NAME="ap_visual" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="ap_intuitivo" NEXT="ap_verbal"/>
+        <FIELD NAME="ap_verbal" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="ap_visual" NEXT="ap_secuencial"/>
+        <FIELD NAME="ap_secuencial" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="ap_verbal" NEXT="ap_global"/>
+        <FIELD NAME="ap_global" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="ap_secuencial" NEXT="created_at"/>
+        <FIELD NAME="created_at" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="ap_global"  NEXT="updated_at"/>
         <FIELD NAME="updated_at" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="created_at" />
       </FIELDS>
       <KEYS>
