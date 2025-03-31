@@ -13,6 +13,14 @@ function save_learning_style($course,$act_ref,$sen_int,$vis_vrb,$seq_glo,$act,$r
         $entry->sen_int = $sen_int;
         $entry->vis_vrb = $vis_vrb;
         $entry->seq_glo = $seq_glo;
+        $entry->ap_active = $act;
+        $entry->ap_reflexivo = $ref;
+        $entry->ap_sensorial = $sen;
+        $entry->ap_intuitivo = $int;
+        $entry->ap_visual = $vis;
+        $entry->ap_verbal = $vrb;
+        $entry->ap_secuencial = $seq;
+        $entry->ap_global = $glo;
         $entry->created_at = time();
         $entry->updated_at = time();
         $entry->id = $DB->insert_record('learning_style', $entry);
@@ -37,4 +45,3 @@ function save_learning_style($course,$act_ref,$sen_int,$vis_vrb,$seq_glo,$act,$r
         return false;
     }
 }
-
