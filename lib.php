@@ -47,17 +47,20 @@ function save_learning_style($course,$act_ref,$sen_int,$vis_vrb,$seq_glo,$act,$r
 }
 function get_metrics(){
     GLOBAL $DB, $USER, $CFG;
+    //inicializacion de la respuesta
     $response = ["total_students" => 0, 
-                "total_students_on_course" => 0, 
-                "num_act" => 5, 
-                "num_ref" => 10, 
-                "num_vis" => 11, 
-                "num_vrb" => 5, 
-                "num_sen" => 2, 
-                "num_int" => 14, 
-                "num_sec" => 12, 
-                "num_glo" => 5,
-                "course" => 0
+                "total_students_on_course" => 0,
+                "course" => 0,
+                "data" => [
+                "num_act" => 0, 
+                "num_ref" => 0, 
+                "num_vis" => 0, 
+                "num_vrb" => 0, 
+                "num_sen" => 0, 
+                "num_int" => 0, 
+                "num_sec" => 0, 
+                "num_glo" => 0,
+                ]
             ];
     $sql_registros = $DB->get_records("learning_style");
     $response["total_students"] = count($sql_registros);
@@ -74,7 +77,40 @@ function get_metrics(){
         // Pasamos los parámetros de forma segura
         ['courseid' => $course_id]
     );
+    //Los 8 estilos de aprendizaje
+    $total_act = $DB->get_record_sql(
+        "SELECT COUNT(id) as cantidad FROM {learning_style} WHERE ap_active > 0"
+    );
+    $total_ref = $DB->get_record_sql(
+        "SELECT COUNT(id) as cantidad FROM {learning_style} WHERE ap_reflexivo > 0"
+    );
+    $total_vis = $DB->get_record_sql(
+        "SELECT COUNT(id) as cantidad FROM {learning_style} WHERE ap_sensorial > 0"
+    );
+    $total_vrb = $DB->get_record_sql(
+        "SELECT COUNT(id) as cantidad FROM {learning_style} WHERE ap_verbal > 0"
+    );
+    $total_sen = $DB->get_record_sql(
+        "SELECT COUNT(id) as cantidad FROM {learning_style} WHERE ap_sensorial > 0"
+    );
+    $total_int = $DB->get_record_sql(
+        "SELECT COUNT(id) as cantidad FROM {learning_style} WHERE ap_intuitivo > 0"
+    );
+    $total_sec = $DB->get_record_sql(
+        "SELECT COUNT(id) as cantidad FROM {learning_style} WHERE ap_secuencial > 0"
+    );
+    $total_glo = $DB->get_record_sql(
+        "SELECT COUNT(id) as cantidad FROM {learning_style} WHERE ap_global > 0"
+    );
     $response["total_students_on_course"] = intval($total_estudiantes->cantidad);
+    $response["data"]["num_act"] = intval($total_act->cantidad);
+    $response["data"]["num_ref"] = intval($total_ref->cantidad);
+    $response["data"]["num_vis"] = intval($total_vis->cantidad);
+    $response["data"]["num_vrb"] = intval($total_vrb->cantidad);
+    $response["data"]["num_sen"] = intval($total_sen->cantidad);
+    $response["data"]["num_int"] = intval($total_int->cantidad);
+    $response["data"]["num_sec"] = intval($total_sec->cantidad);
+    $response["data"]["num_glo"] = intval($total_glo->cantidad);
     //SELECT COUNT(*) FROM learning_style WHERE ap_active > 0
     $response["course"] = $course_id;
     print_r(json_encode($response));
