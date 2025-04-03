@@ -47,6 +47,17 @@ function save_learning_style($course,$act_ref,$sen_int,$vis_vrb,$seq_glo,$act,$r
 }
 function get_metrics(){
     GLOBAL $DB, $USER, $CFG;
+    $response = ["total_students" => 0, 
+                "total_students_on_course" => 0, 
+                "num_act" => 0, 
+                "num_ref" => 0, 
+                "num_vis" => 0, 
+                "num_vrb" => 0, 
+                "num_sen" => 0, 
+                "num_int" => 0, 
+                "num_sec" => 0, 
+                "num_glo" => 0];
     $sql_registros = $DB->get_records("learning_style");
-    print_r(json_encode($sql_registros));
+    //print_r(json_encode($sql_registros));
+    print_r(json_encode($response));
 }
