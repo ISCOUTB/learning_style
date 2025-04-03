@@ -45,3 +45,8 @@ function save_learning_style($course,$act_ref,$sen_int,$vis_vrb,$seq_glo,$act,$r
         return false;
     }
 }
+function get_metrics(){
+    GLOBAL $DB, $USER, $CFG;
+    $sql_registros = $DB->get_records("learning_style");
+    print_r(json_encode($sql_registros));
+}
