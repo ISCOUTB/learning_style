@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         labels: labels,
         datasets: [
           {
-            label: "Distribución de estilos de aprendizaje",
+            label: "Valor",
             data: data,
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         labels: labels,
         datasets: [
           {
-            label: "Distribución de estilos de aprendizaje",
+            label: "Valor",
             data: data,
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
