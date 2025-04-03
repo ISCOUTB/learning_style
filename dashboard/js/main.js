@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded",()=>{
+  let request_get_metrics = await fetch("../blocks/learning_style/dashboard/api/get_metrics.php");
+  if(request_get_metrics.ok){
+    let response_get_metrics = await request_get_metrics.json();
+    console.log(response_get_metrics)
+  }
   let ctx_bar_ = document.getElementById("distr_bar").getContext("2d");
   let ctx_pie = document.getElementById("distr_pie").getContext("2d");
   
