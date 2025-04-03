@@ -1,11 +1,10 @@
-
 <link rel="stylesheet" href="../blocks/learning_style/dashboard/css/style.css">
 <div class="block_term">
     <div class="flex">
         <div class="icon_term">
             <img src="../blocks/learning_style/dashboard/assets/ent.png" alt="">
         </div>
-        <div class="value">10/30</div>
+        <div class="value" id="total_enc">...</div>
     </div>
     <span>
         Encuestados
@@ -16,7 +15,7 @@
         <div class="icon_term">
             <img src="../blocks/learning_style/dashboard/assets/grupo.png" alt="">
         </div>
-        <div class="value">Activo</div>
+        <div class="value" id="est_dom">...</div>
     </div>
     <span>
         Estilo dominante
@@ -27,7 +26,7 @@
         <div class="icon_term">
             <img src="../blocks/learning_style/dashboard/assets/solo.png" alt="">
         </div>
-        <div class="value">Reflexivo</div>
+        <div class="value">...</div>
     </div>
     <span>
         Estilo menos dominante
