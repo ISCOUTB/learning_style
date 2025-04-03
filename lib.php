@@ -58,6 +58,6 @@ function get_metrics(){
                 "num_sec" => 0, 
                 "num_glo" => 0];
     $sql_registros = $DB->get_records("learning_style");
-    //print_r(json_encode($sql_registros));
+    $response["total_students"] = count($sql_registros);
     print_r(json_encode($response));
 }
