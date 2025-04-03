@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let max_value = 0;
     for(let estilo in response_get_metrics){
       //console.log(estilo);
-      if(response_get_metrics[estilo] > max_value){
+      if(response_get_metrics["data"][estilo] > max_value){
         llave_max = estilo;
         max_value = response_get_metrics[estilo];
       }
@@ -46,18 +46,39 @@ document.addEventListener("DOMContentLoaded", async () => {
       case "num_glo":
         estilo_hu = "Global";
         break; 
-
+      default:
+        estilo_hu = "N/A";
+        break;
     }
     console.log("estilo dominante ", llave_max);
     est_dom.innerText = estilo_hu;
+    let labels = [];
+    let data = [];
+    data.push(response_get_metrics["data"]["num_act"]);
+    labels.push("Activo");
+    data.push(response_get_metrics["data"]["num_ref"]);
+    labels.push("Reflexivo");
+    data.push(response_get_metrics["data"]["num_sen"]);
+    labels.push("Sensitivo");
+    data.push(response_get_metrics["data"]["num_int"]);
+    labels.push("Intuitivo");
+    data.push(response_get_metrics["data"]["num_vis"]);
+    labels.push("Visual");
+    data.push(response_get_metrics["data"]["num_vrb"]);
+    labels.push("Verbal");
+    data.push(response_get_metrics["data"]["num_sec"]);
+    labels.push("Secuencial");
+    data.push(response_get_metrics["data"]["num_glo"]);
+    labels.push("Global");
+    
     let pieChart = new Chart(ctx_pie, {
       type: "pie",
       data: {
-        labels: ["Activo", "Reflexivo", "Verbal", "Global", "Secuencial", "Intuitivo", "Sensitivo", "Visual"],
+        labels: labels,
         datasets: [
           {
             label: "Distribución de estilos de aprendizaje",
-            data: [30, 25, 10, 15, 9, 12, 29, 20],
+            data: data,
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
               "rgba(54, 162, 235, 0.2)",
@@ -65,6 +86,8 @@ document.addEventListener("DOMContentLoaded", async () => {
               "rgba(75, 192, 192, 0.2)",
               "rgba(153, 102, 255, 0.2)",
               "rgba(255, 159, 64, 0.2)",
+              "rgba(100, 221, 23, 0.2)",  // Verde brillante
+              "rgba(255, 87, 34, 0.2)",    // Naranja fuerte
             ],
             borderColor: [
               "rgba(255, 99, 132, 1)",
@@ -73,6 +96,8 @@ document.addEventListener("DOMContentLoaded", async () => {
               "rgba(75, 192, 192, 1)",
               "rgba(153, 102, 255, 1)",
               "rgba(255, 159, 64, 1)",
+              "rgba(100, 221, 23, 1)",  // Verde brillante
+              "rgba(255, 87, 34, 1)",    // Naranja fuerte
             ],
             borderWidth: 1,
           },
@@ -95,11 +120,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     let barChart = new Chart(ctx_bar_, {
       type: "bar",
       data: {
-        labels: ["Activo", "Reflexivo", "Verbal", "Global", "Secuencial", "Intuitivo", "Sensitivo", "Visual"],
+        labels: labels,
         datasets: [
           {
             label: "Distribución de estilos de aprendizaje",
-            data: [30, 25, 10, 15, 9, 12, 29, 20],
+            data: data,
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
               "rgba(54, 162, 235, 0.2)",
@@ -107,6 +132,8 @@ document.addEventListener("DOMContentLoaded", async () => {
               "rgba(75, 192, 192, 0.2)",
               "rgba(153, 102, 255, 0.2)",
               "rgba(255, 159, 64, 0.2)",
+              "rgba(100, 221, 23, 0.2)",  // Verde brillante
+              "rgba(255, 87, 34, 0.2)",    // Naranja fuerte
             ],
             borderColor: [
               "rgba(255, 99, 132, 1)",
@@ -115,6 +142,8 @@ document.addEventListener("DOMContentLoaded", async () => {
               "rgba(75, 192, 192, 1)",
               "rgba(153, 102, 255, 1)",
               "rgba(255, 159, 64, 1)",
+              "rgba(100, 221, 23, 1)",  // Verde brillante
+              "rgba(255, 87, 34, 1)",    // Naranja fuerte
             ],
             borderWidth: 1,
           },
