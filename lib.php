@@ -49,15 +49,34 @@ function get_metrics(){
     GLOBAL $DB, $USER, $CFG;
     $response = ["total_students" => 0, 
                 "total_students_on_course" => 0, 
-                "num_act" => 0, 
-                "num_ref" => 0, 
-                "num_vis" => 0, 
-                "num_vrb" => 0, 
-                "num_sen" => 0, 
-                "num_int" => 0, 
-                "num_sec" => 0, 
-                "num_glo" => 0];
+                "num_act" => 5, 
+                "num_ref" => 10, 
+                "num_vis" => 11, 
+                "num_vrb" => 5, 
+                "num_sen" => 2, 
+                "num_int" => 14, 
+                "num_sec" => 12, 
+                "num_glo" => 5,
+                "course" => 0
+            ];
     $sql_registros = $DB->get_records("learning_style");
     $response["total_students"] = count($sql_registros);
+    $course_id = $sql_registros[1]->course;
+    $total_estudiantes = $DB->get_record_sql(
+        "SELECT count(m.id) as cantidad
+        FROM {user} m
+        LEFT JOIN {role_assignments} m2 ON m.id = m2.userid
+        LEFT JOIN {context} m3 ON m2.contextid = m3.id
+        LEFT JOIN {course} m4 ON m3.instanceid = m4.id
+        WHERE m3.contextlevel = 50 
+        AND m2.roleid IN (5) 
+        AND m4.id = :courseid", // Usamos :courseid como parámetro
+        // Pasamos los parámetros de forma segura
+        ['courseid' => $course_id]
+    );
+    $response["total_students_on_course"] = intval($total_estudiantes->cantidad);
+    //SELECT COUNT(*) FROM learning_style WHERE ap_active > 0
+    $response["course"] = $course_id;
     print_r(json_encode($response));
 }
+
