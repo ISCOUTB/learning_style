@@ -26,7 +26,7 @@
         <div class="icon_term">
             <img src="../blocks/learning_style/dashboard/assets/solo.png" alt="">
         </div>
-        <div class="value">...</div>
+        <div class="value" id="est_men_dom">...</div>
     </div>
     <span>
         Estilo menos dominante
