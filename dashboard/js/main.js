@@ -7,8 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let response_get_metrics = await request_get_metrics.json();
     console.log(response_get_metrics)
     let total_curso = response_get_metrics["total_students_on_course"];
-    let enc = response_get_metrics["total_students"]
-    //total_enc.innerText = ((enc/total_curso)*100) + "%";//
+    let enc = response_get_metrics["total_students"];
     total_enc.innerText = enc + "/" + total_curso;
     let ctx_bar_ = document.getElementById("distr_bar").getContext("2d");
     let ctx_pie = document.getElementById("distr_pie").getContext("2d");
@@ -22,7 +21,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     //Calculo estilo dominante y menos dominante 
     for(let estilo in response_get_metrics){
-      //console.log(estilo);
       if(response_get_metrics["data"][estilo] > max_value){
         llave_max = estilo;
         max_value = response_get_metrics[estilo];
