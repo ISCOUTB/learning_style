@@ -8,10 +8,6 @@ class block_learning_style extends block_base
         $this->title = get_string('pluginname', 'block_learning_style');
     }
 
-    /*function has_config() {
-        return false;
-    }*/
-
     function instance_allow_multiple()
     {
         return false;
@@ -34,10 +30,6 @@ class block_learning_style extends block_base
         $slider .= '</div>';
         return $slider;
     }
-
-    /*function instance_allow_config() {
-        return false;
-    }*/
 
     function get_content()
     {
@@ -87,10 +79,6 @@ class block_learning_style extends block_base
                     redirect($redirect);
                 }
             } else {
-                /**
-                 * 
-                 */
-
                 $final_style = [];
 
                 $izq_title = "Activo: te sugiero utilizar actividades prácticas, resolución de problemas, realizar experimentos, proyectos prácticos, participar en discusiones grupales, trabajar en grupos.";
