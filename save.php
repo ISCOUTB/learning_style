@@ -144,4 +144,3 @@ if(save_learning_style($courseid,$act_ref["result"],$sen_int["result"],$vis_vrb[
 }else{
     redirect($redirect, get_string('redirect_accept_exist', 'block_learning_style') );
 }
-?>
