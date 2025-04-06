@@ -36,7 +36,7 @@ class block_learning_style_edit_form extends block_edit_form {
         $mform->setType('config_learning_style_content', PARAM_RAW); // XSS is prevented when printing the block contents and serving files
     }
 
-    function set_data($defaults) {
+    public function set_data($defaults) {
         if (!empty($this->block->config) && is_object($this->block->config)) {
             if( empty( $this->block->config->learning_style_content ) ){
                 $defaults->config_learning_style_content["text"] =  get_string('code_honor_text', 'block_learning_style');
