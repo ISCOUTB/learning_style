@@ -56,10 +56,6 @@ class block_learning_style extends block_base
             return;
         }
 
-        /*$redirect = new moodle_url('/blocks/learning_style/view.php', array('cid' => $COURSE->id));
-        redirect($redirect);*/
-
-
         $COURSE_ROLED_AS_STUDENT = $DB->get_record_sql("  SELECT m.id
                 FROM {user} m 
                 LEFT JOIN {role_assignments} m2 ON m.id = m2.userid 
