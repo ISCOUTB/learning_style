@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__.'/../../config.php');
+require_once(__DIR__.'/../../config.php');
 
 #$DB->delete_records("learning_style");
 #$DB->delete_records("personality_test");
