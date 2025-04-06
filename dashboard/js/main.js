@@ -118,98 +118,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     labels.push("Secuencial");
     data.push(response_get_metrics["data"]["num_glo"]);
     labels.push("Global");
-    
-    let pieChart = new Chart(ctx_pie, {
-      type: "pie",
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "Valor",
-            data: data,
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(100, 221, 23, 0.2)",  // Verde brillante
-              "rgba(255, 87, 34, 0.2)",    // Naranja fuerte
-            ],
-            borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)",
-              "rgba(100, 221, 23, 1)",  // Verde brillante
-              "rgba(255, 87, 34, 1)",    // Naranja fuerte
-            ],
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: "Distribución de estilos de aprendizaje",
-          },
-          legend: {
-            display: false,
-          },
-        },
-      },
-    });
-    let barChart = new Chart(ctx_bar_, {
-      type: "bar",
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "Valor",
-            data: data,
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(100, 221, 23, 0.2)",  // Verde brillante
-              "rgba(255, 87, 34, 0.2)",    // Naranja fuerte
-            ],
-            borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)",
-              "rgba(100, 221, 23, 1)",  // Verde brillante
-              "rgba(255, 87, 34, 1)",    // Naranja fuerte
-            ],
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: "Distribución de estilos de aprendizaje",
-          },
-          legend: {
-            display: false,
-          },
-        },
-      },
-    });
+    crearGrafico("pie", ctx_pie, labels, data, "Distribución de estilos de aprendizaje");
+    crearGrafico("bar", ctx_bar_, labels, data, "Distribución de estilos de aprendizaje");
   }
 })
+function crearGrafico(tipo, ctx, etiquetas, valores, titulo) {
+  return new Chart(ctx, {
+    type: tipo,
+    data: {
+      labels: etiquetas,
+      datasets: [{
+        label: "Valor",
+        data: valores,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+          "rgba(100, 221, 23, 0.2)",
+          "rgba(255, 87, 34, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+          "rgba(100, 221, 23, 1)",
+          "rgba(255, 87, 34, 1)",
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        title: {
+          display: true,
+          text: titulo
+        },
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+}
