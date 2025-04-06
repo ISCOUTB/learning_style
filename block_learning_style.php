@@ -3,17 +3,17 @@
 class block_learning_style extends block_base
 {
 
-    function init()
+    public function init()
     {
         $this->title = get_string('pluginname', 'block_learning_style');
     }
 
-    function instance_allow_multiple()
+    public function instance_allow_multiple()
     {
         return false;
     }
 
-    function my_slider($value, $izq_val, $der_val, $izq_title, $der_title)
+    public function my_slider($value, $izq_val, $der_val, $izq_title, $der_title)
     {
         global $OUTPUT;
 
@@ -31,7 +31,7 @@ class block_learning_style extends block_base
         return $slider;
     }
 
-    function get_content()
+    public function get_content()
     {
 
         global $OUTPUT, $CFG, $DB, $USER, $COURSE, $SESSION;
