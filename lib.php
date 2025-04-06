@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once(dirname(__FILE__) . '/../../config.php');
 
@@ -48,18 +48,18 @@ function save_learning_style($course,$act_ref,$sen_int,$vis_vrb,$seq_glo,$act,$r
 function get_metrics(){
     GLOBAL $DB, $USER, $CFG;
     //inicializacion de la respuesta
-    $response = ["total_students" => 0, 
+    $response = ["total_students" => 0,
                 "total_students_on_course" => 0,
                 "course" => 0,
                 "data" => [
-                "num_act" => 0, 
-                "num_ref" => 0, 
-                "num_vis" => 0, 
-                "num_vrb" => 0, 
-                "num_sen" => 0, 
-                "num_int" => 0, 
-                "num_sec" => 0, 
-                "num_glo" => 0,
+                "num_act" => 0,
+                "num_ref" => 0,
+                "num_vis" => 0,
+                "num_vrb" => 0,
+                "num_sen" => 0,
+                "num_int" => 0,
+                "num_sec" => 0,
+                "num_glo" => 0
                 ]
             ];
     $sql_registros = $DB->get_records("learning_style");
@@ -71,8 +71,8 @@ function get_metrics(){
         LEFT JOIN {role_assignments} m2 ON m.id = m2.userid
         LEFT JOIN {context} m3 ON m2.contextid = m3.id
         LEFT JOIN {course} m4 ON m3.instanceid = m4.id
-        WHERE m3.contextlevel = 50 
-        AND m2.roleid IN (5) 
+        WHERE m3.contextlevel = 50
+        AND m2.roleid IN (5)
         AND m4.id = :courseid", // Usamos :courseid como parámetro
         // Pasamos los parámetros de forma segura
         ['courseid' => $course_id]
