@@ -35,10 +35,7 @@ echo "
 <p>
 ¡Bienvenido al curso de Refuerzo en Fundamentos de Programación!<br>
 <br>
-Acá tendrás a disposición herramientas adicionales y los conocimientos fundamentales 
-necesarios para que te conviertas en un buen programador, independientemente de la carrera que estudies. 
-Nuestro objetivo principal es proporcionarte una experiencia de aprendizaje personalizada y significativa 
-que te permita alcanzar tus metas profesionales y académicas.<br>
+Acá tendrás a disposición herramientas adicionales y los conocimientos fundamentales necesarios para que te conviertas en un buen programador, independientemente de la carrera que estudies. Nuestro objetivo principal es proporcionarte una experiencia de aprendizaje personalizada y significativa que te permita alcanzar tus metas profesionales y académicas.<br>
 <br>
 Antes de empezar, te invitamos a realizar el siguiente test sobre tu estilo de aprendizaje y preferencia de recursos de aprendizaje. Esto nos permitirá conocerte y recomendarte mejor los recursos a los que tendrás acceso en el curso.<br>
 <br>
