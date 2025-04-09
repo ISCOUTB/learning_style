@@ -1,7 +1,12 @@
+let exp = false;
 document.addEventListener("DOMContentLoaded", async () => {
   let total_enc = document.getElementById("total_enc");
   let est_dom = document.getElementById("est_dom");
   let est_men_dom = document.getElementById("est_men_dom");
+  let container_blocks_exp = document.getElementById("learning_style_exp");
+  let actor_expandir = document.getElementById("expandir_actor");
+  let icon_exp = document.getElementById("icon_exp");
+
   const url_params = new URLSearchParams(window.location.search);
   const course_id = url_params.get('id'); // Esto obtiene el valor del parámetro "id" en la URL
   let form = new FormData();
@@ -18,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     total_enc.innerText = total_curso + "/" + enc;
     let ctx_bar_ = document.getElementById("distr_bar").getContext("2d");
     let ctx_pie = document.getElementById("distr_pie").getContext("2d");
-    
+
     let llave_max = "";
     let llave_min = "";
     let estilo_hu = "";
@@ -27,8 +32,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     let min_value = 0;
 
     //Calculo estilo dominante y menos dominante 
-    for(let estilo in response_get_metrics){
-      if(response_get_metrics["data"][estilo] > max_value){
+    for (let estilo in response_get_metrics) {
+      if (response_get_metrics["data"][estilo] > max_value) {
         llave_max = estilo;
         max_value = response_get_metrics[estilo];
       }
@@ -39,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     //Determina estilo dominante
-    switch(llave_max){
+    switch (llave_max) {
       case "num_act":
         estilo_hu = "Activo";
         break;
@@ -63,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         break;
       case "num_glo":
         estilo_hu = "Global";
-        break; 
+        break;
       default:
         estilo_hu = "N/A";
         break;
@@ -127,6 +132,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     labels.push("Global");
     crearGrafico("pie", ctx_pie, labels, data, "Distribución de estilos de aprendizaje");
     crearGrafico("bar", ctx_bar_, labels, data, "Distribución de estilos de aprendizaje");
+    ordenar_e_insertar(labels, data, container_blocks_exp);
+    actor_expandir.addEventListener("click", () => {
+      if (exp) {
+        //se cierra el expandible
+        exp = false;
+        container_blocks_exp.className = "learning_style_exp_close";
+        icon_exp.style.transform = "rotate(0deg)";
+      } else {
+        //se abre el expandible
+        exp = true;
+        container_blocks_exp.className = "learning_style_exp_open";
+        icon_exp.style.transform = "rotate(180deg)";
+      }
+    })
   }
 })
 function crearGrafico(tipo, ctx, etiquetas, valores, titulo) {
@@ -174,4 +193,24 @@ function crearGrafico(tipo, ctx, etiquetas, valores, titulo) {
       }
     }
   });
+}
+function ordenar_e_insertar(array_cuali, array_cuant, container) {
+  // Crear un array de pares de valores [número, nombre]
+  let combinados = array_cuant.map((num, index) => [num, array_cuali[index]]);
+
+  // Ordenar el array combinado basado en el valor numérico (primer valor de cada sub-array)
+  combinados.sort((a, b) => b[0] - a[0]);
+
+  // Descomponer el array combinado de nuevo en dos arrays ordenados
+  numeros = combinados.map(item => item[0]);
+  nombres = combinados.map(item => item[1]);
+  console.log(numeros); 
+  console.log(nombres);
+  
+  for(let i = 0; i < nombres.length; i++){
+    let block_html = document.createElement("div");
+    block_html.className = "flex";
+    block_html.innerHTML = `<span>${nombres[i]}</span><span style="color: grey;">${numeros[i]}</span>`;
+    container.appendChild(block_html);
+  }
 }
