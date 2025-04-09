@@ -38,7 +38,21 @@
 <div class="c_graf">
     <canvas id="distr_bar" class="graf_term" height="300px"></canvas>
 </div>
-
+<div class="block_term">
+    <div class="expandible">
+        <div class="flex" id="expandir_actor">
+            <div>
+                Orden de dominancia
+            </div>
+            <button class="button_expandir">
+                <img src="../blocks/learning_style/dashboard/assets/exp.png" alt="Expandir/Contraer" id="icon_exp">
+            </button>
+        </div>
+        <div id="learning_style_exp" class="learning_style_exp_close">
+            
+        </div>
+    </div>
+</div>
 
 <script src="../blocks/learning_style/dashboard/js/chart.js" ></script>
 <script src="../blocks/learning_style/dashboard/js/main.js"></script>
