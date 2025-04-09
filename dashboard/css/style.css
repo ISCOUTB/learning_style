@@ -41,3 +41,38 @@
     height: 300px; /* Altura de 300 pixeles */
     margin-top: 30px; /* Separación superior */
 }
+.expandible {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    padding: 10px 5px; /* Espaciado interno */
+}
+
+.button_expandir {
+    border: none;
+    padding: 0;
+    background: #fff;
+}
+
+.button_expandir img {
+    margin: 0;
+}
+
+#learning_style_exp {
+    transition: max-height 0.3s ease-out; /* Transición suave de max-height */
+    overflow-y: hidden;
+    height: auto; /* Comienza con una altura de 0 (colapsado) */
+}
+
+#expandir_actor {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Estado abierto del contenedor */
+.learning_style_exp_open {
+    max-height: 300px; /* Ajusta esta altura según el contenido */
+}
+
+/* Estado cerrado del contenedor */
+.learning_style_exp_close {
+    max-height: 0; /* Colapsa el contenedor */
+}
