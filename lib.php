@@ -62,8 +62,15 @@ function get_metrics($id_course){
                 "num_glo" => 0,
                 ]
             ];
-    $sql_registros = $DB->get_records("learning_style");
-    $response["total_students"] = count($sql_registros);
+    //Se obtiene el numero de estudiantes encuestados en un curso
+    $sql_registros = $DB->get_record_sql(
+        "SELECT count(id) as total_students
+        FROM {learning_style} 
+        WHERE course = :courseid
+        ",
+        ['courseid' => $id_course]
+    );
+    $response["total_students"] = intval($sql_registros->total_students);
     $total_estudiantes = $DB->get_record_sql(
         "SELECT count(m.id) as cantidad
         FROM {user} m
