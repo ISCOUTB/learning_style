@@ -2,7 +2,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   let total_enc = document.getElementById("total_enc");
   let est_dom = document.getElementById("est_dom");
   let est_men_dom = document.getElementById("est_men_dom");
-  let request_get_metrics = await fetch("../blocks/learning_style/dashboard/api/get_metrics.php");
+  const url_params = new URLSearchParams(window.location.search);
+  const course_id = url_params.get('id'); // Esto obtiene el valor del parámetro "id" en la URL
+  let form = new FormData();
+  form.append("id", course_id);
+  let request_get_metrics = await fetch("../blocks/learning_style/dashboard/api/get_metrics.php", {
+    method: "POST",
+    body: form
+  });
   if (request_get_metrics.ok) {
     let response_get_metrics = await request_get_metrics.json();
     console.log(response_get_metrics)
