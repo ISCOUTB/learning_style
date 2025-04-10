@@ -32,17 +32,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     let min_value = 0;
 
     //Calculo estilo dominante y menos dominante 
-    for (let estilo in response_get_metrics) {
+    for (let estilo in response_get_metrics["data"]) {
+      
       if (response_get_metrics["data"][estilo] > max_value) {
         llave_max = estilo;
-        max_value = response_get_metrics[estilo];
+        max_value = response_get_metrics["data"][estilo];
       }
       if (response_get_metrics["data"][estilo] < min_value) {
         llave_min = estilo;
         min_value = response_get_metrics["data"][estilo];
       }
     }
-
+    min_value = max_value;
+    for (let estilo in response_get_metrics["data"]) {
+      if (response_get_metrics["data"][estilo] < min_value) {
+        llave_min = estilo;
+        min_value = response_get_metrics["data"][estilo];
+      }
+    }
     //Determina estilo dominante
     switch (llave_max) {
       case "num_act":
