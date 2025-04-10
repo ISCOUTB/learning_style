@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log(response_get_metrics)
     let total_curso = response_get_metrics["total_students_on_course"];
     let enc = response_get_metrics["total_students"];
-    total_enc.innerText = total_curso + "/" + enc;
+    total_enc.innerText = Math.floor((enc / total_curso)*100) + "%";
     let ctx_bar_ = document.getElementById("distr_bar").getContext("2d");
     let ctx_pie = document.getElementById("distr_pie").getContext("2d");
 
