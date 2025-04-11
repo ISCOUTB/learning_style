@@ -33,14 +33,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     //Calculo estilo dominante y menos dominante 
     for (let estilo in response_get_metrics["data"]) {
-      
       if (response_get_metrics["data"][estilo] > max_value) {
         llave_max = estilo;
         max_value = response_get_metrics["data"][estilo];
-      }
-      if (response_get_metrics["data"][estilo] < min_value) {
-        llave_min = estilo;
-        min_value = response_get_metrics["data"][estilo];
       }
     }
     min_value = max_value;
