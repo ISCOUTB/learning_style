@@ -8,19 +8,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   let icon_exp = document.getElementById("icon_exp");
 
   const url_params = new URLSearchParams(window.location.search);
-  const course_id = url_params.get('id'); // Esto obtiene el valor del parámetro "id" en la URL
+  const course_id = url_params.get("id"); // Esto obtiene el valor del parámetro "id" en la URL
   let form = new FormData();
   form.append("id", course_id);
-  let request_get_metrics = await fetch("../blocks/learning_style/dashboard/api/get_metrics.php", {
-    method: "POST",
-    body: form
-  });
+  let request_get_metrics = await fetch(
+    "../blocks/learning_style/dashboard/api/get_metrics.php",
+    {
+      method: "POST",
+      body: form,
+    }
+  );
   if (request_get_metrics.ok) {
     let response_get_metrics = await request_get_metrics.json();
-    console.log(response_get_metrics)
+    console.log(response_get_metrics);
     let total_curso = response_get_metrics["total_students_on_course"];
     let enc = response_get_metrics["total_students"];
-    total_enc.innerText = Math.floor((enc / total_curso)*100) + "%";
+    total_enc.innerText = Math.floor((enc / total_curso) * 100) + "%";
     let ctx_bar_ = document.getElementById("distr_bar").getContext("2d");
     let ctx_pie = document.getElementById("distr_pie").getContext("2d");
 
@@ -31,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let max_value = 0;
     let min_value = 0;
 
-    //Calculo estilo dominante y menos dominante 
+    //Calculo estilo dominante y menos dominante
     for (let estilo in response_get_metrics["data"]) {
       if (response_get_metrics["data"][estilo] > max_value) {
         llave_max = estilo;
@@ -123,53 +126,65 @@ document.addEventListener("DOMContentLoaded", async () => {
         <li>Propiciar actividades prácticas.</li>
         <li>Fomentar resolución de problemas y proyectos.</li>
         <li>Incentivar discusiones y trabajo en grupo.</li>
-    `)
+    `);
     data.push(response_get_metrics["data"]["num_ref"]);
     labels.push("Reflexivo");
     descriptions.push(`
         <li>Asignar lecturas reflexivas.</li>
         <li>Promover la toma de notas y la reflexión.</li>
         <li>Utilizar análisis de casos y autoevaluaciones.</li>
-    `)
+    `);
     data.push(response_get_metrics["data"]["num_sen"]);
     labels.push("Sensitivo");
     descriptions.push(`
         <li>Diseñar actividades de observación y aplicación práctica.</li>
         <li>Usar ejemplos concretos y proyectos de laboratorio.</li>
-    `)
+    `);
     data.push(response_get_metrics["data"]["num_int"]);
     labels.push("Intuitivo");
     descriptions.push(`
         <li>Proponer búsqueda de patrones y conexiones.</li>
         <li>Emplear analogías e historias.</li>
         <li>Fomentar actividades creativas y resolución de problemas complejos.</li>
-    `)
+    `);
     data.push(response_get_metrics["data"]["num_vis"]);
     labels.push("Visual");
     descriptions.push(`
         <li>Incorporar gráficos, diagramas, videos y mapas mentales.</li>
         <li>Fomentar el uso de organizadores gráficos, como líneas de tiempo, cuadros comparativos y esquemas jerárquicos.</li>
-    `)
+    `);
     data.push(response_get_metrics["data"]["num_vrb"]);
     labels.push("Verbal");
     descriptions.push(`
         <li>Promover lectura, escritura y discusión en grupos.</li>
         <li>Fomentar técnicas de memorización verbal.</li>
-    `)
+    `);
     data.push(response_get_metrics["data"]["num_sec"]);
     labels.push("Secuencial");
     descriptions.push(`
         <li>Organizar contenidos de manera lógica.</li>
         <li>Proponer actividades paso a paso.</li>
-    `)
+    `);
     data.push(response_get_metrics["data"]["num_glo"]);
     labels.push("Global");
     descriptions.push(`
         <li>Presentar una visión general antes de los detalles.</li>
         <li>Fomentar conexiones y proyectos integradores.</li>
-    `)
-    crearGrafico("pie", ctx_pie, labels, data, "Distribución de estilos de aprendizaje");
-    crearGrafico("bar", ctx_bar_, labels, data, "Distribución de estilos de aprendizaje");
+    `);
+    crearGrafico(
+      "pie",
+      ctx_pie,
+      labels,
+      data,
+      "Distribución de estilos de aprendizaje"
+    );
+    crearGrafico(
+      "bar",
+      ctx_bar_,
+      labels,
+      data,
+      "Distribución de estilos de aprendizaje"
+    );
     ordenar_e_insertar(labels, data, descriptions, container_blocks_exp);
     actor_expandir.addEventListener("click", () => {
       if (exp) {
@@ -183,39 +198,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         container_blocks_exp.className = "learning_style_exp_open";
         icon_exp.style.transform = "rotate(180deg)";
       }
-    })
+    });
   }
-})
+});
 function crearGrafico(tipo, ctx, etiquetas, valores, titulo) {
   return new Chart(ctx, {
     type: tipo,
     data: {
       labels: etiquetas,
-      datasets: [{
-        label: "Valor",
-        data: valores,
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(100, 221, 23, 0.2)",
-          "rgba(255, 87, 34, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-          "rgba(100, 221, 23, 1)",
-          "rgba(255, 87, 34, 1)",
-        ],
-        borderWidth: 1
-      }]
+      datasets: [
+        {
+          label: "Valor",
+          data: valores,
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+            "rgba(100, 221, 23, 0.2)",
+            "rgba(255, 87, 34, 0.2)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+            "rgba(100, 221, 23, 1)",
+            "rgba(255, 87, 34, 1)",
+          ],
+          borderWidth: 1,
+        },
+      ],
     },
     options: {
       responsive: true,
@@ -223,26 +240,42 @@ function crearGrafico(tipo, ctx, etiquetas, valores, titulo) {
       plugins: {
         title: {
           display: true,
-          text: titulo
+          text: titulo,
         },
         legend: {
-          display: false
-        }
-      }
-    }
+          display: false,
+        },
+      },
+    },
   });
 }
-function ordenar_e_insertar(array_cuali, array_cuant, array_description, container) {
+function ordenar_e_insertar(
+  array_cuali,
+  array_cuant,
+  array_description,
+  container
+) {
   // Crear un array de pares de valores [número, nombre]
-  let combinados = array_cuant.map((num, index) => [num, array_cuali[index], array_description[index]]);
+  let combinados = array_cuant.map((num, index) => [
+    num,
+    array_cuali[index],
+    array_description[index],
+  ]);
 
   // Ordenar el array combinado basado en el valor numérico (primer valor de cada sub-array)
   combinados.sort((a, b) => b[0] - a[0]);
 
   // Descomponer el array combinado de nuevo en dos arrays ordenados
-  desc = [combinados.map((item) => item[0]), combinados.map((item) => item[1]), combinados.map((item) => item[2])];
+  const desc = [[], [], []];
+
+  combinados.forEach(([a, b, c]) => {
+    desc[0].push(a);
+    desc[1].push(b);
+    desc[2].push(c);
+  });
+
   for (let i = 0; i < nombres.length; i++) {
-    console.log(i, nombres.length)
+    console.log(i, nombres.length);
     let block_html = document.createElement("div");
     block_html.innerHTML = `<div class="flex block_reco_style"><span>${desc[0][i]}</span><span style="color: grey;">${desc[1][i]}</span></div>
                             Si hay prevalencia para este estilo, se le recomienda al docente:
