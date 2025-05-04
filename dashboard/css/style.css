@@ -60,6 +60,7 @@
     transition: max-height 0.3s ease-out; /* Transición suave de max-height */
     overflow-y: hidden;
     height: auto; /* Comienza con una altura de 0 (colapsado) */
+    padding: 0px 10px 0px 0px;
 }
 
 #expandir_actor {
@@ -70,9 +71,16 @@
 /* Estado abierto del contenedor */
 .learning_style_exp_open {
     max-height: 300px; /* Ajusta esta altura según el contenido */
+    overflow-y: scroll !important;
 }
 
 /* Estado cerrado del contenedor */
 .learning_style_exp_close {
     max-height: 0; /* Colapsa el contenedor */
+}
+.block_reco_style{
+    border-bottom: 2px solid #d1d1d1;
+    margin: 0px 0px 10px 0px;
+    font-weight: 600;
+    font-style: italic;
 }
