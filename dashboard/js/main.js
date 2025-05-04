@@ -116,25 +116,61 @@ document.addEventListener("DOMContentLoaded", async () => {
     //Grafico
     let labels = [];
     let data = [];
+    let descriptions = [];
     data.push(response_get_metrics["data"]["num_act"]);
     labels.push("Activo");
+    descriptions.push(`
+        <li>Propiciar actividades prácticas.</li>
+        <li>Fomentar resolución de problemas y proyectos.</li>
+        <li>Incentivar discusiones y trabajo en grupo.</li>
+    `)
     data.push(response_get_metrics["data"]["num_ref"]);
     labels.push("Reflexivo");
+    descriptions.push(`
+        <li>Asignar lecturas reflexivas.</li>
+        <li>Promover la toma de notas y la reflexión.</li>
+        <li>Utilizar análisis de casos y autoevaluaciones.</li>
+    `)
     data.push(response_get_metrics["data"]["num_sen"]);
     labels.push("Sensitivo");
+    descriptions.push(`
+        <li>Diseñar actividades de observación y aplicación práctica.</li>
+        <li>Usar ejemplos concretos y proyectos de laboratorio.</li>
+    `)
     data.push(response_get_metrics["data"]["num_int"]);
     labels.push("Intuitivo");
+    descriptions.push(`
+        <li>Proponer búsqueda de patrones y conexiones.</li>
+        <li>Emplear analogías e historias.</li>
+        <li>Fomentar actividades creativas y resolución de problemas complejos.</li>
+    `)
     data.push(response_get_metrics["data"]["num_vis"]);
     labels.push("Visual");
+    descriptions.push(`
+        <li>Incorporar gráficos, diagramas, videos y mapas mentales.</li>
+        <li>Fomentar el uso de organizadores gráficos, como líneas de tiempo, cuadros comparativos y esquemas jerárquicos.</li>
+    `)
     data.push(response_get_metrics["data"]["num_vrb"]);
     labels.push("Verbal");
+    descriptions.push(`
+        <li>Promover lectura, escritura y discusión en grupos.</li>
+        <li>Fomentar técnicas de memorización verbal.</li>
+    `)
     data.push(response_get_metrics["data"]["num_sec"]);
     labels.push("Secuencial");
+    descriptions.push(`
+        <li>Organizar contenidos de manera lógica.</li>
+        <li>Proponer actividades paso a paso.</li>
+    `)
     data.push(response_get_metrics["data"]["num_glo"]);
     labels.push("Global");
+    descriptions.push(`
+        <li>Presentar una visión general antes de los detalles.</li>
+        <li>Fomentar conexiones y proyectos integradores.</li>
+    `)
     crearGrafico("pie", ctx_pie, labels, data, "Distribución de estilos de aprendizaje");
     crearGrafico("bar", ctx_bar_, labels, data, "Distribución de estilos de aprendizaje");
-    ordenar_e_insertar(labels, data, container_blocks_exp);
+    ordenar_e_insertar(labels, data, descriptions, container_blocks_exp);
     actor_expandir.addEventListener("click", () => {
       if (exp) {
         //se cierra el expandible
@@ -196,23 +232,30 @@ function crearGrafico(tipo, ctx, etiquetas, valores, titulo) {
     }
   });
 }
-function ordenar_e_insertar(array_cuali, array_cuant, container) {
+function ordenar_e_insertar(array_cuali, array_cuant, array_description, container) {
   // Crear un array de pares de valores [número, nombre]
-  let combinados = array_cuant.map((num, index) => [num, array_cuali[index]]);
+  let combinados = array_cuant.map((num, index) => [num, array_cuali[index], array_description[index]]);
 
   // Ordenar el array combinado basado en el valor numérico (primer valor de cada sub-array)
   combinados.sort((a, b) => b[0] - a[0]);
 
   // Descomponer el array combinado de nuevo en dos arrays ordenados
-  numeros = combinados.map(item => item[0]);
-  nombres = combinados.map(item => item[1]);
-  console.log(numeros); 
+  numeros = combinados.map((item) => item[0]);
+  nombres = combinados.map((item) => item[1]);
+  descriptions = combinados.map((item) => item[2]);
+  console.log(numeros);
   console.log(nombres);
-  
-  for(let i = 0; i < nombres.length; i++){
+
+  for (let i = 0; i < nombres.length; i++) {
+    console.log(i, nombres.length)
     let block_html = document.createElement("div");
-    block_html.className = "flex";
-    block_html.innerHTML = `<span>${nombres[i]}</span><span style="color: grey;">${numeros[i]}</span>`;
+    block_html.innerHTML = `<div class="flex block_reco_style"><span>${nombres[i]}</span><span style="color: grey;">${numeros[i]}</span></div>
+                            Si hay prevalencia para este estilo, se le recomienda al docente:
+                            <div>
+                                <ul>${descriptions[i]}</ul>
+                            </div>
+    `;
+    console.log(block_html);
     container.appendChild(block_html);
   }
 }
