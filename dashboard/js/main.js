@@ -240,19 +240,14 @@ function ordenar_e_insertar(array_cuali, array_cuant, array_description, contain
   combinados.sort((a, b) => b[0] - a[0]);
 
   // Descomponer el array combinado de nuevo en dos arrays ordenados
-  numeros = combinados.map((item) => item[0]);
-  nombres = combinados.map((item) => item[1]);
-  descriptions = combinados.map((item) => item[2]);
-  console.log(numeros);
-  console.log(nombres);
-
+  desc = [combinados.map((item) => item[0]), combinados.map((item) => item[1]), combinados.map((item) => item[2])];
   for (let i = 0; i < nombres.length; i++) {
     console.log(i, nombres.length)
     let block_html = document.createElement("div");
-    block_html.innerHTML = `<div class="flex block_reco_style"><span>${nombres[i]}</span><span style="color: grey;">${numeros[i]}</span></div>
+    block_html.innerHTML = `<div class="flex block_reco_style"><span>${desc[0][i]}</span><span style="color: grey;">${desc[1][i]}</span></div>
                             Si hay prevalencia para este estilo, se le recomienda al docente:
                             <div>
-                                <ul>${descriptions[i]}</ul>
+                                <ul>${desc[2][i]}</ul>
                             </div>
     `;
     console.log(block_html);
