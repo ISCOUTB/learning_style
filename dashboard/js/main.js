@@ -278,12 +278,14 @@ function ordenar_e_insertar(
   for (let i = 0; i < desc[0].length; i++) {
     //console.log(i, nombres.length);
     let block_html = document.createElement("div");
-    block_html.innerHTML = `<div class="flex block_reco_style" style="border-color: ${colors[i]}"><span style="color: ${colors[i]}" >${desc[1][i]}</span><span style="color: ${colors[i]}">${desc[0][i]}</span></div>
-                            Si hay prevalencia para este estilo, se le recomienda al docente:
+    if(desc[0][i]>0){
+      block_html.innerHTML = `<div class="flex block_reco_style" style="border-color: ${colors[i]}"><span style="color: ${colors[i]}" >${desc[1][i]}</span><span style="color: ${colors[i]}">${desc[0][i]}</span></div>
+                            Se le recomienda al docente:
                             <div>
                                 <ul>${desc[2][i]}</ul>
                             </div>
     `;
+    }
     console.log(block_html);
     container.appendChild(block_html);
   }
