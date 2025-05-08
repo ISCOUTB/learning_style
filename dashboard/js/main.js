@@ -274,10 +274,11 @@ function ordenar_e_insertar(
     desc[2].push(c);
   });
 
+  let colors = ["#159600","#007aa7","#6F42C1","#DC3545","#FD7E14","#FFC107","#a76628","#000000"];
   for (let i = 0; i < desc[0].length; i++) {
-    console.log(i, nombres.length);
+    //console.log(i, nombres.length);
     let block_html = document.createElement("div");
-    block_html.innerHTML = `<div class="flex block_reco_style"><span>${desc[0][i]}</span><span style="color: grey;">${desc[1][i]}</span></div>
+    block_html.innerHTML = `<div class="flex block_reco_style" style="border-color: ${colors[i]}"><span style="color: ${colors[i]}" >${desc[1][i]}</span><span style="color: ${colors[i]}">${desc[0][i]}</span></div>
                             Si hay prevalencia para este estilo, se le recomienda al docente:
                             <div>
                                 <ul>${desc[2][i]}</ul>
