@@ -274,7 +274,7 @@ function ordenar_e_insertar(
     desc[2].push(c);
   });
 
-  for (let i = 0; i < nombres.length; i++) {
+  for (let i = 0; i < desc[0].length; i++) {
     console.log(i, nombres.length);
     let block_html = document.createElement("div");
     block_html.innerHTML = `<div class="flex block_reco_style"><span>${desc[0][i]}</span><span style="color: grey;">${desc[1][i]}</span></div>
