@@ -32,12 +32,19 @@
         Estilo menos dominante
     </span>
 </div>
-<div class="c_graf">
-    <canvas id="distr_pie" class="graf_term" style="width: 100%; height: auto;"></canvas>
+
+<div>
+  <select id="chart-type-selector">
+  <option value="radar">Gráfico de Radar</option>
+    <option value="pie">Gráfico de Pastel</option>
+    <option value="bar">Gráfico de Barras</option>
+  </select>
 </div>
+
 <div class="c_graf">
-    <canvas id="distr_bar" class="graf_term" height="300px"></canvas>
+    <canvas id="grafic" class="graf_term" style="width: 100%; height: auto;"></canvas>
 </div>
+
 <div class="block_term">
     <div class="expandible">
         <div class="flex" id="expandir_actor">
