@@ -24,8 +24,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     let total_curso = response_get_metrics["total_students_on_course"];
     let enc = response_get_metrics["total_students"];
     total_enc.innerText = Math.floor((enc / total_curso) * 100) + "%";
-    let ctx_bar_ = document.getElementById("distr_bar").getContext("2d");
-    let ctx_pie = document.getElementById("distr_pie").getContext("2d");
 
     let llave_max = "";
     let llave_min = "";
@@ -171,20 +169,46 @@ document.addEventListener("DOMContentLoaded", async () => {
         <li>Presentar una visión general antes de los detalles.</li>
         <li>Fomentar conexiones y proyectos integradores.</li>
     `);
-    crearGrafico(
-      "pie",
-      ctx_pie,
-      labels,
-      data,
-      "Distribución de estilos de aprendizaje"
-    );
-    crearGrafico(
-      "bar",
-      ctx_bar_,
-      labels,
-      data,
-      "Distribución de estilos de aprendizaje"
-    );
+    
+    let chartTypeSelector = document.getElementById("chart-type-selector");
+    let savedChartType = localStorage.getItem("chartType");
+    let chart; // Variable global del gráfico
+
+    const context = document.getElementById("grafic").getContext("2d"); // Contexto del canvas
+    // Verificar si existe un tipo de gráfico guardado en localStorage
+    if (savedChartType) {
+      chartTypeSelector.value = savedChartType;
+      console.log("Se recuperó el tipo de gráfico");
+      cambiarGrafico(savedChartType); // Cambiar el gráfico según lo guardado en localStorage
+    } else {
+      console.log("No hay gráfico por defecto, se crea uno.");
+      localStorage.setItem("chartType", "pie"); // Establecer 'pie' por defecto si no hay valor guardado
+      cambiarGrafico("pie"); // Crear gráfico por defecto
+    }
+
+    // Función para cambiar el gráfico
+    chartTypeSelector.addEventListener("change", function () {
+      let selectedType = chartTypeSelector.value;
+      localStorage.setItem("chartType", selectedType); // Guardar el tipo de gráfico seleccionado
+      cambiarGrafico(selectedType); // Cambiar el gráfico según el tipo seleccionado
+    });
+
+    // Función para crear y destruir gráficos
+    function cambiarGrafico(tipo) {
+      if (chart) {
+        chart.destroy(); // Destruir el gráfico existente
+      }
+
+      // Crear el nuevo gráfico con el tipo seleccionado
+      chart = crearGrafico(
+        tipo,
+        context,
+        labels,
+        data,
+        "Distribución de estilos de aprendizaje"
+      );
+    }
+    
     ordenar_e_insertar(labels, data, descriptions, container_blocks_exp);
     actor_expandir.addEventListener("click", () => {
       if (exp) {
