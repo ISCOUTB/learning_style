@@ -1,97 +1,135 @@
-#page-blocks-learning_style-view .content_learning_style{
-    width: 60%;
-    margin: 30px auto;
+body {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.container {
+  padding-top: 20px;
+  padding-bottom: 15px;
+  box-shadow: 0px 0px 10px #dfdfdf;
+  border-radius: 5px;
+  background: #fff;
+  margin-top: 30px;
+  padding: 20px;
+}
+#page-blocks-learning_style-view .content_learning_style {
+  width: 60%;
+  margin: 30px auto;
 }
 
-#page-blocks-learning_style-view .title_learning_style{
-    text-align: left;
+#page-blocks-learning_style-view .title_learning_style {
+  text-align: left;
 }
 
 #page-blocks-learning_style-view .content-accept {
-    text-align: left;
+  text-align: left;
 }
+
 #page-blocks-learning_style-view .learning_style_item {
   height: 3em;
   font-size: 110%;
-}
-#page-blocks-learning_style-view .content-accept label{
-    line-height: 16px;
-}
-#page-blocks-learning_style-view .content-accept input[type="checkbox"]{
-    margin: 0 0 0 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  justify-content: space-between;
+  border: 2px solid #0d6efd;
+  border-radius: 5px;
+  padding: 5px;
+  border-left: 5px solid #0d6efd;
+  background: #f6faff;
+  height: auto;
 }
 
-#page-blocks-learning_style-view .content-accept input[type="submit"]{
-    margin: 10px 0;
+select {
+  width: 100% !important; /* Asegura que el select ocupe todo el ancho disponible */
+  margin: 5px; /* Ajusta el margen */
+  max-width: 150px !important;
 }
-#page-blocks-learning_style-view .content-accept .error{
-    color: #ff3333;
+
+#page-blocks-learning_style-view .content-accept label {
+  line-height: 16px;
 }
-.block_learning_style img{
-    float: left;
-    margin: 0 3px 3px 0;
+
+#page-blocks-learning_style-view .content-accept input[type="checkbox"] {
+  margin: 0 0 0 10px;
+}
+
+#page-blocks-learning_style-view .content-accept input[type="submit"] {
+  margin: 10px 0;
+  width: 100%; /* Hace que el botón ocupe todo el ancho disponible en pantallas pequeñas */
+  padding: 12px 0; /* Aumenta el área de clic */
+}
+
+#page-blocks-learning_style-view .content-accept .error {
+  color: #ff3333;
+}
+
+.block_learning_style img {
+  float: left;
+  margin: 0 3px 3px 0;
 }
 
 /* Slider */
-
-.alpy input[type=range] {
+.alpy input[type="range"] {
   height: 27px;
   -webkit-appearance: none;
   margin: 10px 0;
   width: 100%;
 }
 
-.alpy input[type=range]:focus {
+.alpy input[type="range"]:focus {
   outline: none;
 }
 
-.alpy input[type=range]::-webkit-slider-runnable-track {
+.alpy input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
   height: 11px;
   cursor: pointer;
   box-shadow: 0px 0px 0px #000000;
-  background: #E8F5FF;
+  background: #e8f5ff;
   border-radius: 1px;
   border: 0px solid #010101;
 }
 
-.alpy input[type=range]::-webkit-slider-thumb {
+.alpy input[type="range"]::-webkit-slider-thumb {
   box-shadow: 1px 1px 1px #000031;
-  border: 1px solid #00001E;
+  border: 1px solid #00001e;
   height: 19px;
   width: 24px;
   border-radius: 28px;
-  background: #FFFFFF;
+  background: #ffffff;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -4.5px;
 }
 
-.alpy input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #E8F5FF;
+.alpy input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: #e8f5ff;
 }
 
-.alpy input[type=range]::-moz-range-track {
+.alpy input[type="range"]::-moz-range-track {
   width: 100%;
   height: 11px;
   cursor: pointer;
   box-shadow: 0px 0px 0px #000000;
-  background: #E8F5FF;
+  background: #e8f5ff;
   border-radius: 1px;
   border: 0px solid #010101;
 }
 
-.alpy input[type=range]::-moz-range-thumb {
+.alpy input[type="range"]::-moz-range-thumb {
   box-shadow: 1px 1px 1px #000031;
-  border: 1px solid #00001E;
+  border: 1px solid #00001e;
   height: 19px;
   width: 24px;
   border-radius: 28px;
-  background: #FFFFFF;
+  background: #ffffff;
   cursor: pointer;
 }
 
-.alpy input[type=range]::-ms-track {
+.alpy input[type="range"]::-ms-track {
   width: 100%;
   height: 11px;
   cursor: pointer;
@@ -100,64 +138,98 @@
   color: transparent;
 }
 
-.alpy input[type=range]::-ms-fill-lower {
-  background: #E8F5FF;
+.alpy input[type="range"]::-ms-fill-lower {
+  background: #e8f5ff;
   border: 0px solid #010101;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000;
 }
 
-.alpy input[type=range]::-ms-fill-upper {
-  background: #E8F5FF;
+.alpy input[type="range"]::-ms-fill-upper {
+  background: #e8f5ff;
   border: 0px solid #010101;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000;
 }
 
-.alpy input[type=range]::-ms-thumb {
+.alpy input[type="range"]::-ms-thumb {
   margin-top: 1px;
   box-shadow: 1px 1px 1px #000031;
-  border: 1px solid #00001E;
+  border: 1px solid #00001e;
   height: 19px;
   width: 24px;
   border-radius: 28px;
-  background: #FFFFFF;
+  background: #ffffff;
   cursor: pointer;
 }
 
-.alpy input[type=range]:focus::-ms-fill-lower {
-  background: #E8F5FF;
+.alpy input[type="range"]:focus::-ms-fill-lower {
+  background: #e8f5ff;
 }
 
-.alpy input[type=range]:focus::-ms-fill-upper {
-  background: #E8F5FF;
+.alpy input[type="range"]:focus::-ms-fill-upper {
+  background: #e8f5ff;
 }
 
-.lsorder, .lsorder li, .lsorder ul {
+.lsorder,
+.lsorder li,
+.lsorder ul {
   list-style-type: none;
 }
 
-/*.lsorder li:first-child {
-  font-weight: bold;
-}*/
-
 .lsorder .explain {
   visibility: hidden;
-  height:0px;
+  height: 0px;
 }
 
-.lsorder li:first-child .explain, .alpyintro {
+.lsorder li:first-child .explain,
+.alpyintro {
   visibility: visible;
-  height:auto;
+  height: auto;
   font-size: small;
   font-weight: 90%;
   line-height: 110%;
 }
 
 .lsorder .explain2 {
-  height:0px;
-  height:auto;
+  height: 0px;
+  height: auto;
   font-size: small;
   font-weight: 90%;
   line-height: 100%;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  #page-blocks-learning_style-view .content_learning_style {
+    width: 100%; /* Se ajusta al 100% del ancho en pantallas pequeñas */
+    margin: 15px; /* Reducir márgenes */
+  }
+
+  #page-blocks-learning_style-view .learning_style_item {
+    font-size: 100%;
+    margin-bottom: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  select {
+    width: 100% !important; /* Asegura que el select ocupe todo el ancho disponible */
+    margin: 5px 0; /* Ajusta el margen */
+    max-width: 100% !important;
+  }
+
+  #page-blocks-learning_style-view .content-accept input[type="submit"] {
+    width: 100%; /* Hace que el botón ocupe todo el ancho disponible en pantallas pequeñas */
+    padding: 12px 0; /* Aumenta el área de clic */
+  }
+
+  .alpy input[type="range"] {
+    width: 100%; /* Asegura que los sliders ocupen el 100% del ancho disponible */
+  }
+
+  .block_learning_style img {
+    max-width: 100%; /* Asegura que las imágenes no se desborden */
+    margin: 0;
+  }
 }
