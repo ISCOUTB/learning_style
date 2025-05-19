@@ -24,16 +24,17 @@ $PAGE->set_url('/blocks/learning_style/view.php', array('cid'=>$courseid));
 
 $title = get_string('pluginname', 'block_learning_style');
 
-$PAGE->set_pagelayout('print');
+$PAGE->set_pagelayout('embedded');
 $PAGE->set_title($title." : ".$course->fullname);
 $PAGE->set_heading($title." : ".$course->fullname);
 
 echo $OUTPUT->header();
-echo $OUTPUT->box_start('generalbox');
+echo "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC' crossorigin='anonymous'>";
+echo "<div class='container'>";
 echo "<h1 class='title_learning_style'>Primer paso, vamos a conocer tu estilo de aprendizaje</h1>";
 echo "
 <p>
-¡Bienvenido al curso de Refuerzo en Fundamentos de Programación!<br>
+¡Bienvenido al curso!<br>
 <br>
 Acá tendrás a disposición herramientas adicionales y los conocimientos fundamentales necesarios para que te conviertas en un buen programador, independientemente de la carrera que estudies. Nuestro objetivo principal es proporcionarte una experiencia de aprendizaje personalizada y significativa que te permita alcanzar tus metas profesionales y académicas.<br>
 <br>
@@ -44,6 +45,12 @@ Comencemos!
 ";
 $action_form = new moodle_url('/blocks/learning_style/save.php');
 ?>
+<style>
+    body{
+        background: url("<?php echo $CFG->wwwroot?>/blocks/learning_style/pix/bg.webp");
+    }
+</style>
+<link rel="stylesheet" href="<?php echo $CFG->wwwroot?>/blocks/learning_style/styles.css">
 
 <form method="POST" action="<?php echo $action_form ?>" >
     <div class="content-accept <?php echo ($error)?"error":"" ?>">
@@ -51,12 +58,12 @@ $action_form = new moodle_url('/blocks/learning_style/save.php');
             <p class="error"><?php echo get_string('required_message', 'block_learning_style') ?></p>
         <?php endif; ?>
 
-        <ol class="learning_style_q">
+        <ol class="learning_style_q" style="padding: 0px;">
         <?php for ($i=1;$i<=44;$i++){ ?>
         
 
-        <li class="learning_style_item"><?php echo get_string("learning_style:q".$i, 'block_learning_style') ?>
-        <select name="learning_style:q<?php echo $i; ?>" required>
+        <li class="learning_style_item"><div><?php echo $i.". ".get_string("learning_style:q".$i, 'block_learning_style') ?></div>
+        <select name="learning_style:q<?php echo $i; ?>" required class="form-select">
             <option value="" disabled selected hidden>Selecciona</option>
             <option value="0"><?php echo get_string('learning_style:q'.$i.'_a', 'block_learning_style') ?></option>
             <option value="1"><?php echo get_string('learning_style:q'.$i.'_b', 'block_learning_style') ?></option>
@@ -65,7 +72,7 @@ $action_form = new moodle_url('/blocks/learning_style/save.php');
         <?php } ?>
         </ol>
         <div class="clearfix"></div>
-        <input class="btn" type="submit" value="<?php echo get_string('submit_text', 'block_learning_style') ?>" >
+        <input class="btn btn-success" type="submit" value="<?php echo get_string('submit_text', 'block_learning_style') ?>" >
     
     </div>
     
@@ -75,7 +82,6 @@ $action_form = new moodle_url('/blocks/learning_style/save.php');
 </form>
 
 <?php
-
-echo $OUTPUT->box_end();
+echo "</div>";
 echo $OUTPUT->footer();
 ?>
