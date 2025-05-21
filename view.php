@@ -47,7 +47,7 @@ $action_form = new moodle_url('/blocks/learning_style/save.php');
 ?>
 <style>
     body{
-        background: url("<?php echo $CFG->wwwroot?>/blocks/learning_style/pix/bg.webp");
+        background: url("<?php echo $CFG->wwwroot?>/blocks/learning_style/pix/bg.jpg");
     }
 </style>
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot?>/blocks/learning_style/styles.css">
