@@ -85,3 +85,4 @@ $action_form = new moodle_url('/blocks/learning_style/save.php');
 echo "</div>";
 echo $OUTPUT->footer();
 ?>
+<br>
