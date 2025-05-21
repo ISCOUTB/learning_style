@@ -18,14 +18,14 @@ class block_learning_style extends block_base
         global $OUTPUT;
 
         $slider = '';
-        $slider .= '<div class="slider-container" style="text-align:center">';
-
+        $slider .= '<div class="slider-container" style="text-align:center; margin: 10px 0px;">';
+        $p = (($value + 11) / 22) * 100;
         if ($value >= 0 ){
             $slider .= "<span title='$izq_title'>$izq_val</span> ⇄ <strong title='$der_title'> $der_val </strong><br>";
-            $slider .= '<input type="range" class="alpy" name="LearningStyle" min="-11" max="11" value="' . $value . '" disabled>';
+            $slider .= "<div class=\"progress\"><div class=\"progress-bar progress-bar-striped bg-success\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style='width: $p%'></div></div>";
         }else {
             $slider .= "<strong title='$izq_title'>$izq_val</strong> ⇄ <span title='$der_title'> $der_val </span><br>";
-            $slider .= '<input type="range" class="alpy" name="LearningStyle" min="-11" max="11" value="' . $value . '" disabled>';
+            $slider .= "<div class=\"progress\"><div class=\"progress-bar progress-bar-striped bg-success\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style='width: $p%'></div></div>";
         }
         $slider .= '</div>';
         return $slider;
@@ -121,11 +121,11 @@ class block_learning_style extends block_base
                 krsort($final_style);
 
                 $this->content->text .= "<p class='alpyintro'>Según el modelo de Estilos de Aprendizaje de Felder y Soloman, toda persona tiene mayor inclinación a un estilo u otro. En tu caso, el estilo que más predomina es:</p>";
+                $this->content->text .= "<link rel='stylesheet' href='".$CFG->wwwroot."/blocks/learning_style/styles.css'>";
                 $this->content->text .= "<ul class='lsorder'>";
                 foreach ($final_style as $key => $val) {
                     $this->content->text .= "<li>$val</li>";
                 }
-                $this->content->text .= "</ul><p class='lsorder'><i class='explain2'>*Visualiza tus otros estilos pasando el cursor sobre aquellos marcados en negrilla.</i></p>";
             }
         } else {
             if (isset($this->config->learning_style_content) && isset($this->config->learning_style_content["text"])) {
