@@ -67,9 +67,9 @@
 
 <div>
   <select id="chart-type-selector">
-  <option value="radar">Gráfico de Radar</option>
-    <option value="pie">Gráfico de Pastel</option>
-    <option value="bar">Gráfico de Barras</option>
+  <option value="radar">Perfil de estilos de aprendizaje</option>
+    <option value="pie">Proporcion de estilos de aprendizaje</option>
+    <option value="bar">Perfil cuantitativo de estilos de aprendizaje</option>
   </select>
 </div>
 <div class="c_graf">
