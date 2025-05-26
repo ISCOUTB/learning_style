@@ -3,6 +3,7 @@ body {
     background-position: center;
     background-repeat: repeat;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-attachment: fixed;
 }
 .container {
   padding-top: 20px;
@@ -41,7 +42,7 @@ body {
   height: auto;
 }
 
-select {
+.select-q {
   width: 100% !important; /* Asegura que el select ocupe todo el ancho disponible */
   margin: 5px; /* Ajusta el margen */
   max-width: 150px !important;
@@ -212,7 +213,7 @@ select {
     align-items: flex-start;
   }
 
-  select {
+  .select-q {
     width: 100% !important; /* Asegura que el select ocupe todo el ancho disponible */
     margin: 5px 0; /* Ajusta el margen */
     max-width: 100% !important;
