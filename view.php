@@ -63,7 +63,7 @@ $action_form = new moodle_url('/blocks/learning_style/save.php');
         
 
         <li class="learning_style_item"><div><?php echo $i.". ".get_string("learning_style:q".$i, 'block_learning_style') ?></div>
-        <select name="learning_style:q<?php echo $i; ?>" required class="form-select">
+        <select name="learning_style:q<?php echo $i; ?>" required class="form-select select-q">
             <option value="" disabled selected hidden>Selecciona</option>
             <option value="0"><?php echo get_string('learning_style:q'.$i.'_a', 'block_learning_style') ?></option>
             <option value="1"><?php echo get_string('learning_style:q'.$i.'_b', 'block_learning_style') ?></option>
