@@ -175,6 +175,7 @@ body {
 .lsorder li,
 .lsorder ul {
   list-style-type: none;
+  padding: 0
 }
 
 .lsorder .explain {
