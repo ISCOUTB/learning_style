@@ -135,7 +135,18 @@ class block_learning_style extends block_base
                     $this->content->text .= "<li>$val</li>";
                 }
                 $this->content->text .= '<script>document.addEventListener("DOMContentLoaded", function () { const popoverTriggerList = [].slice.call(document.querySelectorAll(\'[data-bs-toggle="popover"]\')); popoverTriggerList.forEach(function (popoverTriggerEl) { new bootstrap.Popover(popoverTriggerEl); }); });</script>';
-
+                $json_style = [
+                    "vis" => 0,
+                    "sen" => 0,
+                    "act" => 0,
+                    "glo" => 0,
+                    "vrb" => 0,
+                    "int" => 0,
+                    "ref" => 0,
+                    "seq" => 0
+                ]
+                $json_encode = json_encode($json_style);
+                $this->content->text .= "<script>let data = {$json_encode}; console.log(data);</script>";
             }
         } else {
             if (isset($this->config->learning_style_content) && isset($this->config->learning_style_content["text"])) {
