@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log(response_get_metrics);
     let total_curso = response_get_metrics["total_students_on_course"];
     let enc = response_get_metrics["total_students"];
-    total_enc.innerText = Math.floor((enc / total_curso) * 100) + "%";
+    total_enc.innerText = Math.floor((enc / total_curso) * 100) + "% (" + enc + " de " + total_curso + ")";
 
     let llave_max = "";
     let llave_min = "";
@@ -118,6 +118,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     let labels = [];
     let data = [];
     let descriptions = [];
+    
+    data.push(response_get_metrics["data"]["num_vis"]);
+    labels.push("Visual");
+    descriptions.push(`
+        <li>Incorporar gráficos, diagramas, videos y mapas mentales.</li>
+        <li>Fomentar el uso de organizadores gráficos, como líneas de tiempo, cuadros comparativos y esquemas jerárquicos.</li>
+    `);
+    data.push(response_get_metrics["data"]["num_sen"]);
+    labels.push("Sensitivo");
+    descriptions.push(`
+        <li>Diseñar actividades de observación y aplicación práctica.</li>
+        <li>Usar ejemplos concretos y proyectos de laboratorio.</li>
+    `);
     data.push(response_get_metrics["data"]["num_act"]);
     labels.push("Activo");
     descriptions.push(`
@@ -125,18 +138,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         <li>Fomentar resolución de problemas y proyectos.</li>
         <li>Incentivar discusiones y trabajo en grupo.</li>
     `);
-    data.push(response_get_metrics["data"]["num_ref"]);
-    labels.push("Reflexivo");
+    data.push(response_get_metrics["data"]["num_glo"]);
+    labels.push("Global");
     descriptions.push(`
-        <li>Asignar lecturas reflexivas.</li>
-        <li>Promover la toma de notas y la reflexión.</li>
-        <li>Utilizar análisis de casos y autoevaluaciones.</li>
+        <li>Presentar una visión general antes de los detalles.</li>
+        <li>Fomentar conexiones y proyectos integradores.</li>
     `);
-    data.push(response_get_metrics["data"]["num_sen"]);
-    labels.push("Sensitivo");
+    data.push(response_get_metrics["data"]["num_vrb"]);
+    labels.push("Verbal");
     descriptions.push(`
-        <li>Diseñar actividades de observación y aplicación práctica.</li>
-        <li>Usar ejemplos concretos y proyectos de laboratorio.</li>
+        <li>Promover lectura, escritura y discusión en grupos.</li>
+        <li>Fomentar técnicas de memorización verbal.</li>
     `);
     data.push(response_get_metrics["data"]["num_int"]);
     labels.push("Intuitivo");
@@ -145,17 +157,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         <li>Emplear analogías e historias.</li>
         <li>Fomentar actividades creativas y resolución de problemas complejos.</li>
     `);
-    data.push(response_get_metrics["data"]["num_vis"]);
-    labels.push("Visual");
+    data.push(response_get_metrics["data"]["num_ref"]);
+    labels.push("Reflexivo");
     descriptions.push(`
-        <li>Incorporar gráficos, diagramas, videos y mapas mentales.</li>
-        <li>Fomentar el uso de organizadores gráficos, como líneas de tiempo, cuadros comparativos y esquemas jerárquicos.</li>
-    `);
-    data.push(response_get_metrics["data"]["num_vrb"]);
-    labels.push("Verbal");
-    descriptions.push(`
-        <li>Promover lectura, escritura y discusión en grupos.</li>
-        <li>Fomentar técnicas de memorización verbal.</li>
+        <li>Asignar lecturas reflexivas.</li>
+        <li>Promover la toma de notas y la reflexión.</li>
+        <li>Utilizar análisis de casos y autoevaluaciones.</li>
     `);
     data.push(response_get_metrics["data"]["num_sec"]);
     labels.push("Secuencial");
@@ -163,12 +170,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <li>Organizar contenidos de manera lógica.</li>
         <li>Proponer actividades paso a paso.</li>
     `);
-    data.push(response_get_metrics["data"]["num_glo"]);
-    labels.push("Global");
-    descriptions.push(`
-        <li>Presentar una visión general antes de los detalles.</li>
-        <li>Fomentar conexiones y proyectos integradores.</li>
-    `);
+    
     
     let chartTypeSelector = document.getElementById("chart-type-selector");
     let savedChartType = localStorage.getItem("chartType");
