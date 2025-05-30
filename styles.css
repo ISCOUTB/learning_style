@@ -234,3 +234,11 @@ body {
     margin: 0;
   }
 }
+.center_mark {
+    width: 5px;
+    height: 20px;
+    background: #7e7e7e;
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+}
