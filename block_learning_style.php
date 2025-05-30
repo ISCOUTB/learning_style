@@ -135,18 +135,79 @@ class block_learning_style extends block_base
                     $this->content->text .= "<li>$val</li>";
                 }
                 $this->content->text .= '<script>document.addEventListener("DOMContentLoaded", function () { const popoverTriggerList = [].slice.call(document.querySelectorAll(\'[data-bs-toggle="popover"]\')); popoverTriggerList.forEach(function (popoverTriggerEl) { new bootstrap.Popover(popoverTriggerEl); }); });</script>';
+                
                 $json_style = [
-                    "vis" => 0,
-                    "sen" => 0,
-                    "act" => 0,
-                    "glo" => 0,
-                    "vrb" => 0,
-                    "int" => 0,
-                    "ref" => 0,
-                    "seq" => 0
-                ]
+                    "act" => intval($entry->ap_active),
+                    "ref" => intval($entry->ap_reflexivo),
+                    "sen" => intval($entry->ap_sensorial),
+                    "int" => intval($entry->ap_intuitivo),
+                    "vis" => intval($entry->ap_visual),
+                    "vrb" => intval($entry->ap_verbal),
+                    "seq" => intval($entry->ap_secuencial),
+                    "glo" => intval($entry->ap_global)
+                ];
                 $json_encode = json_encode($json_style);
-                $this->content->text .= "<script>let data = {$json_encode}; console.log(data);</script>";
+                // Canvas del gráfico radar (sin width ni height, lo controla CSS)
+                $this->content->text .= "<canvas id='radarstyle' style='width: 100%;'></canvas>";
+                // Incluir Chart.js desde el bloque
+                $this->content->text .= "<script src='{$CFG->wwwroot}/blocks/learning_style/dashboard/js/chart.js'></script>";
+                $this->content->text .= "<script>
+                                        let data = $json_encode;
+                                        document.addEventListener('DOMContentLoaded', function () {
+                                            const ctx = document.getElementById('radarstyle').getContext('2d');
+                                            const radarChart = new Chart(ctx, {
+                                                type: 'radar',
+                                                data: {
+                                                    labels: [
+                                                        'Visual', 'Sensitivo', 'Activo', 'Global',
+                                                        'Verbal', 'Intuitivo', 'Reflexivo', 'Secuencial'
+                                                    ],
+                                                    datasets: [{
+                                                        label: 'Estilo de Aprendizaje',
+                                                        data: [
+                                                            data.vis,
+                                                            data.sen,
+                                                            data.act,
+                                                            data.glo,
+                                                            data.vrb,
+                                                            data.int,
+                                                            data.ref,
+                                                            data.seq
+                                                        ],
+                                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                                        borderWidth: 2,
+                                                        pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+                                                    }]
+                                                },
+                                                options: {
+                                                    responsive: true,
+                                                    scales: {
+                                                        r: {
+                                                            suggestedMin: 0,
+                                                            suggestedMax: 11,
+                                                            ticks: {
+                                                                stepSize: 1
+                                                            },
+                                                            pointLabels: {
+                                                                font: {
+                                                                    size: 14
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    plugins: {
+                                                        legend: {
+                                                            display: false
+                                                        },
+                                                        tooltip: {
+                                                            enabled: true
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        });
+                </script>";
             }
         } else {
             if (isset($this->config->learning_style_content) && isset($this->config->learning_style_content["text"])) {
