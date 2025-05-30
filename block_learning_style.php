@@ -13,22 +13,34 @@ class block_learning_style extends block_base
         return false;
     }
 
-    public function my_slider($value, $izq_val, $der_val, $izq_title, $der_title)
-    {
-        global $OUTPUT;
+    public function my_slider($value, $izq_val, $der_val, $izq_title, $der_title){
+    $p = (($value + 11) / 22) * 100;
+    $slider = '<div class="slider-container" style="text-align:center; margin: 10px 0px;">';
 
-        $slider = '';
-        $slider .= '<div class="slider-container" style="text-align:center; margin: 10px 0px;">';
-        $p = (($value + 11) / 22) * 100;
-        if ($value >= 0 ){
-            $slider .= "<span title='$izq_title'>$izq_val</span> ⇄ <strong title='$der_title'> $der_val </strong><br>";
-            $slider .= "<div class=\"progress\"><div class=\"progress-bar progress-bar-striped bg-success\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style='width: $p%'></div></div>";
-        }else {
-            $slider .= "<strong title='$izq_title'>$izq_val</strong> ⇄ <span title='$der_title'> $der_val </span><br>";
-            $slider .= "<div class=\"progress\"><div class=\"progress-bar progress-bar-striped bg-success\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style='width: $p%'></div></div>";
-        }
-        $slider .= '</div>';
-        return $slider;
+    // Determinar si predomina la derecha o izquierda
+    $predomina_izq = $value < 0;
+
+    // Armar etiquetas con botón si es dominante
+    $izq_label = $predomina_izq
+        ? "<button data-bs-placement='top' type='button' style='background: none; color: #000; font-weight: 700; border: none;text-transform: none;font-size: 16px;' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='$izq_val' data-bs-content='$izq_title'>$izq_val</button>"
+        : "<span title='$izq_title'>$izq_val</span>";
+
+    $der_label = !$predomina_izq
+        ? "<button data-bs-placement='top' type='button' style='background: none; color: #000; font-weight: 700; border: none;text-transform: none;font-size: 16px;' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='$der_val' data-bs-content='$der_title'>$der_val</button>"
+        : "<span title='$der_title'>$der_val</span>";
+
+    // Mostrar etiquetas con flecha
+    $slider .= "$izq_label ⇄ $der_label<br>";
+
+    // Barra de progreso con marca
+    $slider .= "<div class='progress' style='position: relative; height: 20px;'>
+                  <div class='center_mark' style='
+                      left: $p%;
+                  '></div>
+               </div>";
+
+    $slider .= '</div>';
+    return $slider;
     }
 
     public function get_content()
@@ -82,40 +94,32 @@ class block_learning_style extends block_base
                 if ($entry->act_ref[1] == 'a') {
 
                     $final_style[$entry->act_ref[0] . "ar"] = $this->my_slider($entry->act_ref[0] * -1, get_string("active", 'block_learning_style'), get_string("reflexive", 'block_learning_style'),$izq_title,$der_title);
-                    $final_style[$entry->act_ref[0] . "ar"] .= "<button data-bs-placement='top' type='button' class='btn btn-primary' style='width: 100%;' data-bs-toggle='popover' data-bs-title='Activo' data-bs-content='$izq_title'>Ver sugerencias de estudio</button>";
                 } else {
                     $final_style[$entry->act_ref[0] . "ar"] = $this->my_slider($entry->act_ref[0], get_string("active", 'block_learning_style'), get_string("reflexive", 'block_learning_style'),$izq_title,$der_title);
-                    $final_style[$entry->act_ref[0] . "ar"] .= "<button data-bs-placement='top' type='button' class='btn btn-primary' style='width: 100%;' data-bs-toggle='popover' data-bs-title='Reflexivo' data-bs-content='$der_title'>Ver sugerencias de estudio</button>";
                 }
 
                 $izq_title = "Se sugiere realizar una observación detallada y aplicación práctica de conceptos, utilizar ejemplos concretos y aplicaciones prácticas del material de aprendizaje, realizar actividades de laboratorio y proyectos. Desarrollar trabajo práctico. ";
-                $der_title = "Se sugiere utilizar buscar conexiones y patrones en la información, utilizar analogías e historias para ilustrar los conceptos, hacer preguntas y explorar nuevas ideas. Actividades como la resolución de problemas complejos, actividades creativas y discusiones teóricas.";
+                $der_title = "Se sugiere buscar conexiones y patrones en la información, utilizar analogías e historias para ilustrar los conceptos, hacer preguntas y explorar nuevas ideas. Actividades como la resolución de problemas complejos, actividades creativas y discusiones teóricas.";
                 if ($entry->sen_int[1] == 'a') {
                     $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->sen_int[0] * -1, get_string("sensitive", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
-                    $final_style[$entry->sen_int[0] . "si"] .= "<button data-bs-placement='top' type='button' class='btn btn-primary' style='width: 100%;' data-bs-toggle='popover' data-bs-title='Sensitivo' data-bs-content='$izq_title'>Ver sugerencias de estudio</button>";
                 } else {
                     $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->sen_int[0], get_string("sensitive", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
-                    $final_style[$entry->sen_int[0] . "si"] .= "<button data-bs-placement='top' type='button' class='btn btn-primary' style='width: 100%;' data-bs-toggle='popover' data-bs-title='Intuitivo' data-bs-content='$der_title'>Ver sugerencias de estudio</button>";
                 }
 
                 $izq_title = "Se sugiere utilizar gráficos, diagramas, videos y otros recursos visuales para representar la información, realizar mapas mentales y dibujar imágenes para comprender el material. ";
                 $der_title = "Se sugiere leer y escribir notas, desarrollar resúmenes del material, discutir el material en grupos o con un compañero de estudio, utilizar técnicas de memorización como la repetición verbal, discusiones o explicaciones verbales.";
                 if ($entry->vis_vrb[1] == 'a') {
                     $final_style[$entry->vis_vrb[0] . "vv"] = $this->my_slider($entry->vis_vrb[0] * -1, get_string("visual", 'block_learning_style'), get_string("verbal", 'block_learning_style'),$izq_title,$der_title);
-                    $final_style[$entry->vis_vrb[0] . "vv"] .= "<button data-bs-placement='top' type='button' class='btn btn-primary' style='width: 100%;' data-bs-toggle='popover' data-bs-title='Visual' data-bs-content='$izq_title'>Ver sugerencias de estudio</button>";
                 } else {
                     $final_style[$entry->vis_vrb[0] . "vv"] = $this->my_slider($entry->vis_vrb[0], get_string("visual", 'block_learning_style'), get_string("verbal", 'block_learning_style'),$izq_title,$der_title);
-                    $final_style[$entry->vis_vrb[0] . "vv"] .= "<button data-bs-placement='top' type='button' class='btn btn-primary' style='width: 100%;' data-bs-toggle='popover' data-bs-title='Verbal' data-bs-content='$der_title'>Ver sugerencias de estudio</button>";
                 }
 
                 $izq_title = "Se sugiere seguir una estructura lógica y organizada para aprender, tomar notas y resumir el material de aprendizaje, trabajar, analizar a través de pasos a pasos para resolver problemas.";
                 $der_title = "Se sugiere buscar conexiones y patrones en la información, trabajar con el material de aprendizaje en su conjunto antes de enfocarse en los detalles, utilizar analogías y metáforas para ilustrar los conceptos. Trabajar en actividades que permiten la exploración y conexión de conceptos, aprendizaje basado en proyectos y discusión de temas complejos.";
                 if ($entry->seq_glo[1] == 'a') {
                     $final_style[$entry->seq_glo[0] . "sg"] = $this->my_slider($entry->seq_glo[0] * -1, get_string("sequential", 'block_learning_style'), get_string("global", 'block_learning_style'),$izq_title,$der_title);
-                    $final_style[$entry->seq_glo[0] . "sg"] .= "<button data-bs-placement='top' type='button' class='btn btn-primary' style='width: 100%;' data-bs-toggle='popover' data-bs-title='Secuencial' data-bs-content='$izq_title'>Ver sugerencias de estudio</button>";
                 } else {
                     $final_style[$entry->seq_glo[0] . "sg"] = $this->my_slider($entry->seq_glo[0], get_string("sequential", 'block_learning_style'), get_string("global", 'block_learning_style'),$izq_title,$der_title);
-                    $final_style[$entry->seq_glo[0] . "sg"] .= "<button data-bs-placement='top' type='button' class='btn btn-primary' style='width: 100%;' data-bs-toggle='popover' data-bs-title='Global' data-bs-content='$der_title'>Ver sugerencias de estudio</button>";
                 }
 
                 krsort($final_style);
