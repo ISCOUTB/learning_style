@@ -14,7 +14,12 @@ class block_learning_style extends block_base
     }
 
     public function my_slider($value, $izq_val, $der_val, $izq_title, $der_title){
-    $p = (($value + 11) / 22) * 100 + 1;
+    $p = (($value + 11) / 22) * 100;
+    if($p == 100){
+        $p = 99;
+    }else if($p == 0){
+        $p = 1;
+    }
     $slider = '<div class="slider-container" style="text-align:center; margin: 10px 0px;">';
 
     // Determinar si predomina la derecha o izquierda
