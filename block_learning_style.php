@@ -144,7 +144,7 @@ class block_learning_style extends block_base
                     $this->content->text .= "<li>$val</li>";
                 }
                 $this->content->text .= '<script>document.addEventListener("DOMContentLoaded", function () { const popoverTriggerList = [].slice.call(document.querySelectorAll(\'[data-bs-toggle="popover"]\')); popoverTriggerList.forEach(function (popoverTriggerEl) { new bootstrap.Popover(popoverTriggerEl); }); });</script>';
-                
+                $this->content->text .= "<p class='alpyintro' style='margin: 0;'>*Pulsa los estilos de aprendizaje en <b>negrita</b> para ver recomendaciones de estudio.</p>";
                 $json_style = [
                     "act" => intval($entry->ap_active),
                     "ref" => intval($entry->ap_reflexivo),
