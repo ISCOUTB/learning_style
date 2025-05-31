@@ -133,7 +133,7 @@ class block_learning_style extends block_base
 
                 krsort($final_style);
 
-                $this->content->text .= "<p class='alpyintro'>Según el modelo de Estilos de Aprendizaje de Felder y Soloman, toda persona tiene mayor inclinación a un estilo u otro. En tu caso, el estilo que más predomina es:</p>";
+                $this->content->text .= "<p class='alpyintro'>Según el modelo de Estilos de Aprendizaje de Felder y Soloman, toda persona tiene mayor inclinación a un estilo u otro. En tu caso, los estilos de aprendizaje que más predominan en cada eje, son:</p>";
                 $this->content->text .= "<link rel='stylesheet' href='".$CFG->wwwroot."/blocks/learning_style/styles.css'>";
                 //bootstrap css
                 //$this->content->text .= "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet'>";
