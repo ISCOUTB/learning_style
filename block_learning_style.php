@@ -14,7 +14,7 @@ class block_learning_style extends block_base
     }
 
     public function my_slider($value, $izq_val, $der_val, $izq_title, $der_title){
-    $p = (($value + 11) / 22) * 100;
+    $p = (($value + 11) / 22) * 100 + 1;
     $slider = '<div class="slider-container" style="text-align:center; margin: 10px 0px;">';
 
     // Determinar si predomina la derecha o izquierda
@@ -91,8 +91,7 @@ class block_learning_style extends block_base
 
                 $izq_title = "Se sugiere utilizar actividades prácticas, resolución de problemas, realizar experimentos, proyectos prácticos, participar en discusiones grupales, trabajar en grupos.";
                 $der_title = "Se sugiere desarrollar lecturas reflexivas, tomar notas y reflexionar sobre el material de aprendizaje, crear diagramas y organizar información, tomarse el tiempo para considerar las opciones antes de tomar decisiones, actividades de análisis de casos y actividades de autoevaluación.";
-                if ($entry->act_ref[1] == 'a') {
-
+                if ($entry->ap_active > 0) {
                     $final_style[$entry->act_ref[0] . "ar"] = $this->my_slider($entry->act_ref[0] * -1, get_string("active", 'block_learning_style'), get_string("reflexive", 'block_learning_style'),$izq_title,$der_title);
                 } else {
                     $final_style[$entry->act_ref[0] . "ar"] = $this->my_slider($entry->act_ref[0], get_string("active", 'block_learning_style'), get_string("reflexive", 'block_learning_style'),$izq_title,$der_title);
@@ -100,26 +99,26 @@ class block_learning_style extends block_base
 
                 $izq_title = "Se sugiere realizar una observación detallada y aplicación práctica de conceptos, utilizar ejemplos concretos y aplicaciones prácticas del material de aprendizaje, realizar actividades de laboratorio y proyectos. Desarrollar trabajo práctico. ";
                 $der_title = "Se sugiere buscar conexiones y patrones en la información, utilizar analogías e historias para ilustrar los conceptos, hacer preguntas y explorar nuevas ideas. Actividades como la resolución de problemas complejos, actividades creativas y discusiones teóricas.";
-                if ($entry->sen_int[1] == 'a') {
-                    $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->sen_int[0] * -1, get_string("sensitive", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
+                if ($entry->ap_sensorial > 0) {
+                    $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->ap_sensorial * -1, get_string("sensitive", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
                 } else {
-                    $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->sen_int[0], get_string("sensitive", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
+                    $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->ap_intuitivo, get_string("sensitive", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
                 }
 
                 $izq_title = "Se sugiere utilizar gráficos, diagramas, videos y otros recursos visuales para representar la información, realizar mapas mentales y dibujar imágenes para comprender el material. ";
                 $der_title = "Se sugiere leer y escribir notas, desarrollar resúmenes del material, discutir el material en grupos o con un compañero de estudio, utilizar técnicas de memorización como la repetición verbal, discusiones o explicaciones verbales.";
-                if ($entry->vis_vrb[1] == 'a') {
-                    $final_style[$entry->vis_vrb[0] . "vv"] = $this->my_slider($entry->vis_vrb[0] * -1, get_string("visual", 'block_learning_style'), get_string("verbal", 'block_learning_style'),$izq_title,$der_title);
+                if ($entry->ap_visual > 0) {
+                    $final_style[$entry->vis_vrb[0] . "vv"] = $this->my_slider($entry->ap_visual * -1, get_string("visual", 'block_learning_style'), get_string("verbal", 'block_learning_style'),$izq_title,$der_title);
                 } else {
-                    $final_style[$entry->vis_vrb[0] . "vv"] = $this->my_slider($entry->vis_vrb[0], get_string("visual", 'block_learning_style'), get_string("verbal", 'block_learning_style'),$izq_title,$der_title);
+                    $final_style[$entry->vis_vrb[0] . "vv"] = $this->my_slider($entry->ap_verbal, get_string("visual", 'block_learning_style'), get_string("verbal", 'block_learning_style'),$izq_title,$der_title);
                 }
 
                 $izq_title = "Se sugiere seguir una estructura lógica y organizada para aprender, tomar notas y resumir el material de aprendizaje, trabajar, analizar a través de pasos a pasos para resolver problemas.";
                 $der_title = "Se sugiere buscar conexiones y patrones en la información, trabajar con el material de aprendizaje en su conjunto antes de enfocarse en los detalles, utilizar analogías y metáforas para ilustrar los conceptos. Trabajar en actividades que permiten la exploración y conexión de conceptos, aprendizaje basado en proyectos y discusión de temas complejos.";
-                if ($entry->seq_glo[1] == 'a') {
-                    $final_style[$entry->seq_glo[0] . "sg"] = $this->my_slider($entry->seq_glo[0] * -1, get_string("sequential", 'block_learning_style'), get_string("global", 'block_learning_style'),$izq_title,$der_title);
+                if ($entry->ap_secuencial > 0) {
+                    $final_style[$entry->seq_glo[0] . "sg"] = $this->my_slider($entry->ap_secuencial * -1, get_string("sequential", 'block_learning_style'), get_string("global", 'block_learning_style'),$izq_title,$der_title);
                 } else {
-                    $final_style[$entry->seq_glo[0] . "sg"] = $this->my_slider($entry->seq_glo[0], get_string("sequential", 'block_learning_style'), get_string("global", 'block_learning_style'),$izq_title,$der_title);
+                    $final_style[$entry->seq_glo[0] . "sg"] = $this->my_slider($entry->ap_global, get_string("sequential", 'block_learning_style'), get_string("global", 'block_learning_style'),$izq_title,$der_title);
                 }
 
                 krsort($final_style);
