@@ -27,11 +27,11 @@ class block_learning_style extends block_base
 
     // Armar etiquetas con botón si es dominante
     $izq_label = $predomina_izq
-        ? "<button data-bs-placement='top' type='button' style='background: none; color: #000; font-weight: 700; border: none;text-transform: none;font-size: 16px;' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='$izq_val' data-bs-content='$izq_title'>$izq_val</button>"
+        ? "<button data-bs-placement='top' type='button' style='background: none; color: #000; font-weight: 700; border: none;text-transform: none;font-size: 16px;padding: 0;' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='$izq_val' data-bs-content='$izq_title'>$izq_val</button>"
         : "<span title='$izq_title'>$izq_val</span>";
 
     $der_label = !$predomina_izq
-        ? "<button data-bs-placement='top' type='button' style='background: none; color: #000; font-weight: 700; border: none;text-transform: none;font-size: 16px;' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='$der_val' data-bs-content='$der_title'>$der_val</button>"
+        ? "<button data-bs-placement='top' type='button' style='background: none; color: #000; font-weight: 700; border: none;text-transform: none;font-size: 16px;padding: 0;' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='$der_val' data-bs-content='$der_title'>$der_val</button>"
         : "<span title='$der_title'>$der_val</span>";
 
     // Mostrar etiquetas con flecha
@@ -39,6 +39,11 @@ class block_learning_style extends block_base
 
     // Barra de progreso con marca
     $slider .= "<div class='progress' style='position: relative; height: 20px;'>
+                  <div class='center_mark' style='
+                      left: 50%;
+                      width: 1px;
+                      background: #a8a8a8;
+                  '></div>
                   <div class='center_mark' style='
                       left: $p%;
                   '></div>
@@ -191,7 +196,7 @@ class block_learning_style extends block_base
                                                             suggestedMin: 0,
                                                             suggestedMax: 11,
                                                             ticks: {
-                                                                stepSize: 1
+                                                                stepSize: 3
                                                             },
                                                             pointLabels: {
                                                                 font: {
