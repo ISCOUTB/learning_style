@@ -18,7 +18,7 @@ class block_learning_style extends block_base
     $slider = '<div class="slider-container" style="text-align:center; margin: 10px 0px;">';
 
     // Determinar si predomina la derecha o izquierda
-    $predomina_izq = $value < 0;
+    $predomina_izq = $p < 50;
 
     // Armar etiquetas con botón si es dominante
     $izq_label = $predomina_izq
