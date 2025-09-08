@@ -22,22 +22,23 @@ jobs:
         
     - name: Create ZIP package
       run: |
-        # Create a clean directory for the package
-        mkdir -p learning_style_package
+        # Create a clean directory structure for the package
+        mkdir -p package_temp/learning_style
         
         # Copy all files except .git, .github, and other development files
         rsync -av --exclude='.git' --exclude='.github' --exclude='*.md' \
-               --exclude='test_*' --exclude='*.log' \
-               ./ learning_style_package/
+               --exclude='test_*' --exclude='*.log' --exclude='RELEASES.md' \
+               --exclude='.gitignore' \
+               ./ package_temp/learning_style/
         
-        # Create the ZIP file
-        cd learning_style_package
-        zip -r ../learning_style_v${{ steps.get_version.outputs.version }}.zip .
+        # Create the ZIP file with proper directory structure
+        cd package_temp
+        zip -r ../learning_style_v${{ steps.get_version.outputs.version }}.zip learning_style/
         cd ..
         
         # Verify ZIP contents
         echo "ZIP file contents:"
-        unzip -l learning_style_v${{ steps.get_version.outputs.version }}.zip
+        unzip -l learning_style_v${{ steps.get_version.outputs.version }}.zip | head -20
         
     - name: Create Release
       uses: softprops/action-gh-release@v2
