@@ -1,8 +1,26 @@
 # Estilo de Aprendizaje ALPY
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/ISCOUTB/learning_style)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ISCOUTB/learning_style/release.yml)
+![Moodle compatibility](https://img.shields.io/badge/Moodle-2.5%2B-blue)
+![PHP compatibility](https://img.shields.io/badge/PHP-7.4%2B-blue)
+![License](https://img.shields.io/github/license/ISCOUTB/learning_style)
+
 Para la implementación del módulo de identificación de estilos de aprendizaje en el sistema ALPY, se integró la prueba estándar que permiten personalizar el aprendizaje de los estudiantes. El módulo de estilo de aprendizaje está basado en la prueba de Felder y Soloman (FSLSM), que evalúa el estilo predominante de los estudiantes en cuatro dimensiones clave.
 
 Esta prueba, con 11 preguntas por dimensión, permite al sistema calcular un valor predominante, lo que facilita la adaptación de los recursos de aprendizaje. Siguiendo las evaluaciones del experto pedagógico, los recursos asignados a los estudiantes se categorizan según su idoneidad para cada estilo, asignando valores que determinan si un recurso es indiferente, bueno o esencial.
+
+## 🚀 Releases Automáticos
+
+Este proyecto utiliza GitHub Actions para crear releases automáticos. Cada vez que se crea un nuevo tag, se genera automáticamente:
+- **Paquete ZIP** listo para instalar en Moodle
+- **Release en GitHub** con notas de cambios detalladas
+- **Documentación** actualizada de la versión
+
+### 📦 Descargar Última Versión
+➡️ **[Descargar desde GitHub Releases](https://github.com/ISCOUTB/learning_style/releases/latest)**
+
+Para más información sobre el sistema de releases, consulta [RELEASES.md](RELEASES.md).
 
 # Prerrequisitos de instalación
 Este bloque es compatible con Moodle versión 4.2 o superior.

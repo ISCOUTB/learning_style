@@ -1,0 +1,46 @@
+# Ignorar archivos de desarrollo y temporales
+*.log
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Ignorar archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignorar archivos de Node.js (si se usan para desarrollo)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignorar archivos de Composer (si se usan)
+vendor/
+composer.lock
+
+# Ignorar archivos de backup
+*.bak
+*.backup
+*.old
+
+# Ignorar archivos de test
+test_*.php
+tests/fixtures/
+phpunit.xml
+
+# Ignorar archivos de configuración local
+config_local.php
+settings_local.php
+
+# Ignorar directorios de build
+build/
+dist/
+release/
+
+# Ignorar archivos de documentación en desarrollo
+DEVELOPMENT.md
+TODO.md
+NOTES.md
