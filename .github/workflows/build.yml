@@ -52,7 +52,7 @@ jobs:
         ls -la *.zip
         
     - name: Upload development artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: learning-style-dev-${{ steps.get_info.outputs.branch }}-${{ steps.get_info.outputs.commit }}
         path: learning_style_dev_${{ steps.get_info.outputs.branch }}_${{ steps.get_info.outputs.commit }}.zip
