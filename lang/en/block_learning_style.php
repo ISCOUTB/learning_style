@@ -23,7 +23,7 @@ $string["learning_style_content"] = "Content text";
 
 $string['learning_style:addinstance'] = 'Add a new learning_style block';
 $string['learning_style:myaddinstance'] = 'Add a new learning_style block to My home';
-
+$string['download_results'] = 'Download Results';
 
 $string["learning_style:q1"] = "I understand something better after I";
 $string["learning_style:q1_a"] = "try it out.";

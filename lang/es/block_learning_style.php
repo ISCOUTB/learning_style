@@ -22,6 +22,7 @@ $string['global'] = "Global";
 $string["learning_style_content"] = "Estilos de aprendizaje";
 $string['learning_style:addinstance'] = 'Adicionar el bloque de los estilos de aprendizaje';
 $string['learning_style:myaddinstance'] = 'Adicionar el bloque de estilos al inicio';
+$string['download_results'] = 'Descargar Resultados';
 
 $string["learning_style:q1"] = "Comprendo mejor algo después de";
 $string["learning_style:q1_a"] = "probarlo.";

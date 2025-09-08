@@ -38,8 +38,6 @@ for ($i=1;$i<=44;$i++){
     $learning_style_a[$i] = optional_param("learning_style:q".$i, 0, PARAM_INT);
 }
 
-//var_dump($learning_style_a);
-
 if ($courseid == SITEID && !$courseid) {
     redirect($CFG->wwwroot);
 }

@@ -29,6 +29,17 @@ $PAGE->set_title($title." : ".$course->fullname);
 $PAGE->set_heading($title." : ".$course->fullname);
 
 echo $OUTPUT->header();
+
+// Botón de descarga para profesores (usando capacidad estándar de Moodle)
+if (has_capability('moodle/course:viewhiddensections', $context)) {
+    $download_url = new moodle_url('/blocks/learning_style/download_results.php', array('courseid' => $courseid, 'sesskey' => sesskey()));
+    echo '<div style="text-align: right; margin-bottom: 20px;">';
+    echo '<a href="' . $download_url . '" class="btn btn-primary">';
+    echo get_string('download_results', 'block_learning_style');
+    echo '</a>';
+    echo '</div>';
+}
+
 echo "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC' crossorigin='anonymous'>";
 echo "<div class='container'>";
 echo "<h1 class='title_learning_style'>Primer paso, vamos a conocer tu estilo de aprendizaje</h1>";

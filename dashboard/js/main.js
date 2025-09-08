@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   );
   if (request_get_metrics.ok) {
     let response_get_metrics = await request_get_metrics.json();
-    console.log(response_get_metrics);
     let total_curso = response_get_metrics["total_students_on_course"];
     let enc = response_get_metrics["total_students"];
     total_enc.innerText = Math.floor((enc / total_curso) * 100) + "% (" + enc + " de " + total_curso + ")";
@@ -108,10 +107,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         break;
     }
 
-    //Muestra resulstados
-    console.log("estilo dominante ", llave_max);
+    //Muestra resultados
     est_dom.innerText = estilo_hu;
-    console.log("Estilo menos dominante: ", llave_min);
     est_men_dom.innerText = estilo_men;
 
     //Grafico
@@ -180,10 +177,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Verificar si existe un tipo de gráfico guardado en localStorage
     if (savedChartType) {
       chartTypeSelector.value = savedChartType;
-      console.log("Se recuperó el tipo de gráfico");
       cambiarGrafico(savedChartType); // Cambiar el gráfico según lo guardado en localStorage
     } else {
-      console.log("No hay gráfico por defecto, se crea uno.");
       localStorage.setItem("chartType", "pie"); // Establecer 'pie' por defecto si no hay valor guardado
       cambiarGrafico("pie"); // Crear gráfico por defecto
     }

@@ -117,6 +117,6 @@ function get_metrics($id_course){
     $response["data"]["num_int"] = intval($total_int->cantidad);
     $response["data"]["num_sec"] = intval($total_sec->cantidad);
     $response["data"]["num_glo"] = intval($total_glo->cantidad);
-    //SELECT COUNT(*) FROM learning_style WHERE ap_active > 0
-    print_r(json_encode($response));
+    
+    echo json_encode($response);
 }

@@ -219,15 +219,138 @@ class block_learning_style extends block_base
                 </script>";
             }
         } else {
+            // Verificar si el usuario es profesor o administrador
+            $context = context_course::instance($COURSE->id);
+            $is_teacher = has_capability('moodle/course:viewhiddensections', $context);
+            
+            if ($is_teacher) {
+                // Agregar botón de descarga para profesores/administradores
+                $download_url = new moodle_url('/blocks/learning_style/download_results.php', 
+                    array('courseid' => $COURSE->id, 'sesskey' => sesskey()));
+                
+                $download_button = html_writer::start_div('text-center', array('style' => 'margin: 10px 0;'));
+                $download_button .= html_writer::link($download_url, 
+                    get_string('download_results', 'block_learning_style'), 
+                    array('class' => 'btn btn-primary btn-sm', 
+                          'style' => 'margin: 5px;',
+                          'title' => 'Descargar resultados en formato CSV'));
+                $download_button .= html_writer::end_div();
+                
+                $this->content->text .= $download_button;
+            }
+            
+            // Verificar si hay configuración y mostrar dashboard o mensaje por defecto
             if (isset($this->config->learning_style_content) && isset($this->config->learning_style_content["text"])) {
-                //Aquí se debe maquetar el dashboard
-                $view = file_get_contents($CFG->dirroot . '/blocks/learning_style/dashboard/view.php');
-                $this->content->text = $view;
+                // Verificar si el archivo del dashboard existe
+                $dashboard_file = $CFG->dirroot . '/blocks/learning_style/dashboard/view.php';
+                if (file_exists($dashboard_file)) {
+                    $view = file_get_contents($dashboard_file);
+                    if ($view !== false && !empty(trim($view))) {
+                        $this->content->text .= $view;
+                    } else {
+                        // Fallback si el archivo está vacío
+                        $this->content->text .= $this->get_teacher_dashboard_fallback();
+                    }
+                } else {
+                    // Fallback si el archivo no existe
+                    $this->content->text .= $this->get_teacher_dashboard_fallback();
+                }
             } else {
-                $this->content->text = "<img src='" . $OUTPUT->pix_url('warning', 'block_learning_style') . "'>" . get_string('learning_style_configempty', 'block_learning_style');
+                $this->content->text .= "<img src='" . $OUTPUT->pix_url('warning', 'block_learning_style') . "'>" . get_string('learning_style_configempty', 'block_learning_style');
             }
         }
 
         return $this->content;
+    }
+
+    /**
+     * Método fallback para mostrar un dashboard básico cuando no hay datos o el archivo no existe
+     */
+    private function get_teacher_dashboard_fallback() {
+        global $DB, $COURSE;
+        
+        // Obtener estadísticas básicas
+        $total_students = $DB->count_records('learning_style', array('course' => $COURSE->id));
+        
+        $fallback_content = '';
+        $fallback_content .= '<div style="padding: 20px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; margin: 10px 0;">';
+        $fallback_content .= '<h4 style="margin-top: 0; color: #495057;">📊 Resumen de Estilos de Aprendizaje</h4>';
+        
+        if ($total_students > 0) {
+            $fallback_content .= '<div style="display: flex; flex-wrap: wrap; gap: 15px;">';
+            
+            // Estudiantes encuestados
+            $fallback_content .= '<div style="flex: 1; min-width: 120px; background: white; padding: 15px; border-radius: 4px; text-align: center; border: 1px solid #e9ecef;">';
+            $fallback_content .= '<div style="font-size: 24px; font-weight: bold; color: #007bff;">' . $total_students . '</div>';
+            $fallback_content .= '<div style="font-size: 12px; color: #6c757d;">Estudiantes</div>';
+            $fallback_content .= '</div>';
+            
+            // Calcular estadísticas básicas
+            $results = $DB->get_records('learning_style', array('course' => $COURSE->id));
+            
+            if ($results) {
+                $stats = array(
+                    'activos' => 0,
+                    'reflexivos' => 0,
+                    'sensitivos' => 0,
+                    'intuitivos' => 0,
+                    'visuales' => 0,
+                    'verbales' => 0,
+                    'secuenciales' => 0,
+                    'globales' => 0
+                );
+                
+                foreach ($results as $result) {
+                    // Activo vs Reflexivo
+                    if ($result->ap_active > $result->ap_reflexivo) {
+                        $stats['activos']++;
+                    } else {
+                        $stats['reflexivos']++;
+                    }
+                    
+                    // Sensitivo vs Intuitivo
+                    if ($result->ap_sensorial > $result->ap_intuitivo) {
+                        $stats['sensitivos']++;
+                    } else {
+                        $stats['intuitivos']++;
+                    }
+                    
+                    // Visual vs Verbal
+                    if ($result->ap_visual > $result->ap_verbal) {
+                        $stats['visuales']++;
+                    } else {
+                        $stats['verbales']++;
+                    }
+                    
+                    // Secuencial vs Global
+                    if ($result->ap_secuencial > $result->ap_global) {
+                        $stats['secuenciales']++;
+                    } else {
+                        $stats['globales']++;
+                    }
+                }
+                
+                // Mostrar las estadísticas más relevantes
+                $max_style = array_keys($stats, max($stats))[0];
+                $max_count = max($stats);
+                
+                $fallback_content .= '<div style="flex: 2; min-width: 200px; background: white; padding: 15px; border-radius: 4px; border: 1px solid #e9ecef;">';
+                $fallback_content .= '<div style="font-size: 16px; font-weight: bold; color: #28a745; margin-bottom: 5px;">Estilo predominante</div>';
+                $fallback_content .= '<div style="font-size: 14px; color: #6c757d;">' . ucfirst($max_style) . ' (' . $max_count . ' estudiantes)</div>';
+                $fallback_content .= '</div>';
+            }
+            
+            $fallback_content .= '</div>';
+        } else {
+            $fallback_content .= '<div style="text-align: center; padding: 20px; color: #6c757d;">';
+            $fallback_content .= '<div style="font-size: 48px; margin-bottom: 10px;">📋</div>';
+            $fallback_content .= '<div>No hay datos de estilos de aprendizaje disponibles en este curso.</div>';
+            $fallback_content .= '<div style="font-size: 12px; margin-top: 5px;">Los estudiantes deben completar el test para generar estadísticas.</div>';
+            $fallback_content .= '</div>';
+        }
+        
+        $fallback_content .= '</div>';
+        
+        return $fallback_content;
     }
 }
