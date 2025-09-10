@@ -1,5 +1,5 @@
 <?php
-$string['pluginname'] = 'Estilos de aprendizaje';
+$string['pluginname'] = 'Exploración de Estilos de Aprendizaje';
 $string['code_honor_text'] = '<p>Lorem  dictumst.</p>';
 $string['accept_code_honor_text'] = "Acepto";
 $string['redirect_accept_success'] = "Gracias, ahora estamos redireccionando a la página del curso.";

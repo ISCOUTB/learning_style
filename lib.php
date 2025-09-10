@@ -39,7 +39,7 @@ function save_learning_style($course,$act_ref,$sen_int,$vis_vrb,$seq_glo,$act,$r
         }
 
         // Write the data to the log file
-        file_put_contents($file, $data, FILE_APPEND);
+        //file_put_contents($file, $data, FILE_APPEND);
         return true;
     }else{
         return false;
