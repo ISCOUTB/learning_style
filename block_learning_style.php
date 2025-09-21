@@ -110,9 +110,9 @@ class block_learning_style extends block_base
                 $izq_title = "Se sugiere realizar una observación detallada y aplicación práctica de conceptos, utilizar ejemplos concretos y aplicaciones prácticas del material de aprendizaje, realizar actividades de laboratorio y proyectos. Desarrollar trabajo práctico. ";
                 $der_title = "Se sugiere buscar conexiones y patrones en la información, utilizar analogías e historias para ilustrar los conceptos, hacer preguntas y explorar nuevas ideas. Actividades como la resolución de problemas complejos, actividades creativas y discusiones teóricas.";
                 if ($entry->ap_sensorial > 0) {
-                    $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->ap_sensorial * -1, get_string("sensitive", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
+                    $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->ap_sensorial * -1, get_string("sensorial", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
                 } else {
-                    $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->ap_intuitivo, get_string("sensitive", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
+                    $final_style[$entry->sen_int[0] . "si"] = $this->my_slider($entry->ap_intuitivo, get_string("sensorial", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
                 }
 
                 $izq_title = "Se sugiere utilizar gráficos, diagramas, videos y otros recursos visuales para representar la información, realizar mapas mentales y dibujar imágenes para comprender el material. ";
@@ -228,15 +228,24 @@ class block_learning_style extends block_base
                 $download_url = new moodle_url('/blocks/learning_style/download_results.php', 
                     array('courseid' => $COURSE->id, 'sesskey' => sesskey()));
                 
-                $download_button = html_writer::start_div('text-center', array('style' => 'margin: 10px 0;'));
-                $download_button .= html_writer::link($download_url, 
+                // Agregar botón de administración para profesores/administradores
+                $admin_url = new moodle_url('/blocks/learning_style/admin_view.php', 
+                    array('courseid' => $COURSE->id));
+                
+                $buttons_container = html_writer::start_div('text-center', array('style' => 'margin: 10px 0;'));
+                $buttons_container .= html_writer::link($admin_url, 
+                    get_string('view_admin_results', 'block_learning_style'), 
+                    array('class' => 'btn btn-success btn-sm', 
+                          'style' => 'margin: 2px;',
+                          'title' => 'Ver administración de estilos de aprendizaje'));
+                $buttons_container .= html_writer::link($download_url, 
                     get_string('download_results', 'block_learning_style'), 
                     array('class' => 'btn btn-primary btn-sm', 
-                          'style' => 'margin: 5px;',
+                          'style' => 'margin: 2px;',
                           'title' => 'Descargar resultados en formato CSV'));
-                $download_button .= html_writer::end_div();
+                $buttons_container .= html_writer::end_div();
                 
-                $this->content->text .= $download_button;
+                $this->content->text .= $buttons_container;
             }
             
             // Verificar si hay configuración y mostrar dashboard o mensaje por defecto

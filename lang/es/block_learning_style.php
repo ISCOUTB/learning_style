@@ -2,17 +2,17 @@
 $string['pluginname'] = 'Exploración de Estilos de Aprendizaje';
 $string['code_honor_text'] = '<p>Lorem  dictumst.</p>';
 $string['accept_code_honor_text'] = "Acepto";
-$string['redirect_accept_success'] = "Gracias, ahora estamos redireccionando a la página del curso.";
-$string['redirect_accept_exist'] = "Estamos redireccionando a la página de curso";
+$string['redirect_accept_success'] = "Gracias, ahora te redirigimos a la página del curso.";
+$string['redirect_accept_exist'] = "Ya has completado la evaluación, te redirigimos al curso";
 $string['accept_message'] = "Estilo de aprendizaje detectado";
 $string['required_message'] = "Por favor, realiza la evaluación de estilos de aprendizaje para continuar";
-$string['learning_style_actived'] = "Página activada";
-$string['learning_style_configempty'] = "Ingresa a la configuración de este bloque";
+$string['learning_style_actived'] = "Evaluación de estilos de aprendizaje activada";
+$string['learning_style_configempty'] = "Configura el contenido de este bloque";
 $string['submit_text'] = "Continuar e ir al curso";
 
 $string['active'] = "Activo";
 $string['reflexive'] = "Reflexivo";
-$string['sensitive'] = "Sensitivo";
+$string['sensorial'] = "Sensorial";
 $string['intuitive'] = "Intuitivo";
 $string['visual'] = "Visual";
 $string['verbal'] = "Verbal";
@@ -20,8 +20,8 @@ $string['sequential'] = "Secuencial";
 $string['global'] = "Global";
 
 $string["learning_style_content"] = "Estilos de aprendizaje";
-$string['learning_style:addinstance'] = 'Adicionar el bloque de los estilos de aprendizaje';
-$string['learning_style:myaddinstance'] = 'Adicionar el bloque de estilos al inicio';
+$string['learning_style:addinstance'] = 'Agregar bloque de estilos de aprendizaje';
+$string['learning_style:myaddinstance'] = 'Agregar bloque de estilos de aprendizaje al inicio';
 $string['download_results'] = 'Descargar Resultados';
 
 $string["learning_style:q1"] = "Comprendo mejor algo después de";
@@ -32,7 +32,7 @@ $string["learning_style:q2"] = "Prefiero que me consideren";
 $string["learning_style:q2_a"] = "realista.";
 $string["learning_style:q2_b"] = "innovador.";
 
-$string["learning_style:q3"] = "Cuando pienso en lo que hice ayer, lo mas probable es que obtenga";
+$string["learning_style:q3"] = "Cuando pienso en lo que hice ayer, lo más probable es que obtenga";
 $string["learning_style:q3_a"] = "una imagen.";
 $string["learning_style:q3_b"] = "palabras.";
 
@@ -44,7 +44,7 @@ $string["learning_style:q5"] = "Cuando aprendo algo nuevo, me ayuda a";
 $string["learning_style:q5_a"] = "hablar de ello.";
 $string["learning_style:q5_b"] = "pensar en ello.";
 
-$string["learning_style:q6"] = "Si fueras profesor, preferiría impartir un curso";
+$string["learning_style:q6"] = "Si fuera profesor, preferiría impartir un curso";
 $string["learning_style:q6_a"] = "que trate de hechos y situaciones de la vida real.";
 $string["learning_style:q6_b"] = "que trate de ideas y teorías.";
 
@@ -104,7 +104,7 @@ $string["learning_style:q20"] = "Para mí es más importante que un profesor";
 $string["learning_style:q20_a"] = "exponga el material en pasos secuenciales claros.";
 $string["learning_style:q20_b"] = "me dé una visión de conjunto y relacione el material con otras materias.";
 
-$string["learning_style:q21"] = " Prefiero estudiar";
+$string["learning_style:q21"] = "Prefiero estudiar";
 $string["learning_style:q21_a"] = "en un grupo de estudio.";
 $string["learning_style:q21_b"] = "solo.";
 
@@ -199,3 +199,78 @@ $string["learning_style:q43_b"] = "con dificultad y sin mucho detalle.";
 $string["learning_style:q44"] = "Cuando resuelvo problemas en grupo, soy más propenso a";
 $string["learning_style:q44_a"] = "pensar en los pasos del proceso de solución.";
 $string["learning_style:q44_b"] = "pensar en las posibles consecuencias o aplicaciones de la solución en una amplia gama de áreas.";
+
+// Cadenas de la sección administrativa
+$string['admin_title'] = 'Administración de Estilos de Aprendizaje';
+$string['admin_access_denied'] = 'Acceso denegado. Solo profesores y administradores pueden ver esta página.';
+$string['admin_statistics'] = 'Estadísticas Generales';
+$string['total_participants'] = 'Total de Participantes';
+$string['participants_list'] = 'Lista de Participantes';
+$string['participant'] = 'Participante';
+$string['completion_date'] = 'Fecha de Finalización';
+$string['learning_profile'] = 'Perfil de Aprendizaje';
+$string['actions'] = 'Acciones';
+$string['view_details'] = 'Ver Detalles';
+$string['confirm_delete_learning_style'] = '¿Está seguro de que desea eliminar este resultado de estilo de aprendizaje?';
+$string['learning_style_deleted'] = 'Resultado de estilo de aprendizaje eliminado exitosamente';
+$string['no_participants'] = 'No se encontraron participantes';
+$string['no_data_available'] = 'No Hay Datos Disponibles';
+$string['no_participants_message'] = 'Los estudiantes aún no han completado la evaluación de estilos de aprendizaje.';
+$string['back_to_course'] = 'Volver al Curso';
+$string['back_to_admin'] = 'Volver a la Administración';
+
+// Etiquetas de dimensiones
+$string['dimension_active'] = 'Activo';
+$string['dimension_reflexive'] = 'Reflexivo';
+$string['dimension_sensorial'] = 'Sensorial';
+$string['dimension_intuitive'] = 'Intuitivo';
+$string['dimension_visual'] = 'Visual';
+$string['dimension_verbal'] = 'Verbal';
+$string['dimension_sequential'] = 'Secuencial';
+$string['dimension_global'] = 'Global';
+
+// Etiquetas de perfil
+$string['profile_active'] = 'Activo';
+$string['profile_reflexive'] = 'Reflexivo';
+$string['profile_sensorial'] = 'Sensorial';
+$string['profile_intuitive'] = 'Intuitivo';
+$string['profile_visual'] = 'Visual';
+$string['profile_verbal'] = 'Verbal';
+$string['profile_sequential'] = 'Secuencial';
+$string['profile_global'] = 'Global';
+
+// Página de resultados individuales
+$string['individual_results_title'] = 'Resultados Individuales de Estilo de Aprendizaje';
+$string['learning_style_results_for'] = 'Resultados de Estilo de Aprendizaje para';
+$string['completed_on'] = 'Completado el';
+$string['processing_dimension'] = 'Dimensión de Procesamiento';
+$string['perception_dimension'] = 'Dimensión de Percepción';
+$string['input_dimension'] = 'Dimensión de Entrada';
+$string['understanding_dimension'] = 'Dimensión de Comprensión';
+$string['active_learner'] = 'Aprendiz Activo';
+$string['reflexive_learner'] = 'Aprendiz Reflexivo';
+$string['sensorial_learner'] = 'Aprendiz Sensorial';
+$string['intuitive_learner'] = 'Aprendiz Intuitivo';
+$string['visual_learner'] = 'Aprendiz Visual';
+$string['verbal_learner'] = 'Aprendiz Verbal';
+$string['sequential_learner'] = 'Aprendiz Secuencial';
+$string['global_learner'] = 'Aprendiz Global';
+$string['dominant_style'] = 'Estilo Dominante';
+$string['learning_profile_summary'] = 'Resumen del Perfil de Aprendizaje';
+$string['technical_data'] = 'Datos Técnicos';
+
+// Descripciones de perfil
+$string['profile_active_description'] = 'Prefiere aprender haciendo, experimentando y trabajando con otros';
+$string['profile_reflexive_description'] = 'Prefiere pensar las cosas y trabajar solo';
+$string['profile_sensorial_description'] = 'Prefiere información concreta y práctica y procedimientos paso a paso';
+$string['profile_intuitive_description'] = 'Prefiere conceptos, teorías e información abstracta';
+$string['profile_visual_description'] = 'Aprende mejor con representaciones visuales como diagramas y gráficos';
+$string['profile_verbal_description'] = 'Aprende mejor con explicaciones escritas y habladas';
+$string['profile_sequential_description'] = 'Aprende en pequeños pasos conectados y sigue secuencias lógicas';
+$string['profile_global_description'] = 'Aprende en grandes saltos y necesita ver el panorama general primero';
+
+// Errores
+$string['learning_style_not_found'] = 'Resultado de estilo de aprendizaje no encontrado para este usuario y curso.';
+
+// Integración con el bloque
+$string['view_admin_results'] = 'Ver Administración';
