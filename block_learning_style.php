@@ -91,11 +91,8 @@ class block_learning_style extends block_base
             $entry = $DB->get_record('learning_style', array('user' => $USER->id, 'course' => $COURSE->id));
 
             if (!$entry) {
-                if (isset($this->config->learning_style_content) && isset($this->config->learning_style_content["text"])) {
-                    $SESSION->learning_style = $this->config->learning_style_content["text"];
-                    $redirect = new moodle_url('/blocks/learning_style/view.php', array('cid' => $COURSE->id));
-                    redirect($redirect);
-                }
+                // Mostrar invitación al test sin redirigir
+                $this->content->text .= $this->get_test_invitation();
             } else {
                 $final_style = [];
 
@@ -133,6 +130,14 @@ class block_learning_style extends block_base
 
                 krsort($final_style);
 
+                // Header con icono de éxito
+                $this->content->text .= '<div class="learning-results-block" style="padding: 15px; background: white; border-radius: 8px; border: 1px solid #dee2e6;">';
+                $this->content->text .= '<div class="learning-header text-center mb-3">';
+                $this->content->text .= '<i class="fa fa-check-circle text-success" style="font-size: 1.5em; text-shadow: 0 1px 2px rgba(0,0,0,0.1);"></i>';
+                $this->content->text .= '<h6 class="mt-2 mb-1">' . get_string('test_completed', 'block_learning_style') . '</h6>';
+                $this->content->text .= '<small class="text-muted">' . get_string('your_learning_style', 'block_learning_style') . '</small>';
+                $this->content->text .= '</div>';
+                
                 $this->content->text .= "<p class='alpyintro'>Según el modelo de Estilos de Aprendizaje de Felder y Soloman, toda persona tiene mayor inclinación a un estilo u otro. En tu caso, los estilos de aprendizaje que más predominan en cada eje, son:</p>";
                 $this->content->text .= "<link rel='stylesheet' href='".$CFG->wwwroot."/blocks/learning_style/styles.css'>";
                 //bootstrap css
@@ -217,6 +222,7 @@ class block_learning_style extends block_base
                                             });
                                         });
                 </script>";
+                $this->content->text .= '</div>'; // Cerrar learning-results-block
             }
         } else {
             // Verificar si el usuario es profesor o administrador
@@ -270,6 +276,83 @@ class block_learning_style extends block_base
         }
 
         return $this->content;
+    }
+
+    /**
+     * Método para mostrar la invitación al test de estilos de aprendizaje
+     */
+    private function get_test_invitation() {
+        global $COURSE, $CFG, $SESSION;
+        
+        $output = '';
+        $output .= '<div class="learning-invitation-block">';
+        
+        // Header with lightbulb icon
+        $output .= '<div class="learning-header text-center mb-3">';
+        $output .= '<i class="fa fa-lightbulb-o text-warning" style="font-size: 1.8em;"></i>';
+        $output .= '<h6 class="mt-2 mb-1">' . get_string('test_title', 'block_learning_style') . '</h6>';
+        $output .= '<small class="text-muted">' . get_string('discover_your_style', 'block_learning_style') . '</small>';
+        $output .= '</div>';
+        
+        // Test description card
+        $output .= '<div class="learning-description mb-3">';
+        $output .= '<div class="card border-info">';
+        $output .= '<div class="card-body p-3">';
+        $output .= '<h6 class="card-title">';
+        $output .= '<i class="fa fa-info-circle text-info"></i> ';
+        $output .= get_string('what_is_felder', 'block_learning_style');
+        $output .= '</h6>';
+        $output .= '<p class="card-text small mb-2">' . get_string('test_description', 'block_learning_style') . '</p>';
+        $output .= '<ul class="list-unstyled small mb-0">';
+        $output .= '<li><i class="fa fa-check text-success"></i> ' . get_string('feature_44_questions', 'block_learning_style') . '</li>';
+        $output .= '<li><i class="fa fa-check text-success"></i> ' . get_string('feature_4_dimensions', 'block_learning_style') . '</li>';
+        $output .= '<li><i class="fa fa-check text-success"></i> ' . get_string('feature_instant_results', 'block_learning_style') . '</li>';
+        $output .= '</ul>';
+        $output .= '</div>';
+        $output .= '</div>';
+        $output .= '</div>';
+        
+        // Action button
+        $output .= '<div class="learning-actions text-center">';
+        if (isset($this->config->learning_style_content) && isset($this->config->learning_style_content["text"])) {
+            $SESSION->learning_style = $this->config->learning_style_content["text"];
+            $url = new moodle_url('/blocks/learning_style/view.php', array('cid' => $COURSE->id));
+            $output .= '<a href="' . $url . '" class="btn btn-warning btn-block">';
+            $output .= '<i class="fa fa-rocket"></i> <span>' . get_string('start_test', 'block_learning_style') . '</span>';
+            $output .= '</a>';
+        } else {
+            $output .= '<div class="alert alert-warning">' . get_string('test_not_configured', 'block_learning_style') . '</div>';
+        }
+        $output .= '</div>';
+        
+        $output .= '</div>';
+        
+        // Add custom CSS for invitation
+        $output .= '<style>
+        .learning-invitation-block {
+            padding: 15px;
+            background: linear-gradient(135deg, #fff9e6 0%, #f8f9fa 100%);
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .learning-header i {
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .learning-description .card {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .learning-actions .btn {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .learning-actions .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        </style>';
+        
+        return $output;
     }
 
     /**
