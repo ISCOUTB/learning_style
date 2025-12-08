@@ -20,16 +20,19 @@ jobs:
         VERSION=$(grep "plugin->release" version.php | sed -n "s/.*'\([^']*\)'.*/\1/p")
         BUILD_NUMBER=$(grep "plugin->version" version.php | sed -n "s/.*= *\([0-9]*\).*/\1/p")
         BRANCH=${GITHUB_REF#refs/heads/}
+        SAFE_BRANCH=$(echo "$BRANCH" | sed 's/[^a-zA-Z0-9._-]/_/g')
         COMMIT=${GITHUB_SHA:0:7}
         
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
         echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+        echo "safe_branch=$SAFE_BRANCH" >> $GITHUB_OUTPUT
         echo "commit=$COMMIT" >> $GITHUB_OUTPUT
         
         echo "Building version: $VERSION"
         echo "Build number: $BUILD_NUMBER"
         echo "Branch: $BRANCH"
+        echo "Safe branch: $SAFE_BRANCH"
         echo "Commit: $COMMIT"
         
     - name: Create development package
@@ -45,7 +48,7 @@ jobs:
         
         # Create development ZIP
         cd learning_style_dev_package
-        zip -r ../learning_style_dev_${{ steps.get_info.outputs.branch }}_${{ steps.get_info.outputs.commit }}.zip .
+        zip -r ../learning_style_dev_${{ steps.get_info.outputs.safe_branch }}_${{ steps.get_info.outputs.commit }}.zip .
         cd ..
         
         echo "Development package created successfully"
@@ -54,8 +57,8 @@ jobs:
     - name: Upload development artifact
       uses: actions/upload-artifact@v4
       with:
-        name: learning-style-dev-${{ steps.get_info.outputs.branch }}-${{ steps.get_info.outputs.commit }}
-        path: learning_style_dev_${{ steps.get_info.outputs.branch }}_${{ steps.get_info.outputs.commit }}.zip
+        name: learning-style-dev-${{ steps.get_info.outputs.safe_branch }}-${{ steps.get_info.outputs.commit }}
+        path: learning_style_dev_${{ steps.get_info.outputs.safe_branch }}_${{ steps.get_info.outputs.commit }}.zip
         retention-days: 30
         
     - name: Validate plugin structure
