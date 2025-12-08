@@ -277,3 +277,28 @@ $string['learning_style_not_found'] = 'Learning style result not found for this 
 
 // Block integration
 $string['view_admin_results'] = 'View Administration';
+
+// Test invitation
+$string['test_title'] = 'Learning Styles Test';
+$string['discover_your_style'] = 'Discover your learning style';
+$string['what_is_felder'] = 'What is the Felder-Soloman Model?';
+$string['test_description'] = 'Identifies your preferences in the way you process and organize information for learning.';
+$string['feature_44_questions'] = '44 quick questions';
+$string['feature_4_dimensions'] = '4 learning dimensions';
+$string['feature_instant_results'] = 'Instant results with recommendations';
+$string['start_test'] = 'Start Test';
+$string['test_not_configured'] = 'Test is not configured. Please contact your instructor.';
+$string['test_completed'] = 'Test Completed';
+$string['your_learning_style'] = 'Your Learning Style';
+
+// Test page content
+$string['test_page_title'] = 'Learning Styles Test';
+$string['test_intro_p1'] = 'This test is based on the <strong>Felder-Soloman Model</strong>, a tool that identifies your preferences in how you process and organize information for learning.';
+$string['test_intro_p2'] = 'Knowing your learning style will allow you to:';
+$string['test_benefit_1'] = '• Identify the most effective study strategies for you';
+$string['test_benefit_2'] = '• Better understand how you process information';
+$string['test_benefit_3'] = '• Make the most of the resources available in the course';
+$string['test_intro_p3'] = 'The test consists of <strong>44 quick questions</strong> that evaluate 4 dimensions: Active/Reflective, Sensory/Intuitive, Visual/Verbal, and Sequential/Global. There are no right or wrong answers, just choose the option that best describes you.';
+$string['test_lets_begin'] = 'Let\'s begin!';
+$string['test_note'] = 'Note:';
+$string['test_all_required'] = 'All questions are required';
