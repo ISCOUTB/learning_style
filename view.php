@@ -42,19 +42,22 @@ if (has_capability('moodle/course:viewhiddensections', $context)) {
 
 echo "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC' crossorigin='anonymous'>";
 echo "<div class='container'>";
-echo "<h1 class='title_learning_style'>Primer paso, vamos a conocer tu estilo de aprendizaje</h1>";
+echo "<h1 class='title_learning_style'>" . get_string('test_page_title', 'block_learning_style') . "</h1>";
 echo "
 <p>
-¡Bienvenido al curso!<br>
+" . get_string('test_intro_p1', 'block_learning_style') . "<br>
 <br>
-Acá tendrás a disposición herramientas adicionales y los conocimientos fundamentales necesarios para que te conviertas en un buen programador, independientemente de la carrera que estudies. Nuestro objetivo principal es proporcionarte una experiencia de aprendizaje personalizada y significativa que te permita alcanzar tus metas profesionales y académicas.<br>
+" . get_string('test_intro_p2', 'block_learning_style') . "<br>
+" . get_string('test_benefit_1', 'block_learning_style') . "<br>
+" . get_string('test_benefit_2', 'block_learning_style') . "<br>
+" . get_string('test_benefit_3', 'block_learning_style') . "<br>
 <br>
-Antes de empezar, te invitamos a realizar el siguiente test sobre tu estilo de aprendizaje y preferencia de recursos de aprendizaje. Esto nos permitirá conocerte y recomendarte mejor los recursos a los que tendrás acceso en el curso.<br>
+" . get_string('test_intro_p3', 'block_learning_style') . "<br>
 <br>
-Comencemos!
+" . get_string('test_lets_begin', 'block_learning_style') . "
 </p>
 <div style='background-color: #e3f2fd; border-left: 4px solid #2196F3; padding: 12px 16px; margin-bottom: 20px; border-radius: 4px;'>
-    <strong>Nota:</strong> Todas las preguntas son obligatorias (<span style='color: #d32f2f;'>*</span>)
+    <strong>" . get_string('test_note', 'block_learning_style') . "</strong> " . get_string('test_all_required', 'block_learning_style') . " (<span style='color: #d32f2f;'>*</span>)
 </div>
 ";
 $action_form = new moodle_url('/blocks/learning_style/save.php');
