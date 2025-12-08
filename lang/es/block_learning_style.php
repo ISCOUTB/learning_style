@@ -274,3 +274,28 @@ $string['learning_style_not_found'] = 'Resultado de estilo de aprendizaje no enc
 
 // Integración con el bloque
 $string['view_admin_results'] = 'Ver Administración';
+
+// Invitación al test
+$string['test_title'] = 'Test de Estilos de Aprendizaje';
+$string['discover_your_style'] = 'Descubre tu estilo de aprendizaje';
+$string['what_is_felder'] = '¿Qué es el Modelo Felder-Soloman?';
+$string['test_description'] = 'Identifica tus preferencias en la forma de procesar y organizar la información para aprender.';
+$string['feature_44_questions'] = '44 preguntas rápidas';
+$string['feature_4_dimensions'] = '4 dimensiones de aprendizaje';
+$string['feature_instant_results'] = 'Resultados instantáneos con recomendaciones';
+$string['start_test'] = 'Iniciar Test';
+$string['test_not_configured'] = 'El test no está configurado. Por favor contacta a tu instructor.';
+$string['test_completed'] = 'Test Completado';
+$string['your_learning_style'] = 'Tu Estilo de Aprendizaje';
+
+// Contenido de la página del test
+$string['test_page_title'] = 'Test de Estilos de Aprendizaje';
+$string['test_intro_p1'] = 'Este test está basado en el <strong>Modelo de Felder-Soloman</strong>, una herramienta que identifica tus preferencias en la forma de procesar y organizar la información para aprender.';
+$string['test_intro_p2'] = 'Conocer tu estilo de aprendizaje te permitirá:';
+$string['test_benefit_1'] = '• Identificar las estrategias de estudio más efectivas para ti';
+$string['test_benefit_2'] = '• Comprender mejor cómo procesas la información';
+$string['test_benefit_3'] = '• Aprovechar al máximo los recursos disponibles en el curso';
+$string['test_intro_p3'] = 'El test consta de <strong>44 preguntas rápidas</strong> que evalúan 4 dimensiones: Activo/Reflexivo, Sensorial/Intuitivo, Visual/Verbal y Secuencial/Global. No hay respuestas correctas o incorrectas, solo elige la opción que mejor te describa.';
+$string['test_lets_begin'] = '¡Comencemos!';
+$string['test_note'] = 'Nota:';
+$string['test_all_required'] = 'Todas las preguntas son obligatorias';
