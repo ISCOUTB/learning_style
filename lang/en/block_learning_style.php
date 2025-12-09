@@ -302,3 +302,6 @@ $string['test_intro_p3'] = 'The test consists of <strong>44 quick questions</str
 $string['test_lets_begin'] = 'Let\'s begin!';
 $string['test_note'] = 'Note:';
 $string['test_all_required'] = 'All questions are required';
+
+// Export filenames
+$string['export_filename'] = 'Learning_Styles';
