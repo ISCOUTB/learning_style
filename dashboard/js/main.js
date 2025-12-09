@@ -7,8 +7,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   let actor_expandir = document.getElementById("expandir_actor");
   let icon_exp = document.getElementById("icon_exp");
 
-  const url_params = new URLSearchParams(window.location.search);
-  const course_id = url_params.get("id"); // Esto obtiene el valor del parámetro "id" en la URL
+  // Obtener el course_id desde el atributo data-courseid del contenedor
+  const dashboardContainer = document.getElementById("learning-style-dashboard");
+  let course_id = dashboardContainer ? dashboardContainer.getAttribute("data-courseid") : null;
+  
+  // Si no está en el contenedor, intentar obtenerlo de la URL (para compatibilidad con admin_view.php)
+  if (!course_id) {
+    const url_params = new URLSearchParams(window.location.search);
+    course_id = url_params.get("id") || url_params.get("courseid");
+  }
+  
+  if (!course_id) {
+    console.error("No se pudo obtener el ID del curso");
+    total_enc.innerText = "Error";
+    est_dom.innerText = "N/A";
+    est_men_dom.innerText = "N/A";
+    return;
+  }
+  
   let form = new FormData();
   form.append("id", course_id);
   let request_get_metrics = await fetch(
