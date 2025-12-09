@@ -1,7 +1,6 @@
 <?php
 
 require_once('../../config.php');
-require_once($CFG->libdir.'/csvlib.class.php');
 
 // Parámetros de entrada
 $courseid = required_param('courseid', PARAM_INT);
@@ -18,20 +17,26 @@ $context = context_course::instance($course->id);
 require_login($course, false);
 require_capability('moodle/course:viewhiddensections', $context);
 
-// Consulta SQL para obtener los resultados de los estudiantes
-$sql = "SELECT u.id, u.firstname, u.lastname, u.email, u.username,
-               ls.ap_active, ls.ap_reflexivo, ls.ap_sensorial, ls.ap_intuitivo,
-               ls.ap_visual, ls.ap_verbal, ls.ap_secuencial, ls.ap_global,
-               ls.act_ref, ls.sen_int, ls.vis_vrb, ls.seq_glo, ls.created_at
-        FROM {user} u
-        INNER JOIN {learning_style} ls ON u.id = ls.user
-        INNER JOIN {enrol} e ON e.courseid = ?
-        INNER JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = u.id)
-        WHERE u.deleted = 0 AND u.confirmed = 1 AND ls.course = ?
-        ORDER BY u.lastname, u.firstname";
+// Get enrolled students in this course
+$enrolled_students = get_enrolled_users($context, '', 0, 'u.id');
+$enrolled_ids = array_keys($enrolled_students);
 
-$params = array($courseid, $courseid);
-$results = $DB->get_records_sql($sql, $params);
+// Consulta SQL para obtener los resultados de los estudiantes inscritos
+$results = array();
+if (!empty($enrolled_ids)) {
+    list($insql, $params) = $DB->get_in_or_equal($enrolled_ids, SQL_PARAMS_NAMED, 'user');
+    
+    $sql = "SELECT u.id, u.firstname, u.lastname, u.email, u.username, u.idnumber,
+                   ls.ap_active, ls.ap_reflexivo, ls.ap_sensorial, ls.ap_intuitivo,
+                   ls.ap_visual, ls.ap_verbal, ls.ap_secuencial, ls.ap_global,
+                   ls.act_ref, ls.sen_int, ls.vis_vrb, ls.seq_glo, ls.created_at
+            FROM {user} u
+            INNER JOIN {learning_style} ls ON u.id = ls.user
+            WHERE u.deleted = 0 AND u.confirmed = 1 AND u.id $insql
+            ORDER BY u.lastname, u.firstname";
+    
+    $results = $DB->get_records_sql($sql, $params);
+}
 
 // Definir las cabeceras del CSV
 $headers = array(
@@ -55,17 +60,30 @@ $headers = array(
     'Fecha de Test'
 );
 
-// Crear el archivo CSV
-$filename = 'learning_styles_course_' . $courseid . '_' . date('Y-m-d') . '.csv';
-$csvexport = new csv_export_writer();
-$csvexport->set_filename($filename);
-$csvexport->add_data($headers);
+// Crear el archivo CSV con nombre elegante usando string de idioma
+$course_name = preg_replace('/[^a-z0-9]/i', '_', strtolower($course->shortname));
+$date_str = date('Y-m-d');
+$filename = get_string('export_filename', 'block_learning_style') . '_' . $course_name . '_' . $date_str . '.csv';
+
+// Configurar cabeceras HTTP para descarga
+header('Content-Type: text/csv; charset=utf-8');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Cache-Control: max-age=0');
+
+// Abrir flujo de salida
+$output = fopen('php://output', 'w');
+
+// BOM para UTF-8 (para que Excel lo reconozca correctamente)
+fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+// Escribir cabeceras
+fputcsv($output, $headers);
 
 // Agregar los datos de los estudiantes
 if (!empty($results)) {
     foreach ($results as $result) {
         $row = array(
-            $result->id,
+            $result->idnumber,
             $result->firstname,
             $result->lastname,
             $result->email,
@@ -84,10 +102,10 @@ if (!empty($results)) {
             $result->seq_glo,
             userdate($result->created_at, '%Y-%m-%d %H:%M')
         );
-        $csvexport->add_data($row);
+        fputcsv($output, $row);
     }
 }
 
-// Descargar el archivo
-$csvexport->download_file();
+// Cerrar y descargar
+fclose($output);
 exit;
