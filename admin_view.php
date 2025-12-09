@@ -36,7 +36,8 @@ $PAGE->set_heading(get_string('admin_title', 'block_learning_style'));
 // Manejar acciones de eliminación
 if ($action === 'delete' && $userid && confirm_sesskey()) {
     if (has_capability('moodle/course:manageactivities', $context)) {
-        $DB->delete_records('learning_style', array('user' => $userid, 'course' => $courseid));
+        // Delete global test result for this user
+        $DB->delete_records('learning_style', array('user' => $userid));
         redirect($PAGE->url, get_string('learning_style_deleted', 'block_learning_style'), null, \core\output\notification::NOTIFY_SUCCESS);
     }
 }
@@ -48,7 +49,17 @@ echo html_writer::start_div('learning-style-admin-container');
 echo html_writer::tag('h3', get_string('admin_title', 'block_learning_style'), array('class' => 'text-primary mb-4'));
 
 // Estadísticas generales
-$total_participants = $DB->count_records('learning_style', array('course' => $courseid));
+// Get enrolled students in this course
+$context = context_course::instance($courseid);
+$enrolled_students = get_enrolled_users($context, '', 0, 'u.id');
+$enrolled_ids = array_keys($enrolled_students);
+
+// Count participants who are enrolled in this course
+$total_participants = 0;
+if (!empty($enrolled_ids)) {
+    list($insql, $params) = $DB->get_in_or_equal($enrolled_ids, SQL_PARAMS_NAMED);
+    $total_participants = $DB->count_records_select('learning_style', "user $insql", $params);
+}
 
 if ($total_participants > 0) {
     // Estadísticas por dimensión
@@ -65,10 +76,14 @@ if ($total_participants > 0) {
     );
 
     foreach ($dimensions as $dimension => $label) {
-        $avg = $DB->get_record_sql(
-            "SELECT AVG({$dimension}) as average FROM {learning_style} WHERE course = ?",
-            array($courseid)
-        );
+        $avg = null;
+        if (!empty($enrolled_ids)) {
+            list($insql, $params) = $DB->get_in_or_equal($enrolled_ids, SQL_PARAMS_NAMED);
+            $avg = $DB->get_record_sql(
+                "SELECT AVG({$dimension}) as average FROM {learning_style} WHERE user $insql",
+                $params
+            );
+        }
         $stats[$dimension] = round($avg->average, 2);
     }
 
@@ -98,18 +113,23 @@ if ($total_participants > 0) {
     echo html_writer::end_div();
 }
 
-// Obtener lista de participantes con información del usuario optimizada
+// Obtener lista de participantes inscritos que han completado el test
 if ($total_participants > 0) {
     $userfieldsapi = \core_user\fields::for_name();
     $userfields = $userfieldsapi->get_sql('u', false, '', '', false)->selects;
     
-    $sql = "SELECT ls.*, {$userfields}
-            FROM {learning_style} ls
-            JOIN {user} u ON ls.user = u.id
-            WHERE ls.course = ?
-            ORDER BY ls.updated_at DESC";
-    
-    $participants = $DB->get_records_sql($sql, array($courseid));
+    $participants = array();
+    if (!empty($enrolled_ids)) {
+        list($insql, $params) = $DB->get_in_or_equal($enrolled_ids, SQL_PARAMS_NAMED);
+        
+        $sql = "SELECT ls.*, {$userfields}
+                FROM {learning_style} ls
+                JOIN {user} u ON ls.user = u.id
+                WHERE ls.user $insql
+                ORDER BY ls.updated_at DESC";
+        
+        $participants = $DB->get_records_sql($sql, $params);
+    }
 
     // Tabla de participantes
     echo html_writer::start_div('card');
