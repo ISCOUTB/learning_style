@@ -87,8 +87,8 @@ class block_learning_style extends block_base
 
         //Check if user is student
         if (isset($COURSE_ROLED_AS_STUDENT->id) && $COURSE_ROLED_AS_STUDENT->id) {
-            //check if user already have the learning style
-            $entry = $DB->get_record('learning_style', array('user' => $USER->id, 'course' => $COURSE->id));
+            //check if user already have the learning style (in any course)
+            $entry = $DB->get_record('learning_style', array('user' => $USER->id));
 
             if (!$entry) {
                 // Mostrar invitación al test sin redirigir
@@ -261,7 +261,10 @@ class block_learning_style extends block_base
                 if (file_exists($dashboard_file)) {
                     $view = file_get_contents($dashboard_file);
                     if ($view !== false && !empty(trim($view))) {
+                        // Inyectar el course ID en el HTML para que el JavaScript lo use
+                        $this->content->text .= '<div id="learning-style-dashboard" data-courseid="' . $COURSE->id . '">';
                         $this->content->text .= $view;
+                        $this->content->text .= '</div>';
                     } else {
                         // Fallback si el archivo está vacío
                         $this->content->text .= $this->get_teacher_dashboard_fallback();
@@ -361,8 +364,32 @@ class block_learning_style extends block_base
     private function get_teacher_dashboard_fallback() {
         global $DB, $COURSE;
         
-        // Obtener estadísticas básicas
-        $total_students = $DB->count_records('learning_style', array('course' => $COURSE->id));
+        // Obtener estudiantes inscritos en el curso con rol de estudiante
+        $context = context_course::instance($COURSE->id);
+        $enrolled_students = get_enrolled_users($context, '', 0, 'u.id', null, 0, 0, true);
+        
+        // Filtrar solo estudiantes (rol 5)
+        $student_ids = array();
+        foreach ($enrolled_students as $user) {
+            $roles = get_user_roles($context, $user->id);
+            foreach ($roles as $role) {
+                if ($role->roleid == 5) { // 5 = student
+                    $student_ids[] = $user->id;
+                    break;
+                }
+            }
+        }
+        
+        // Obtener estadísticas solo de estudiantes inscritos
+        $total_students = 0;
+        $results = array();
+        
+        if (!empty($student_ids)) {
+            list($insql, $params) = $DB->get_in_or_equal($student_ids, SQL_PARAMS_NAMED, 'user');
+            $sql = "SELECT * FROM {learning_style} WHERE user $insql";
+            $results = $DB->get_records_sql($sql, $params);
+            $total_students = count($results);
+        }
         
         $fallback_content = '';
         $fallback_content .= '<div style="padding: 20px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; margin: 10px 0;">';
@@ -378,7 +405,6 @@ class block_learning_style extends block_base
             $fallback_content .= '</div>';
             
             // Calcular estadísticas básicas
-            $results = $DB->get_records('learning_style', array('course' => $COURSE->id));
             
             if ($results) {
                 $stats = array(

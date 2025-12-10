@@ -27,8 +27,8 @@ if (!$is_teacher && !$is_admin) {
     throw new moodle_exception('nopermissions', 'error', '', get_string('admin_access_denied', 'block_learning_style'));
 }
 
-// Obtener datos del estilo de aprendizaje
-$learning_style = $DB->get_record('learning_style', array('user' => $userid, 'course' => $courseid));
+// Obtener datos del estilo de aprendizaje (en cualquier curso)
+$learning_style = $DB->get_record('learning_style', array('user' => $userid));
 
 if (!$learning_style) {
     throw new moodle_exception('learning_style_not_found', 'block_learning_style');
