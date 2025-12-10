@@ -299,3 +299,6 @@ $string['test_intro_p3'] = 'El test consta de <strong>44 preguntas rápidas</str
 $string['test_lets_begin'] = '¡Comencemos!';
 $string['test_note'] = 'Nota:';
 $string['test_all_required'] = 'Todas las preguntas son obligatorias';
+
+// Nombres de archivos exportables
+$string['export_filename'] = 'Estilos_de_Aprendizaje';
