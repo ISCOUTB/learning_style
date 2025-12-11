@@ -23,6 +23,7 @@ $string["learning_style_content"] = "Estilos de aprendizaje";
 $string['learning_style:addinstance'] = 'Agregar bloque de estilos de aprendizaje';
 $string['learning_style:myaddinstance'] = 'Agregar bloque de estilos de aprendizaje al inicio';
 $string['download_results'] = 'Descargar Resultados';
+$string['select_option'] = 'Seleccione una opción';
 
 $string["learning_style:q1"] = "Comprendo mejor algo después de";
 $string["learning_style:q1_a"] = "probarlo.";
@@ -255,7 +256,6 @@ $string['visual_learner'] = 'Aprendiz Visual';
 $string['verbal_learner'] = 'Aprendiz Verbal';
 $string['sequential_learner'] = 'Aprendiz Secuencial';
 $string['global_learner'] = 'Aprendiz Global';
-$string['dominant_style'] = 'Estilo Dominante';
 $string['learning_profile_summary'] = 'Resumen del Perfil de Aprendizaje';
 $string['technical_data'] = 'Datos Técnicos';
 
@@ -302,3 +302,57 @@ $string['test_all_required'] = 'Todas las preguntas son obligatorias';
 
 // Nombres de archivos exportables
 $string['export_filename'] = 'Estilos_de_Aprendizaje';
+
+// Continue test strings
+$string['your_progress'] = 'Tu progreso';
+$string['completed'] = 'completado';
+$string['continue_test'] = 'Continuar Test';
+
+// Dashboard strings
+$string['surveyed'] = 'Encuestados';
+$string['dominant_style'] = 'Estilo dominante';
+$string['least_dominant_style'] = 'Estilo menos dominante';
+$string['dominance_order'] = 'Orden de dominancia';
+$string['teacher_recommendation'] = 'Se le recomienda al docente:';
+$string['no_completed_tests'] = 'No hay tests completados';
+$string['no_data_message'] = 'Los gráficos y estadísticas se mostrarán cuando los estudiantes completen el test de estilos de aprendizaje.';
+$string['select_chart'] = 'Seleccionar gráfico:';
+$string['chart_radar'] = 'Perfil de estilos de aprendizaje';
+$string['chart_pie'] = 'Proporción de estilos de aprendizaje';
+$string['chart_bar'] = 'Perfil cuantitativo de estilos de aprendizaje';
+
+// View individual strings
+$string['test_in_progress'] = 'Test en progreso';
+$string['has_answered'] = 'ha respondido';
+$string['of_44_questions'] = 'de 44 preguntas.';
+$string['results_available_when_complete'] = 'Los resultados estarán disponibles cuando complete el test.';
+
+// Admin view strings
+$string['in_progress'] = 'En progreso';
+$string['completed_status'] = 'Completado';
+$string['in_progress_status'] = 'En progreso';
+$string['progress_label'] = 'Progreso';
+$string['questions_label'] = 'preguntas';
+
+// Teacher recommendations for dashboard
+$string['visual_rec1'] = 'Incorporar gráficos, diagramas, videos y mapas mentales.';
+$string['visual_rec2'] = 'Fomentar el uso de organizadores gráficos, como líneas de tiempo, cuadros comparativos y esquemas jerárquicos.';
+$string['sensory_rec1'] = 'Diseñar actividades de observación y aplicación práctica.';
+$string['sensory_rec2'] = 'Usar ejemplos concretos y proyectos de laboratorio.';
+$string['active_rec1'] = 'Propiciar actividades prácticas.';
+$string['active_rec2'] = 'Fomentar resolución de problemas y proyectos.';
+$string['active_rec3'] = 'Incentivar discusiones y trabajo en grupo.';
+$string['global_rec1'] = 'Presentar una visión general antes de los detalles.';
+$string['global_rec2'] = 'Fomentar conexiones y proyectos integradores.';
+$string['verbal_rec1'] = 'Promover lectura, escritura y discusión en grupos.';
+$string['verbal_rec2'] = 'Fomentar técnicas de memorización verbal.';
+$string['intuitive_rec1'] = 'Proponer búsqueda de patrones y conexiones.';
+$string['intuitive_rec2'] = 'Emplear analogías e historias.';
+$string['intuitive_rec3'] = 'Fomentar actividades creativas y resolución de problemas complejos.';
+$string['reflexive_rec1'] = 'Asignar lecturas reflexivas.';
+$string['reflexive_rec2'] = 'Promover la toma de notas y la reflexión.';
+$string['reflexive_rec3'] = 'Utilizar análisis de casos y autoevaluaciones.';
+$string['sequential_rec1'] = 'Organizar contenidos de manera lógica.';
+$string['sequential_rec2'] = 'Proponer actividades paso a paso.';
+$string['chart_distribution_title'] = 'Distribución de estilos de aprendizaje';
+$string['not_applicable'] = 'N/A';

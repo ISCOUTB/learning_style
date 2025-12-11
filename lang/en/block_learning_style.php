@@ -24,6 +24,7 @@ $string["learning_style_content"] = "Content text";
 $string['learning_style:addinstance'] = 'Add a new learning_style block';
 $string['learning_style:myaddinstance'] = 'Add a new learning_style block to My home';
 $string['download_results'] = 'Download Results';
+$string['select_option'] = 'Select an option';
 
 $string["learning_style:q1"] = "I understand something better after I";
 $string["learning_style:q1_a"] = "try it out.";
@@ -258,7 +259,6 @@ $string['visual_learner'] = 'Visual Learner';
 $string['verbal_learner'] = 'Verbal Learner';
 $string['sequential_learner'] = 'Sequential Learner';
 $string['global_learner'] = 'Global Learner';
-$string['dominant_style'] = 'Dominant Style';
 $string['learning_profile_summary'] = 'Learning Profile Summary';
 $string['technical_data'] = 'Technical Data';
 
@@ -305,3 +305,57 @@ $string['test_all_required'] = 'All questions are required';
 
 // Export filenames
 $string['export_filename'] = 'Learning_Styles';
+
+// Continue test strings
+$string['your_progress'] = 'Your progress';
+$string['completed'] = 'completed';
+$string['continue_test'] = 'Continue Test';
+
+// Dashboard strings
+$string['surveyed'] = 'Surveyed';
+$string['dominant_style'] = 'Dominant style';
+$string['least_dominant_style'] = 'Least dominant style';
+$string['dominance_order'] = 'Order of dominance';
+$string['teacher_recommendation'] = 'Teacher recommendations:';
+$string['no_completed_tests'] = 'No completed tests';
+$string['no_data_message'] = 'Charts and statistics will be displayed when students complete the learning styles test.';
+$string['select_chart'] = 'Select chart:';
+$string['chart_radar'] = 'Learning styles profile';
+$string['chart_pie'] = 'Learning styles proportion';
+$string['chart_bar'] = 'Quantitative learning styles profile';
+
+// View individual strings
+$string['test_in_progress'] = 'Test in progress';
+$string['has_answered'] = 'has answered';
+$string['of_44_questions'] = 'of 44 questions.';
+$string['results_available_when_complete'] = 'Results will be available when the test is completed.';
+
+// Admin view strings
+$string['in_progress'] = 'In progress';
+$string['completed_status'] = 'Completed';
+$string['in_progress_status'] = 'In progress';
+$string['progress_label'] = 'Progress';
+$string['questions_label'] = 'questions';
+
+// Teacher recommendations for dashboard
+$string['visual_rec1'] = 'Incorporate graphics, diagrams, videos, and mind maps.';
+$string['visual_rec2'] = 'Encourage the use of graphic organizers such as timelines, comparison charts, and hierarchical diagrams.';
+$string['sensory_rec1'] = 'Design observation and practical application activities.';
+$string['sensory_rec2'] = 'Use concrete examples and laboratory projects.';
+$string['active_rec1'] = 'Promote practical activities.';
+$string['active_rec2'] = 'Encourage problem-solving and projects.';
+$string['active_rec3'] = 'Stimulate discussions and group work.';
+$string['global_rec1'] = 'Present an overview before details.';
+$string['global_rec2'] = 'Encourage connections and integrative projects.';
+$string['verbal_rec1'] = 'Promote reading, writing, and group discussions.';
+$string['verbal_rec2'] = 'Encourage verbal memorization techniques.';
+$string['intuitive_rec1'] = 'Propose pattern and connection searches.';
+$string['intuitive_rec2'] = 'Use analogies and stories.';
+$string['intuitive_rec3'] = 'Encourage creative activities and complex problem-solving.';
+$string['reflexive_rec1'] = 'Assign reflective readings.';
+$string['reflexive_rec2'] = 'Promote note-taking and reflection.';
+$string['reflexive_rec3'] = 'Use case analysis and self-assessments.';
+$string['sequential_rec1'] = 'Organize content logically.';
+$string['sequential_rec2'] = 'Propose step-by-step activities.';
+$string['chart_distribution_title'] = 'Learning styles distribution';
+$string['not_applicable'] = 'N/A';

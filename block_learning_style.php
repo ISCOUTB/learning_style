@@ -93,6 +93,16 @@ class block_learning_style extends block_base
             if (!$entry) {
                 // Mostrar invitación al test sin redirigir
                 $this->content->text .= $this->get_test_invitation();
+            } else if ($entry && isset($entry->is_completed) && $entry->is_completed == 0) {
+                // Test in progress - show continue option
+                $answered = 0;
+                for ($i = 1; $i <= 44; $i++) {
+                    $field = "q{$i}";
+                    if (isset($entry->$field) && $entry->$field !== null) {
+                        $answered++;
+                    }
+                }
+                $this->content->text .= $this->get_continue_test_card($answered);
             } else {
                 $final_style = [];
 
@@ -254,27 +264,56 @@ class block_learning_style extends block_base
                 $this->content->text .= $buttons_container;
             }
             
-            // Verificar si hay configuración y mostrar dashboard o mensaje por defecto
-            if (isset($this->config->learning_style_content) && isset($this->config->learning_style_content["text"])) {
-                // Verificar si el archivo del dashboard existe
-                $dashboard_file = $CFG->dirroot . '/blocks/learning_style/dashboard/view.php';
-                if (file_exists($dashboard_file)) {
-                    $view = file_get_contents($dashboard_file);
-                    if ($view !== false && !empty(trim($view))) {
-                        // Inyectar el course ID en el HTML para que el JavaScript lo use
-                        $this->content->text .= '<div id="learning-style-dashboard" data-courseid="' . $COURSE->id . '">';
-                        $this->content->text .= $view;
-                        $this->content->text .= '</div>';
-                    } else {
-                        // Fallback si el archivo está vacío
-                        $this->content->text .= $this->get_teacher_dashboard_fallback();
-                    }
-                } else {
-                    // Fallback si el archivo no existe
+            // Mostrar dashboard directamente
+            $dashboard_file = $CFG->dirroot . '/blocks/learning_style/dashboard/view.php';
+            if (file_exists($dashboard_file)) {
+                $view = file_get_contents($dashboard_file);
+                if ($view !== false && !empty(trim($view))) {
+                    // Inyectar traducciones y course ID
+                    $this->content->text .= '<div id="learning-style-dashboard" data-courseid="' . $COURSE->id . '">';
+                    $this->content->text .= '<script>window.learningStyleStrings = ' . json_encode([
+                        'visual_rec1' => get_string('visual_rec1', 'block_learning_style'),
+                        'visual_rec2' => get_string('visual_rec2', 'block_learning_style'),
+                        'sensory_rec1' => get_string('sensory_rec1', 'block_learning_style'),
+                        'sensory_rec2' => get_string('sensory_rec2', 'block_learning_style'),
+                        'active_rec1' => get_string('active_rec1', 'block_learning_style'),
+                        'active_rec2' => get_string('active_rec2', 'block_learning_style'),
+                        'active_rec3' => get_string('active_rec3', 'block_learning_style'),
+                        'global_rec1' => get_string('global_rec1', 'block_learning_style'),
+                        'global_rec2' => get_string('global_rec2', 'block_learning_style'),
+                        'verbal_rec1' => get_string('verbal_rec1', 'block_learning_style'),
+                        'verbal_rec2' => get_string('verbal_rec2', 'block_learning_style'),
+                        'intuitive_rec1' => get_string('intuitive_rec1', 'block_learning_style'),
+                        'intuitive_rec2' => get_string('intuitive_rec2', 'block_learning_style'),
+                        'intuitive_rec3' => get_string('intuitive_rec3', 'block_learning_style'),
+                        'reflexive_rec1' => get_string('reflexive_rec1', 'block_learning_style'),
+                        'reflexive_rec2' => get_string('reflexive_rec2', 'block_learning_style'),
+                        'reflexive_rec3' => get_string('reflexive_rec3', 'block_learning_style'),
+                        'sequential_rec1' => get_string('sequential_rec1', 'block_learning_style'),
+                        'sequential_rec2' => get_string('sequential_rec2', 'block_learning_style'),
+                        'label_visual' => get_string('visual', 'block_learning_style'),
+                        'label_sensory' => get_string('sensorial', 'block_learning_style'),
+                        'label_active' => get_string('active', 'block_learning_style'),
+                        'label_global' => get_string('global', 'block_learning_style'),
+                        'label_verbal' => get_string('verbal', 'block_learning_style'),
+                        'label_intuitive' => get_string('intuitive', 'block_learning_style'),
+                        'label_reflexive' => get_string('reflexive', 'block_learning_style'),
+                        'label_sequential' => get_string('sequential', 'block_learning_style'),
+                        'no_completed_tests_title' => get_string('no_completed_tests', 'block_learning_style'),
+                        'no_completed_tests_message' => get_string('no_data_message', 'block_learning_style'),
+                        'chart_title' => get_string('chart_distribution_title', 'block_learning_style'),
+                        'teacher_recommendation' => get_string('teacher_recommendation', 'block_learning_style'),
+                        'na_label' => get_string('not_applicable', 'block_learning_style'),
+                    ]) . ';</script>';
+                    $this->content->text .= $view;
+                    $this->content->text .= '</div>';
+                } else{
+                    // Fallback si el archivo está vacío
                     $this->content->text .= $this->get_teacher_dashboard_fallback();
                 }
             } else {
-                $this->content->text .= "<img src='" . $OUTPUT->pix_url('warning', 'block_learning_style') . "'>" . get_string('learning_style_configempty', 'block_learning_style');
+                // Fallback si el archivo no existe
+                $this->content->text .= $this->get_teacher_dashboard_fallback();
             }
         }
 
@@ -317,15 +356,10 @@ class block_learning_style extends block_base
         
         // Action button
         $output .= '<div class="learning-actions text-center">';
-        if (isset($this->config->learning_style_content) && isset($this->config->learning_style_content["text"])) {
-            $SESSION->learning_style = $this->config->learning_style_content["text"];
-            $url = new moodle_url('/blocks/learning_style/view.php', array('cid' => $COURSE->id));
-            $output .= '<a href="' . $url . '" class="btn btn-warning btn-block">';
-            $output .= '<i class="fa fa-rocket"></i> <span>' . get_string('start_test', 'block_learning_style') . '</span>';
-            $output .= '</a>';
-        } else {
-            $output .= '<div class="alert alert-warning">' . get_string('test_not_configured', 'block_learning_style') . '</div>';
-        }
+        $url = new moodle_url('/blocks/learning_style/view.php', array('cid' => $COURSE->id));
+        $output .= '<a href="' . $url . '" class="btn btn-warning btn-block">';
+        $output .= '<i class="fa fa-rocket"></i> <span>' . get_string('start_test', 'block_learning_style') . '</span>';
+        $output .= '</a>';
         $output .= '</div>';
         
         $output .= '</div>';
@@ -381,13 +415,22 @@ class block_learning_style extends block_base
         }
         
         // Obtener estadísticas solo de estudiantes inscritos
-        $total_students = 0;
+        $total_completed = 0;
+        $total_in_progress = 0;
         $results = array();
         
         if (!empty($student_ids)) {
             list($insql, $params) = $DB->get_in_or_equal($student_ids, SQL_PARAMS_NAMED, 'user');
-            $sql = "SELECT * FROM {learning_style} WHERE user $insql";
-            $results = $DB->get_records_sql($sql, $params);
+            
+            // Get completed tests
+            $sql_completed = "SELECT * FROM {learning_style} WHERE user $insql AND is_completed = 1";
+            $results = $DB->get_records_sql($sql_completed, $params);
+            $total_completed = count($results);
+            
+            // Get in progress tests
+            $sql_progress = "SELECT * FROM {learning_style} WHERE user $insql AND is_completed = 0";
+            $progress_results = $DB->get_records_sql($sql_progress, $params);
+            $total_in_progress = count($progress_results);
             $total_students = count($results);
         }
         
@@ -395,13 +438,19 @@ class block_learning_style extends block_base
         $fallback_content .= '<div style="padding: 20px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; margin: 10px 0;">';
         $fallback_content .= '<h4 style="margin-top: 0; color: #495057;">📊 Resumen de Estilos de Aprendizaje</h4>';
         
-        if ($total_students > 0) {
+        if ($total_completed > 0 || $total_in_progress > 0) {
             $fallback_content .= '<div style="display: flex; flex-wrap: wrap; gap: 15px;">';
             
-            // Estudiantes encuestados
+            // Completados
             $fallback_content .= '<div style="flex: 1; min-width: 120px; background: white; padding: 15px; border-radius: 4px; text-align: center; border: 1px solid #e9ecef;">';
-            $fallback_content .= '<div style="font-size: 24px; font-weight: bold; color: #007bff;">' . $total_students . '</div>';
-            $fallback_content .= '<div style="font-size: 12px; color: #6c757d;">Estudiantes</div>';
+            $fallback_content .= '<div style="font-size: 24px; font-weight: bold; color: #28a745;">' . $total_completed . '</div>';
+            $fallback_content .= '<div style="font-size: 12px; color: #6c757d;">Completados</div>';
+            $fallback_content .= '</div>';
+            
+            // En progreso
+            $fallback_content .= '<div style="flex: 1; min-width: 120px; background: white; padding: 15px; border-radius: 4px; text-align: center; border: 1px solid #e9ecef;">';
+            $fallback_content .= '<div style="font-size: 24px; font-weight: bold; color: #ffc107;">' . $total_in_progress . '</div>';
+            $fallback_content .= '<div style="font-size: 12px; color: #6c757d;">En progreso</div>';
             $fallback_content .= '</div>';
             
             // Calcular estadísticas básicas
@@ -470,5 +519,85 @@ class block_learning_style extends block_base
         $fallback_content .= '</div>';
         
         return $fallback_content;
+    }
+
+    /**
+     * Display continue test card for students with test in progress
+     * Design matches CHASIDE block for consistency
+     */
+    private function get_continue_test_card($answered_count) {
+        global $COURSE;
+        
+        $output = '';
+        $progress_percentage = ($answered_count / 44) * 100;
+        
+        $output .= '<div class="learning-invitation-block" style="padding: 15px; background: linear-gradient(135deg, #fff9e6 0%, #f8f9fa 100%); border-radius: 8px; border: 1px solid #dee2e6;">';
+        
+        // Header with lightbulb icon
+        $output .= '<div class="learning-header text-center mb-3">';
+        $output .= '<i class="fa fa-lightbulb-o text-warning" style="font-size: 1.8em; text-shadow: 0 1px 2px rgba(0,0,0,0.1);"></i>';
+        $output .= '<h6 class="mt-2 mb-1">' . get_string('test_title', 'block_learning_style') . '</h6>';
+        $output .= '<small class="text-muted">' . get_string('discover_your_style', 'block_learning_style') . '</small>';
+        $output .= '</div>';
+        
+        // Description section
+        $output .= '<div class="learning-description mb-3" style="background: white; padding: 10px 12px; border-radius: 5px; border-left: 3px solid #ffc107;">';
+        $output .= '<small class="text-muted" style="line-height: 1.5;">';
+        $output .= '<i class="fa fa-info-circle text-warning"></i> ';
+        $output .= get_string('test_description', 'block_learning_style');
+        $output .= '</small>';
+        $output .= '</div>';
+        
+        // Progress section
+        $output .= '<div class="learning-progress mb-3" style="background: white; padding: 12px; border-radius: 5px; border: 1px solid #e9ecef;">';
+        $output .= '<div class="d-flex justify-content-between align-items-center mb-2">';
+        $output .= '<span class="small font-weight-bold">' . get_string('your_progress', 'block_learning_style') . '</span>';
+        $output .= '<span class="small text-muted">' . $answered_count . '/44</span>';
+        $output .= '</div>';
+        $output .= '<div class="progress mb-2" style="height: 8px;">';
+        $output .= '<div class="progress-bar bg-warning" style="width: ' . $progress_percentage . '%"></div>';
+        $output .= '</div>';
+        $output .= '<small class="text-muted">' . number_format($progress_percentage, 1) . '% ' . get_string('completed', 'block_learning_style') . '</small>';
+        $output .= '</div>';
+        
+        // Call to action button
+        $output .= '<div class="learning-actions text-center">';
+        $url = new moodle_url('/blocks/learning_style/view.php', array('cid' => $COURSE->id));
+        $output .= '<a href="' . $url . '" class="btn btn-warning btn-block" style="box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: 500; transition: all 0.3s ease;">';
+        $output .= '<i class="fa fa-play"></i> ' . get_string('continue_test', 'block_learning_style');
+        $output .= '</a>';
+        $output .= '</div>';
+        
+        $output .= '</div>';
+        
+        // Add custom CSS matching CHASIDE
+        $output .= '<style>
+        .learning-invitation-block {
+            padding: 15px;
+            background: linear-gradient(135deg, #fff9e6 0%, #f8f9fa 100%);
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .learning-header i {
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .learning-progress {
+            background: white;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        }
+        .learning-actions .btn {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .learning-actions .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        </style>';
+        
+        return $output;
     }
 }
