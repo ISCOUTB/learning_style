@@ -87,9 +87,10 @@ function get_metrics($id_course){
         return;
     }
     
-    // Obtener solo respuestas de estudiantes inscritos
+    // Obtener solo respuestas de estudiantes inscritos que completaron el test
     list($insql, $params) = $DB->get_in_or_equal($student_ids, SQL_PARAMS_NAMED, 'user');
-    $sql = "SELECT * FROM {learning_style} WHERE user $insql";
+    $params['completed'] = 1;
+    $sql = "SELECT * FROM {learning_style} WHERE user $insql AND is_completed = :completed";
     $enrolled_results = $DB->get_records_sql($sql, $params);
     
     $response["total_students"] = count($enrolled_results);
