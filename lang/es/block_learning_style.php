@@ -256,7 +256,6 @@ $string['visual_learner'] = 'Aprendiz Visual';
 $string['verbal_learner'] = 'Aprendiz Verbal';
 $string['sequential_learner'] = 'Aprendiz Secuencial';
 $string['global_learner'] = 'Aprendiz Global';
-$string['dominant_style'] = 'Estilo Dominante';
 $string['learning_profile_summary'] = 'Resumen del Perfil de Aprendizaje';
 $string['technical_data'] = 'Datos Técnicos';
 
