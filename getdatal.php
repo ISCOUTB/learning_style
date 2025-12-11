@@ -5,7 +5,8 @@ require_once(__DIR__.'/../../config.php');
 #$DB->delete_records("learning_style");
 #$DB->delete_records("personality_test");
 
-$learning_style_data = $DB->get_records("learning_style");
+// Only export completed tests
+$learning_style_data = $DB->get_records("learning_style", array('is_completed' => 1));
 
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename=learning_style_data.csv');
