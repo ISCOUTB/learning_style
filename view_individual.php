@@ -34,6 +34,38 @@ if (!$learning_style) {
     throw new moodle_exception('learning_style_not_found', 'block_learning_style');
 }
 
+// Check if test is completed
+if (!$learning_style->is_completed) {
+    $PAGE->set_url('/blocks/learning_style/view_individual.php', array('courseid' => $courseid, 'userid' => $userid));
+    $PAGE->set_context($context);
+    $PAGE->set_course($course);
+    $PAGE->set_title(get_string('individual_results_title', 'block_learning_style'));
+    $PAGE->set_heading(get_string('individual_results_title', 'block_learning_style'));
+    
+    echo $OUTPUT->header();
+    
+    // Count answered questions
+    $answered = 0;
+    for ($i = 1; $i <= 44; $i++) {
+        $field = "q{$i}";
+        if (isset($learning_style->$field) && $learning_style->$field !== null) {
+            $answered++;
+        }
+    }
+    
+    echo html_writer::start_div('alert alert-warning');
+    echo html_writer::tag('h4', get_string('test_in_progress', 'block_learning_style'));
+    echo html_writer::tag('p', fullname($user) . ' ' . get_string('has_answered', 'block_learning_style') . ' ' . $answered . ' ' . get_string('of_44_questions', 'block_learning_style'));
+    echo html_writer::tag('p', get_string('results_available_when_complete', 'block_learning_style'));
+    echo html_writer::end_div();
+    
+    $back_url = new moodle_url('/blocks/learning_style/admin_view.php', array('courseid' => $courseid));
+    echo html_writer::link($back_url, '← ' . get_string('back_to_admin', 'block_learning_style'), array('class' => 'btn btn-secondary'));
+    
+    echo $OUTPUT->footer();
+    exit;
+}
+
 $PAGE->set_url('/blocks/learning_style/view_individual.php', array('courseid' => $courseid, 'userid' => $userid));
 $PAGE->set_context($context);
 $PAGE->set_course($course);
