@@ -21,7 +21,7 @@ require_capability('moodle/course:viewhiddensections', $context);
 $enrolled_students = get_enrolled_users($context, '', 0, 'u.id');
 $enrolled_ids = array_keys($enrolled_students);
 
-// Consulta SQL para obtener los resultados de los estudiantes inscritos
+// Consulta SQL para obtener los resultados de los estudiantes inscritos (solo completados)
 $results = array();
 if (!empty($enrolled_ids)) {
     list($insql, $params) = $DB->get_in_or_equal($enrolled_ids, SQL_PARAMS_NAMED, 'user');
@@ -32,7 +32,7 @@ if (!empty($enrolled_ids)) {
                    ls.act_ref, ls.sen_int, ls.vis_vrb, ls.seq_glo, ls.created_at
             FROM {user} u
             INNER JOIN {learning_style} ls ON u.id = ls.user
-            WHERE u.deleted = 0 AND u.confirmed = 1 AND u.id $insql
+            WHERE u.deleted = 0 AND u.confirmed = 1 AND u.id $insql AND ls.is_completed = 1
             ORDER BY u.lastname, u.firstname";
     
     $results = $DB->get_records_sql($sql, $params);
