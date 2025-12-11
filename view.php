@@ -32,7 +32,7 @@ $PAGE->set_url('/blocks/learning_style/view.php', array('cid'=>$courseid));
 
 $title = get_string('pluginname', 'block_learning_style');
 
-$PAGE->set_pagelayout('`standard`');
+$PAGE->set_pagelayout('standard');
 $PAGE->set_title($title." : ".$course->fullname);
 $PAGE->set_heading($title." : ".$course->fullname);
 
@@ -110,16 +110,13 @@ $action_form = new moodle_url('/blocks/learning_style/save.php');
     <div class="content-accept <?php echo ($error)?"error":"" ?>">
 
         <ol class="learning_style_q" style="padding: 0px; list-style: none;">
-        <?php for ($i=1;$i<=44;$i++){ 
-            $field = "q{$i}";
-            $saved_value = ($existing_response && isset($existing_response->$field)) ? $existing_response->$field : null;
-        ?>
+        <?php for ($i=1;$i<=44;$i++){ ?>
             <li class="learning_style_item">
                 <div><?php echo get_string("learning_style:q".$i, 'block_learning_style') ?></div>
-                <select name="learning_style:q<?php echo $i; ?>" required class="form-select select-q" data-question="<?php echo $i; ?>">
-                    <option value="" disabled <?php echo ($saved_value === null) ? 'selected' : ''; ?> hidden><?php echo get_string('select_option', 'block_learning_style'); ?></option>
-                    <option value="0" <?php echo ($saved_value === '0' || $saved_value === 0) ? 'selected' : ''; ?>><?php echo get_string('learning_style:q'.$i.'_a', 'block_learning_style') ?></option>
-                    <option value="1" <?php echo ($saved_value === '1' || $saved_value === 1) ? 'selected' : ''; ?>><?php echo get_string('learning_style:q'.$i.'_b', 'block_learning_style') ?></option>
+                <select name="learning_style:q<?php echo $i; ?>" required class="form-select select-q">
+                    <option value="" disabled selected hidden>Selecciona</option>
+                    <option value="0"><?php echo get_string('learning_style:q'.$i.'_a', 'block_learning_style') ?></option>
+                    <option value="1"><?php echo get_string('learning_style:q'.$i.'_b', 'block_learning_style') ?></option>
                 </select>
             </li>
         <?php } ?>
