@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   let actor_expandir = document.getElementById("expandir_actor");
   let icon_exp = document.getElementById("icon_exp");
 
+  // Get strings from injected translations
+  const strings = window.learningStyleStrings || {};
+
   // Obtener el course_id desde el atributo data-courseid del contenedor
   const dashboardContainer = document.getElementById("learning-style-dashboard");
   let course_id = dashboardContainer ? dashboardContainer.getAttribute("data-courseid") : null;
@@ -64,62 +67,62 @@ document.addEventListener("DOMContentLoaded", async () => {
     //Determina estilo dominante
     switch (llave_max) {
       case "num_act":
-        estilo_hu = "Activo";
+        estilo_hu = strings.label_active || "Activo";
         break;
       case "num_ref":
-        estilo_hu = "Reflexivo";
+        estilo_hu = strings.label_reflexive || "Reflexivo";
         break;
       case "num_vis":
-        estilo_hu = "Visual";
+        estilo_hu = strings.label_visual || "Visual";
         break;
       case "num_vrb":
-        estilo_hu = "Verbal";
+        estilo_hu = strings.label_verbal || "Verbal";
         break;
       case "num_sen":
-        estilo_hu = "Sensorial";
+        estilo_hu = strings.label_sensory || "Sensorial";
         break;
       case "num_int":
-        estilo_hu = "Intuitivo";
+        estilo_hu = strings.label_intuitive || "Intuitivo";
         break;
       case "num_sec":
-        estilo_hu = "Secuencial";
+        estilo_hu = strings.label_sequential || "Secuencial";
         break;
       case "num_glo":
-        estilo_hu = "Global";
+        estilo_hu = strings.label_global || "Global";
         break;
       default:
-        estilo_hu = "N/A";
+        estilo_hu = strings.na_label || "N/A";
         break;
     }
 
     //Determina estilo menos dominante
     switch (llave_min) {
       case "num_act":
-        estilo_men = "Activo";
+        estilo_men = strings.label_active || "Activo";
         break;
       case "num_ref":
-        estilo_men = "Reflexivo";
+        estilo_men = strings.label_reflexive || "Reflexivo";
         break;
       case "num_vis":
-        estilo_men = "Visual";
+        estilo_men = strings.label_visual || "Visual";
         break;
       case "num_vrb":
-        estilo_men = "Verbal";
+        estilo_men = strings.label_verbal || "Verbal";
         break;
       case "num_sen":
-        estilo_men = "Sensorial";
+        estilo_men = strings.label_sensory || "Sensorial";
         break;
       case "num_int":
-        estilo_men = "Intuitivo";
+        estilo_men = strings.label_intuitive || "Intuitivo";
         break;
       case "num_sec":
-        estilo_men = "Secuencial";
+        estilo_men = strings.label_sequential || "Secuencial";
         break;
       case "num_glo":
-        estilo_men = "Global";
+        estilo_men = strings.label_global || "Global";
         break;
       default:
-        estilo_men = "N/A";
+        estilo_men = strings.na_label || "N/A";
         break;
     }
 
@@ -128,60 +131,61 @@ document.addEventListener("DOMContentLoaded", async () => {
     est_men_dom.innerText = estilo_men;
 
     //Grafico
+    
     let labels = [];
     let data = [];
     let descriptions = [];
     
     data.push(response_get_metrics["data"]["num_vis"]);
-    labels.push("Visual");
+    labels.push(strings.label_visual || "Visual");
     descriptions.push(`
-        <li>Incorporar gráficos, diagramas, videos y mapas mentales.</li>
-        <li>Fomentar el uso de organizadores gráficos, como líneas de tiempo, cuadros comparativos y esquemas jerárquicos.</li>
+        <li>${strings.visual_rec1}</li>
+        <li>${strings.visual_rec2}</li>
     `);
     data.push(response_get_metrics["data"]["num_sen"]);
-    labels.push("Sensitivo");
+    labels.push(strings.label_sensory || "Sensitivo");
     descriptions.push(`
-        <li>Diseñar actividades de observación y aplicación práctica.</li>
-        <li>Usar ejemplos concretos y proyectos de laboratorio.</li>
+        <li>${strings.sensory_rec1}</li>
+        <li>${strings.sensory_rec2}</li>
     `);
     data.push(response_get_metrics["data"]["num_act"]);
-    labels.push("Activo");
+    labels.push(strings.label_active || "Activo");
     descriptions.push(`
-        <li>Propiciar actividades prácticas.</li>
-        <li>Fomentar resolución de problemas y proyectos.</li>
-        <li>Incentivar discusiones y trabajo en grupo.</li>
+        <li>${strings.active_rec1}</li>
+        <li>${strings.active_rec2}</li>
+        <li>${strings.active_rec3}</li>
     `);
     data.push(response_get_metrics["data"]["num_glo"]);
-    labels.push("Global");
+    labels.push(strings.label_global || "Global");
     descriptions.push(`
-        <li>Presentar una visión general antes de los detalles.</li>
-        <li>Fomentar conexiones y proyectos integradores.</li>
+        <li>${strings.global_rec1}</li>
+        <li>${strings.global_rec2}</li>
     `);
     data.push(response_get_metrics["data"]["num_vrb"]);
-    labels.push("Verbal");
+    labels.push(strings.label_verbal || "Verbal");
     descriptions.push(`
-        <li>Promover lectura, escritura y discusión en grupos.</li>
-        <li>Fomentar técnicas de memorización verbal.</li>
+        <li>${strings.verbal_rec1}</li>
+        <li>${strings.verbal_rec2}</li>
     `);
     data.push(response_get_metrics["data"]["num_int"]);
-    labels.push("Intuitivo");
+    labels.push(strings.label_intuitive || "Intuitivo");
     descriptions.push(`
-        <li>Proponer búsqueda de patrones y conexiones.</li>
-        <li>Emplear analogías e historias.</li>
-        <li>Fomentar actividades creativas y resolución de problemas complejos.</li>
+        <li>${strings.intuitive_rec1}</li>
+        <li>${strings.intuitive_rec2}</li>
+        <li>${strings.intuitive_rec3}</li>
     `);
     data.push(response_get_metrics["data"]["num_ref"]);
-    labels.push("Reflexivo");
+    labels.push(strings.label_reflexive || "Reflexivo");
     descriptions.push(`
-        <li>Asignar lecturas reflexivas.</li>
-        <li>Promover la toma de notas y la reflexión.</li>
-        <li>Utilizar análisis de casos y autoevaluaciones.</li>
+        <li>${strings.reflexive_rec1}</li>
+        <li>${strings.reflexive_rec2}</li>
+        <li>${strings.reflexive_rec3}</li>
     `);
     data.push(response_get_metrics["data"]["num_sec"]);
-    labels.push("Secuencial");
+    labels.push(strings.label_sequential || "Secuencial");
     descriptions.push(`
-        <li>Organizar contenidos de manera lógica.</li>
-        <li>Proponer actividades paso a paso.</li>
+        <li>${strings.sequential_rec1}</li>
+        <li>${strings.sequential_rec2}</li>
     `);
     
     
@@ -189,6 +193,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     let savedChartType = localStorage.getItem("chartType");
     let chart; // Variable global del gráfico
 
+    // Check if there are any completed tests
+    const hasData = enc > 0 && data.some(value => value > 0);
+    
+    if (!hasData) {
+      // Hide charts section
+      const chartsSection = document.getElementById('charts-section');
+      if (chartsSection) {
+        chartsSection.style.display = 'none';
+      }
+      
+      // Show message in designated container
+      const messageContainer = document.getElementById('no-data-message');
+      if (messageContainer) {
+        const title = strings.no_completed_tests_title || 'No hay tests completados';
+        const message = strings.no_completed_tests_message || 'Los gráficos y estadísticas se mostrarán cuando los estudiantes completen el test de estilos de aprendizaje.';
+        messageContainer.style.display = 'block';
+        messageContainer.style.cssText = 'text-align: center; padding: 40px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #dee2e6; margin: 20px 0; display: block;';
+        messageContainer.innerHTML = '<i class="fa fa-chart-bar" style="font-size: 48px; color: #6c757d; margin-bottom: 15px; display: block;"></i><h5 style="color: #495057; margin-bottom: 10px;">' + title + '</h5><p style="color: #6c757d; margin: 0;">' + message + '</p>';
+      }
+      return;
+    }
+    
     const context = document.getElementById("grafic").getContext("2d"); // Contexto del canvas
     // Verificar si existe un tipo de gráfico guardado en localStorage
     if (savedChartType) {
@@ -218,11 +244,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         context,
         labels,
         data,
-        "Distribución de estilos de aprendizaje"
+        strings.chart_title || "Distribución de estilos de aprendizaje"
       );
     }
     
-    ordenar_e_insertar(labels, data, descriptions, container_blocks_exp);
+    ordenar_e_insertar(labels, data, descriptions, container_blocks_exp, strings);
     actor_expandir.addEventListener("click", () => {
       if (exp) {
         //se cierra el expandible
@@ -290,7 +316,8 @@ function ordenar_e_insertar(
   array_cuali,
   array_cuant,
   array_description,
-  container
+  container,
+  strings
 ) {
   // Crear un array de pares de valores [número, nombre]
   let combinados = array_cuant.map((num, index) => [
@@ -311,19 +338,20 @@ function ordenar_e_insertar(
     desc[2].push(c);
   });
 
+  // Get recommendation text from strings
+  const recommendationText = strings.teacher_recommendation || 'Se le recomienda al docente:';
+  
   let colors = ["#159600","#007aa7","#6F42C1","#DC3545","#FD7E14","#FFC107","#a76628","#000000"];
   for (let i = 0; i < desc[0].length; i++) {
-    //console.log(i, nombres.length);
-    let block_html = document.createElement("div");
-    if(desc[0][i]>0){
+    if(desc[0][i] > 0){
+      let block_html = document.createElement("div");
       block_html.innerHTML = `<div class="flex block_reco_style" style="border-color: ${colors[i]}"><span style="color: ${colors[i]}" >${desc[1][i]}</span><span style="color: ${colors[i]}">${desc[0][i]}</span></div>
-                            Se le recomienda al docente:
+                            ${recommendationText}
                             <div>
                                 <ul>${desc[2][i]}</ul>
                             </div>
     `;
+      container.appendChild(block_html);
     }
-    console.log(block_html);
-    container.appendChild(block_html);
   }
 }
