@@ -1,8 +1,11 @@
 <?php
-$string['pluginname'] = 'Learning styles';
+$string['pluginname'] = 'Learning Styles Exploration';
+$string['management_title'] = 'Learning Style Test Management';
+$string['course_overview'] = 'Course Overview';
+$string['admin_dashboard_description'] = 'Learning Style Test administration panel. Here you can view detailed statistics, manage student responses and export data.';
 $string['code_honor_text'] = '<p>Lorem ipsum dolor.</p>';
 $string['accept_code_honor_text'] = "Accept";
-$string['redirect_accept_success'] = "Thank you, we are now redirecting you to the course page.";
+$string['redirect_accept_success'] = "Congratulations, you can now view your results in the course sidebar.";
 $string['redirect_accept_exist'] = "You have already completed the assessment, redirecting to the course";
 $string['accept_message'] = "Accepted";
 $string['required_message'] = "Please accept to continue";
@@ -20,11 +23,27 @@ $string['sequential'] = "Sequential";
 $string['global'] = "Global";
 
 $string["learning_style_content"] = "Content text";
-
 $string['learning_style:addinstance'] = 'Add a new learning_style block';
 $string['learning_style:myaddinstance'] = 'Add a new learning_style block to My home';
 $string['download_results'] = 'Download Results';
 $string['select_option'] = 'Select an option';
+$string['progress_saved'] = 'Progress saved successfully';
+$string['all_questions_required'] = 'All questions must be answered before finishing the test';
+
+// Dashboard tooltips and labels
+$string['dashboard_surveyed'] = 'Surveyed';
+$string['dashboard_surveyed_tooltip'] = 'Percentage of students surveyed in the course.';
+$string['dashboard_dominant'] = 'Dominant style';
+$string['dashboard_dominant_tooltip'] = 'The most common learning style among surveyed students in the course.';
+$string['dashboard_least_dominant'] = 'Least dominant style';
+$string['dashboard_least_dominant_tooltip'] = 'The least common learning style among surveyed students in the course.';
+$string['dashboard_select_chart'] = 'Select chart:';
+$string['dashboard_dominance_order'] = 'Order of dominance';
+$string['dashboard_chart_radar'] = 'Learning styles profile';
+$string['dashboard_chart_pie'] = 'Learning styles proportion';
+$string['dashboard_chart_bar'] = 'Quantitative learning styles profile';
+$string['dashboard_of'] = 'of';
+$string['dashboard_no_dominance'] = 'No clear dominance';
 
 $string["learning_style:q1"] = "I understand something better after I";
 $string["learning_style:q1_a"] = "try it out.";
@@ -88,8 +107,7 @@ $string["learning_style:q15_b"] = "who spend a lot of time explaining.";
 
 $string["learning_style:q16"] = "When  I am analyzing a story or a novel";
 $string["learning_style:q16_a"] = "I think of the incidents and try to put them together to figure out the themes.";
-$string["learning_style:q16_b"] = "I just know what the themes are when I finish reading and then I have to go back and find the
-incidents that demonstrate them.";
+$string["learning_style:q16_b"] = "I just know what the themes are when I finish reading and then I have to go back and find the incidents that demonstrate them.";
 
 $string["learning_style:q17"] = "When I start a homework problem, I am more likely to";
 $string["learning_style:q17_a"] = "start working on the solution immediately.";
@@ -105,8 +123,7 @@ $string["learning_style:q19_b"] = "what I hear.";
 
 $string["learning_style:q20"] = "It is more important to me that an instructor";
 $string["learning_style:q20_a"] = "lay out the material in clear sequential steps.";
-$string["learning_style:q20_b"] = "give me an overall picture and relate the material to other subjects.
-";
+$string["learning_style:q20_b"] = "give me an overall picture and relate the material to other subjects.";
 
 $string["learning_style:q21"] = "I prefer to study";
 $string["learning_style:q21_a"] = "in a study group.";
@@ -211,17 +228,17 @@ $string['admin_statistics'] = 'General Statistics';
 $string['total_participants'] = 'Total Participants';
 $string['participants_list'] = 'Participants List';
 $string['participant'] = 'Participant';
-$string['completion_date'] = 'Completion Date';
 $string['learning_profile'] = 'Learning Profile';
 $string['actions'] = 'Actions';
-$string['view_details'] = 'View Details';
+$string['view_details'] = 'View';
 $string['confirm_delete_learning_style'] = 'Are you sure you want to delete this learning style result?';
-$string['learning_style_deleted'] = 'Learning style result deleted successfully';
-$string['no_participants'] = 'No participants found';
+$string['learning_style_deleted'] = 'Participation has been successfully deleted.';
+$string['no_participants'] = 'No results available yet';
 $string['no_data_available'] = 'No Data Available';
-$string['no_participants_message'] = 'Students have not completed the learning style assessment yet.';
+$string['no_participants_message'] = 'No students have started the test yet.';
 $string['back_to_course'] = 'Back to Course';
-$string['back_to_admin'] = 'Back to Administration';
+$string['back_to_admin'] = 'Back to Admin Panel';
+$string['teachers_redirect_message'] = 'Teachers are redirected to the admin panel.';
 
 // Dimension labels
 $string['dimension_active'] = 'Active';
@@ -244,8 +261,8 @@ $string['profile_sequential'] = 'Sequential';
 $string['profile_global'] = 'Global';
 
 // Individual results page
-$string['individual_results_title'] = 'Individual Learning Style Results';
-$string['learning_style_results_for'] = 'Learning Style Results for';
+$string['individual_results_title'] = 'Individual Learning Styles Results';
+$string['learning_style_results_for'] = 'Learning Styles Results for';
 $string['completed_on'] = 'Completed on';
 $string['processing_dimension'] = 'Processing Dimension';
 $string['perception_dimension'] = 'Perception Dimension';
@@ -273,16 +290,18 @@ $string['profile_sequential_description'] = 'Learns in small connected steps and
 $string['profile_global_description'] = 'Learns in large leaps and needs to see the big picture first';
 
 // Errors
-$string['learning_style_not_found'] = 'Learning style result not found for this user and course.';
+$string['learning_style_not_found'] = 'Learning styles result not found for this user and course.';
+$string['dashboard_load_error'] = 'Error loading dashboard data.';
+$string['dashboard_not_found'] = 'Dashboard not found.';
 
 // Block integration
-$string['view_admin_results'] = 'View Administration';
+$string['view_admin_results'] = 'Go to Administration Panel';
 
 // Test invitation
 $string['test_title'] = 'Learning Styles Test';
-$string['discover_your_style'] = 'Discover your learning style';
+$string['discover_your_style'] = 'Discover your learning styles';
 $string['what_is_felder'] = 'What is the Felder-Soloman Model?';
-$string['test_description'] = 'Identifies your preferences in the way you process and organize information for learning.';
+$string['test_description'] = 'This model breaks down how your mind prefers to receive and process information for learning. It analyzes four cognitive dimensions to provide you with personalized study strategies that transform your way of learning, making the process more efficient and less exhausting.';
 $string['feature_44_questions'] = '44 quick questions';
 $string['feature_4_dimensions'] = '4 learning dimensions';
 $string['feature_instant_results'] = 'Instant results with recommendations';
@@ -294,7 +313,7 @@ $string['your_learning_style'] = 'Your Learning Style';
 // Test page content
 $string['test_page_title'] = 'Learning Styles Test';
 $string['test_intro_p1'] = 'This test is based on the <strong>Felder-Soloman Model</strong>, a tool that identifies your preferences in how you process and organize information for learning.';
-$string['test_intro_p2'] = 'Knowing your learning style will allow you to:';
+$string['test_intro_p2'] = 'Knowing your learning styles will allow you to:';
 $string['test_benefit_1'] = '• Identify the most effective study strategies for you';
 $string['test_benefit_2'] = '• Better understand how you process information';
 $string['test_benefit_3'] = '• Make the most of the resources available in the course';
@@ -312,23 +331,21 @@ $string['completed'] = 'completed';
 $string['continue_test'] = 'Continue Test';
 
 // Dashboard strings
-$string['surveyed'] = 'Surveyed';
 $string['dominant_style'] = 'Dominant style';
 $string['least_dominant_style'] = 'Least dominant style';
-$string['dominance_order'] = 'Order of dominance';
 $string['teacher_recommendation'] = 'Teacher recommendations:';
 $string['no_completed_tests'] = 'No completed tests';
 $string['no_data_message'] = 'Charts and statistics will be displayed when students complete the learning styles test.';
-$string['select_chart'] = 'Select chart:';
-$string['chart_radar'] = 'Learning styles profile';
-$string['chart_pie'] = 'Learning styles proportion';
-$string['chart_bar'] = 'Quantitative learning styles profile';
+$string['chart_title'] = 'Learning styles distribution';
+$string['na_label'] = 'N/A';
+$string['no_completed_tests_title'] = 'No completed tests';
+$string['no_completed_tests_message'] = 'Charts and statistics will be shown once students complete the learning styles test.';
 
 // View individual strings
 $string['test_in_progress'] = 'Test in progress';
 $string['has_answered'] = 'has answered';
 $string['of_44_questions'] = 'of 44 questions.';
-$string['results_available_when_complete'] = 'Results will be available when the test is completed.';
+$string['results_available_when_complete'] = 'Full results will be available when {$a} finishes the test.';
 
 // Admin view strings
 $string['in_progress'] = 'In progress';
@@ -341,7 +358,7 @@ $string['questions_label'] = 'questions';
 $string['visual_rec1'] = 'Incorporate graphics, diagrams, videos, and mind maps.';
 $string['visual_rec2'] = 'Encourage the use of graphic organizers such as timelines, comparison charts, and hierarchical diagrams.';
 $string['sensory_rec1'] = 'Design observation and practical application activities.';
-$string['sensory_rec2'] = 'Use concrete examples and laboratory projects.';
+$string['sensory_rec2'] = 'Use concrete examples and do laboratory projects.';
 $string['active_rec1'] = 'Promote practical activities.';
 $string['active_rec2'] = 'Encourage problem-solving and projects.';
 $string['active_rec3'] = 'Stimulate discussions and group work.';
@@ -349,13 +366,87 @@ $string['global_rec1'] = 'Present an overview before details.';
 $string['global_rec2'] = 'Encourage connections and integrative projects.';
 $string['verbal_rec1'] = 'Promote reading, writing, and group discussions.';
 $string['verbal_rec2'] = 'Encourage verbal memorization techniques.';
-$string['intuitive_rec1'] = 'Propose pattern and connection searches.';
-$string['intuitive_rec2'] = 'Use analogies and stories.';
-$string['intuitive_rec3'] = 'Encourage creative activities and complex problem-solving.';
-$string['reflexive_rec1'] = 'Assign reflective readings.';
-$string['reflexive_rec2'] = 'Promote note-taking and reflection.';
+$string['intuitive_rec1'] = 'Propose searching for patterns and connections in the information.';
+$string['intuitive_rec2'] = 'Use analogies and stories to illustrate concepts.';
+$string['intuitive_rec3'] = 'Encourage creative activities and complex problem-solving to explore new ideas.';
+$string['reflexive_rec1'] = 'Develop reflective reading skills and take notes.';
+$string['reflexive_rec2'] = 'Create diagrams and organize information.';
 $string['reflexive_rec3'] = 'Use case analysis and self-assessments.';
-$string['sequential_rec1'] = 'Organize content logically.';
-$string['sequential_rec2'] = 'Propose step-by-step activities.';
+$string['sequential_rec1'] = 'Follow a logical and organized structure.';
+$string['sequential_rec2'] = 'Take notes and summarize learning material step-by-step.';
 $string['chart_distribution_title'] = 'Learning styles distribution';
-$string['not_applicable'] = 'N/A';
+
+// Test in progress and remind strings
+$string['test_in_progress_message'] = '{$a} has started the test but has not completed it yet.';
+$string['remind_submit_test'] = 'Remind the student to click the "Finish Test" button to view the results.';
+$string['questions'] = 'questions';
+$string['all_answered_title'] = 'All Questions Answered!';
+$string['all_answered_message'] = 'You have answered all 44 questions. Don\'t forget to click "Finish Test" to submit your answers and see your learning style results!';
+
+// Admin view strings (NEW - matching personality_test structure)
+$string['total_students'] = 'Total Students';
+$string['completed_tests'] = 'Completed Tests';
+$string['in_progress_tests'] = 'In Progress';
+$string['completion_rate'] = 'Completion Rate';
+$string['general_statistics'] = 'General Statistics';
+$string['most_common_styles'] = 'Most Common Learning Styles';
+$string['average_dimensions'] = 'Average Dimension Scores';
+$string['status'] = 'Status';
+$string['completion_date'] = 'Last Action Date';
+$string['confirm_delete'] = 'Confirm Deletion';
+$string['confirm_delete_yes'] = 'Yes, Delete';
+$string['cancel'] = 'Cancel';
+
+// Block display strings
+$string['felder_soloman_intro'] = 'According to the Felder and Soloman Learning Styles model, every person has a greater inclination towards one style or another. In your case, the learning styles that predominate in each axis are:';
+$string['click_bold_for_recommendations'] = '*Click on the learning styles in <b>bold</b> to see study recommendations.';
+$string['learning_style_label'] = 'Learning Style';
+
+// Recommendation tooltips
+$string['active_recommendations'] = 'It is suggested to use practical activities, problem solving, experiments, practical projects, participate in group discussions, work in groups.';
+$string['reflexive_recommendations'] = 'It is suggested to develop reflective readings, take notes and reflect on learning material, create diagrams and organize information, take time to consider options before making decisions, case analysis activities and self-assessment activities.';
+$string['sensorial_recommendations'] = 'It is suggested to make detailed observation and practical application of concepts, use concrete examples and practical applications of learning material, perform laboratory activities and projects. Develop practical work.';
+$string['intuitive_recommendations'] = 'It is suggested to look for connections and patterns in information, use analogies and stories to illustrate concepts, ask questions and explore new ideas. Activities such as solving complex problems, creative activities and theoretical discussions.';
+$string['visual_recommendations'] = 'It is suggested to use graphics, diagrams, videos and other visual resources to represent information, make mind maps and draw images to understand the material.';
+$string['verbal_recommendations'] = 'It is suggested to read and write notes, develop summaries of the material, discuss the material in groups or with a study partner, use memorization techniques such as verbal repetition, discussions or verbal explanations.';
+$string['sequential_recommendations'] = 'It is suggested to follow a logical and organized structure to learn, take notes and summarize learning material, work, analyze through step-by-step to solve problems.';
+$string['global_recommendations'] = 'It is suggested to look for connections and patterns in information, work with learning material as a whole before focusing on details, use analogies and metaphors to illustrate concepts. Work on activities that allow exploration and connection of concepts, project-based learning and discussion of complex topics.';
+
+// Chart labels
+$string['chart_visual'] = 'Visual';
+$string['chart_sensorial'] = 'Sensorial';
+$string['chart_active'] = 'Active';
+$string['chart_global'] = 'Global';
+$string['chart_verbal'] = 'Verbal';
+$string['chart_intuitive'] = 'Intuitive';
+$string['chart_reflexive'] = 'Reflexive';
+$string['chart_sequential'] = 'Sequential';
+
+// Navigation buttons for pagination
+$string['btn_previous'] = 'Previous';
+$string['btn_next'] = 'Next';
+$string['btn_finish'] = 'Finish Test';
+$string['complete_previous_pages'] = 'Please complete previous pages before proceeding';
+$string['questions_answered'] = '{$a->answered} of {$a->total} questions answered';
+$string['option_a'] = 'A';
+$string['option_b'] = 'B';
+
+// Individual results view strings
+$string['learning_dimensions'] = 'Learning Dimensions';
+
+// Alert messages for completed but not submitted test
+$string['finish_test'] = 'Finish Test';
+
+// Admin view UI
+$string['most_common_types'] = 'Most Common Learning Styles';
+$string['search_participant_placeholder'] = 'Search participant...';
+$string['export_csv'] = 'Export CSV';
+$string['status_completed'] = 'Completed';
+$string['status_in_progress'] = 'In progress';
+$string['progress_questions'] = '{$a->answered} of {$a->total} questions';
+
+// Results
+$string['result_act_ref'] = 'Result Act/Ref';
+$string['result_sen_int'] = 'Result Sen/Int';
+$string['result_vis_vrb'] = 'Result Vis/Vrb';
+$string['result_seq_glo'] = 'Result Seq/Glo';

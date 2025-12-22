@@ -1,8 +1,11 @@
 <?php
 $string['pluginname'] = 'Exploración de Estilos de Aprendizaje';
+$string['management_title'] = 'Gestión del Test de Estilos de Aprendizaje';
+$string['course_overview'] = 'Resumen del Curso';
+$string['admin_dashboard_description'] = 'Panel de administración del Test de Estilos de Aprendizaje. Aquí puede ver estadísticas detalladas, gestionar respuestas de estudiantes y exportar datos.';
 $string['code_honor_text'] = '<p>Lorem  dictumst.</p>';
 $string['accept_code_honor_text'] = "Acepto";
-$string['redirect_accept_success'] = "Gracias, ahora te redirigimos a la página del curso.";
+$string['redirect_accept_success'] = "Enhorabuena, ahora puedes ver tus resultados en la barra lateral del curso.";
 $string['redirect_accept_exist'] = "Ya has completado la evaluación, te redirigimos al curso";
 $string['accept_message'] = "Estilo de aprendizaje detectado";
 $string['required_message'] = "Por favor, realiza la evaluación de estilos de aprendizaje para continuar";
@@ -24,6 +27,23 @@ $string['learning_style:addinstance'] = 'Agregar bloque de estilos de aprendizaj
 $string['learning_style:myaddinstance'] = 'Agregar bloque de estilos de aprendizaje al inicio';
 $string['download_results'] = 'Descargar Resultados';
 $string['select_option'] = 'Seleccione una opción';
+$string['progress_saved'] = 'Progreso guardado exitosamente';
+$string['all_questions_required'] = 'Todas las preguntas deben ser respondidas antes de finalizar el test';
+
+// Dashboard tooltips and labels
+$string['dashboard_surveyed'] = 'Encuestados';
+$string['dashboard_surveyed_tooltip'] = 'Porcentaje de estudiantes encuestados en el curso.';
+$string['dashboard_dominant'] = 'Estilo dominante';
+$string['dashboard_dominant_tooltip'] = 'El estilo de aprendizaje más común entre los encuestados del curso.';
+$string['dashboard_least_dominant'] = 'Estilo menos dominante';
+$string['dashboard_least_dominant_tooltip'] = 'El estilo de aprendizaje menos frecuente entre los encuestados del curso.';
+$string['dashboard_select_chart'] = 'Seleccionar gráfico:';
+$string['dashboard_dominance_order'] = 'Orden de dominancia';
+$string['dashboard_chart_radar'] = 'Perfil de estilos de aprendizaje';
+$string['dashboard_chart_pie'] = 'Proporción de estilos de aprendizaje';
+$string['dashboard_chart_bar'] = 'Perfil cuantitativo de estilos de aprendizaje';
+$string['dashboard_of'] = 'de';
+$string['dashboard_no_dominance'] = 'Sin dominancia clara';
 
 $string["learning_style:q1"] = "Comprendo mejor algo después de";
 $string["learning_style:q1_a"] = "probarlo.";
@@ -202,23 +222,23 @@ $string["learning_style:q44_a"] = "pensar en los pasos del proceso de solución.
 $string["learning_style:q44_b"] = "pensar en las posibles consecuencias o aplicaciones de la solución en una amplia gama de áreas.";
 
 // Cadenas de la sección administrativa
-$string['admin_title'] = 'Administración de Estilos de Aprendizaje';
+$string['admin_title'] = 'Administración - Estilos de Aprendizaje';
 $string['admin_access_denied'] = 'Acceso denegado. Solo profesores y administradores pueden ver esta página.';
 $string['admin_statistics'] = 'Estadísticas Generales';
 $string['total_participants'] = 'Total de Participantes';
 $string['participants_list'] = 'Lista de Participantes';
 $string['participant'] = 'Participante';
-$string['completion_date'] = 'Fecha de Finalización';
 $string['learning_profile'] = 'Perfil de Aprendizaje';
 $string['actions'] = 'Acciones';
-$string['view_details'] = 'Ver Detalles';
-$string['confirm_delete_learning_style'] = '¿Está seguro de que desea eliminar este resultado de estilo de aprendizaje?';
-$string['learning_style_deleted'] = 'Resultado de estilo de aprendizaje eliminado exitosamente';
-$string['no_participants'] = 'No se encontraron participantes';
-$string['no_data_available'] = 'No Hay Datos Disponibles';
-$string['no_participants_message'] = 'Los estudiantes aún no han completado la evaluación de estilos de aprendizaje.';
+$string['view_details'] = 'Ver';
+$string['confirm_delete_learning_style'] = '¿Está seguro de que desea eliminar este resultado de estilos de aprendizaje?';
+$string['learning_style_deleted'] = 'Participación eliminada exitosamente.';
+$string['no_participants'] = 'Aún no hay resultados disponibles';
+$string['no_data_available'] = 'No hay datos disponibles';
+$string['no_participants_message'] = 'Ningún estudiante ha comenzado el test aún.';
 $string['back_to_course'] = 'Volver al Curso';
-$string['back_to_admin'] = 'Volver a la Administración';
+$string['back_to_admin'] = 'Volver al Panel de Administración';
+$string['teachers_redirect_message'] = 'Los profesores son redirigidos al panel de administración.';
 
 // Etiquetas de dimensiones
 $string['dimension_active'] = 'Activo';
@@ -241,8 +261,8 @@ $string['profile_sequential'] = 'Secuencial';
 $string['profile_global'] = 'Global';
 
 // Página de resultados individuales
-$string['individual_results_title'] = 'Resultados Individuales de Estilo de Aprendizaje';
-$string['learning_style_results_for'] = 'Resultados de Estilo de Aprendizaje para';
+$string['individual_results_title'] = 'Resultados Individuales de Estilos de Aprendizaje';
+$string['learning_style_results_for'] = 'Resultados de Estilos de Aprendizaje para';
 $string['completed_on'] = 'Completado el';
 $string['processing_dimension'] = 'Dimensión de Procesamiento';
 $string['perception_dimension'] = 'Dimensión de Percepción';
@@ -270,28 +290,30 @@ $string['profile_sequential_description'] = 'Aprende en pequeños pasos conectad
 $string['profile_global_description'] = 'Aprende en grandes saltos y necesita ver el panorama general primero';
 
 // Errores
-$string['learning_style_not_found'] = 'Resultado de estilo de aprendizaje no encontrado para este usuario y curso.';
+$string['learning_style_not_found'] = 'Resultado de estilos de aprendizaje no encontrado para este usuario y curso.';
+$string['dashboard_load_error'] = 'Error al cargar los datos del panel.';
+$string['dashboard_not_found'] = 'Panel no encontrado para este curso. Asegúrate de que el bloque de estilos de aprendizaje esté configurado correctamente.';
 
 // Integración con el bloque
-$string['view_admin_results'] = 'Ver Administración';
+$string['view_admin_results'] = 'Ir al Panel de Administración';
 
 // Invitación al test
 $string['test_title'] = 'Test de Estilos de Aprendizaje';
-$string['discover_your_style'] = 'Descubre tu estilo de aprendizaje';
+$string['discover_your_style'] = 'Descubre tus estilos de aprendizaje';
 $string['what_is_felder'] = '¿Qué es el Modelo Felder-Soloman?';
-$string['test_description'] = 'Identifica tus preferencias en la forma de procesar y organizar la información para aprender.';
+$string['test_description'] = 'Este modelo desglosa cómo tu mente prefiere recibir y procesar información. Analiza cuatro dimensiones cognitivas para ofrecerte estrategias de estudio personalizadas que transforman tu manera de aprender, haciendo el proceso más eficiente y menos agotador.';
 $string['feature_44_questions'] = '44 preguntas rápidas';
 $string['feature_4_dimensions'] = '4 dimensiones de aprendizaje';
 $string['feature_instant_results'] = 'Resultados instantáneos con recomendaciones';
 $string['start_test'] = 'Iniciar Test';
 $string['test_not_configured'] = 'El test no está configurado. Por favor contacta a tu instructor.';
 $string['test_completed'] = 'Test Completado';
-$string['your_learning_style'] = 'Tu Estilo de Aprendizaje';
+$string['your_learning_style'] = 'Tus Estilos de Aprendizaje';
 
 // Contenido de la página del test
 $string['test_page_title'] = 'Test de Estilos de Aprendizaje';
 $string['test_intro_p1'] = 'Este test está basado en el <strong>Modelo de Felder-Soloman</strong>, una herramienta que identifica tus preferencias en la forma de procesar y organizar la información para aprender.';
-$string['test_intro_p2'] = 'Conocer tu estilo de aprendizaje te permitirá:';
+$string['test_intro_p2'] = 'Conocer tus estilos de aprendizaje te permitirá:';
 $string['test_benefit_1'] = '• Identificar las estrategias de estudio más efectivas para ti';
 $string['test_benefit_2'] = '• Comprender mejor cómo procesas la información';
 $string['test_benefit_3'] = '• Aprovechar al máximo los recursos disponibles en el curso';
@@ -309,23 +331,21 @@ $string['completed'] = 'completado';
 $string['continue_test'] = 'Continuar Test';
 
 // Dashboard strings
-$string['surveyed'] = 'Encuestados';
 $string['dominant_style'] = 'Estilo dominante';
 $string['least_dominant_style'] = 'Estilo menos dominante';
-$string['dominance_order'] = 'Orden de dominancia';
 $string['teacher_recommendation'] = 'Se le recomienda al docente:';
 $string['no_completed_tests'] = 'No hay tests completados';
 $string['no_data_message'] = 'Los gráficos y estadísticas se mostrarán cuando los estudiantes completen el test de estilos de aprendizaje.';
-$string['select_chart'] = 'Seleccionar gráfico:';
-$string['chart_radar'] = 'Perfil de estilos de aprendizaje';
-$string['chart_pie'] = 'Proporción de estilos de aprendizaje';
-$string['chart_bar'] = 'Perfil cuantitativo de estilos de aprendizaje';
+$string['chart_title'] = 'Distribución de estilos de aprendizaje';
+$string['na_label'] = 'N/A';
+$string['no_completed_tests_title'] = 'No hay tests completados';
+$string['no_completed_tests_message'] = 'Los gráficos y estadísticas se mostrarán una vez que los estudiantes completen el test de estilos de aprendizaje.';
 
 // View individual strings
 $string['test_in_progress'] = 'Test en progreso';
 $string['has_answered'] = 'ha respondido';
 $string['of_44_questions'] = 'de 44 preguntas.';
-$string['results_available_when_complete'] = 'Los resultados estarán disponibles cuando complete el test.';
+$string['results_available_when_complete'] = 'Los resultados completos estarán disponibles cuando {$a} termine el test.';
 
 // Admin view strings
 $string['in_progress'] = 'En progreso';
@@ -338,21 +358,95 @@ $string['questions_label'] = 'preguntas';
 $string['visual_rec1'] = 'Incorporar gráficos, diagramas, videos y mapas mentales.';
 $string['visual_rec2'] = 'Fomentar el uso de organizadores gráficos, como líneas de tiempo, cuadros comparativos y esquemas jerárquicos.';
 $string['sensory_rec1'] = 'Diseñar actividades de observación y aplicación práctica.';
-$string['sensory_rec2'] = 'Usar ejemplos concretos y proyectos de laboratorio.';
+$string['sensory_rec2'] = 'Utilizar ejemplos concretos y realizar actividades de laboratorio.';
 $string['active_rec1'] = 'Propiciar actividades prácticas.';
 $string['active_rec2'] = 'Fomentar resolución de problemas y proyectos.';
-$string['active_rec3'] = 'Incentivar discusiones y trabajo en grupo.';
+$string['active_rec3'] = 'Participar en discusiones y trabajos en grupo.';
 $string['global_rec1'] = 'Presentar una visión general antes de los detalles.';
 $string['global_rec2'] = 'Fomentar conexiones y proyectos integradores.';
 $string['verbal_rec1'] = 'Promover lectura, escritura y discusión en grupos.';
 $string['verbal_rec2'] = 'Fomentar técnicas de memorización verbal.';
-$string['intuitive_rec1'] = 'Proponer búsqueda de patrones y conexiones.';
-$string['intuitive_rec2'] = 'Emplear analogías e historias.';
-$string['intuitive_rec3'] = 'Fomentar actividades creativas y resolución de problemas complejos.';
-$string['reflexive_rec1'] = 'Asignar lecturas reflexivas.';
-$string['reflexive_rec2'] = 'Promover la toma de notas y la reflexión.';
+$string['intuitive_rec1'] = 'Proponer búsqueda de patrones y conexiones en la información.';
+$string['intuitive_rec2'] = 'Emplear analogías e historias para ilustrar conceptos.';
+$string['intuitive_rec3'] = 'Fomentar actividades creativas y resolución de problemas complejos para explorar nuevas ideas.';
+$string['reflexive_rec1'] = 'Desarrollar lecturas reflexivas y tomar notas.';
+$string['reflexive_rec2'] = 'Crear diagramas y organizar información.';
 $string['reflexive_rec3'] = 'Utilizar análisis de casos y autoevaluaciones.';
-$string['sequential_rec1'] = 'Organizar contenidos de manera lógica.';
-$string['sequential_rec2'] = 'Proponer actividades paso a paso.';
+$string['sequential_rec1'] = 'Seguir una estructura lógica y organizada.';
+$string['sequential_rec2'] = 'Tomar notas y resumir el material paso a paso.';
 $string['chart_distribution_title'] = 'Distribución de estilos de aprendizaje';
-$string['not_applicable'] = 'N/A';
+
+// Test in progress and remind strings
+$string['test_in_progress_message'] = '{$a} ha comenzado el test pero aún no lo ha completado.';
+$string['remind_submit_test'] = 'Recuérdale al estudiante que haga clic en el botón "Finalizar Test" para ver los resultados.';
+$string['questions'] = 'preguntas';
+$string['all_answered_title'] = '¡Todas las preguntas respondidas!';
+$string['all_answered_message'] = 'Has respondido las 44 preguntas. ¡No olvides hacer clic en "Finalizar Test" para enviar tus respuestas y ver tus resultados de estilo de aprendizaje!';
+
+// Admin view strings (NEW - matching personality_test structure)
+$string['total_students'] = 'Total de Estudiantes';
+$string['completed_tests'] = 'Test Completados';
+$string['in_progress_tests'] = 'En Progreso';
+$string['completion_rate'] = 'Tasa de Finalización';
+$string['general_statistics'] = 'Estadísticas Generales';
+$string['most_common_styles'] = 'Estilos de Aprendizaje Más Comunes';
+$string['average_dimensions'] = 'Promedios de Dimensiones';
+$string['status'] = 'Estado';
+$string['completion_date'] = 'Fecha de Última Acción';
+$string['confirm_delete'] = 'Confirmar Eliminación';
+$string['confirm_delete_yes'] = 'Sí, Eliminar';
+$string['cancel'] = 'Cancelar';
+
+// Block display strings
+$string['felder_soloman_intro'] = 'Según el modelo de Estilos de Aprendizaje de Felder y Soloman, toda persona tiene mayor inclinación a un estilo u otro. En tu caso, los estilos de aprendizaje que más predominan en cada eje, son:';
+$string['click_bold_for_recommendations'] = '*Pulsa los estilos de aprendizaje en <b>negrita</b> para ver recomendaciones de estudio.';
+$string['learning_style_label'] = 'Estilo de Aprendizaje';
+
+// Recommendation tooltips
+$string['active_recommendations'] = 'Se sugiere utilizar actividades prácticas, resolución de problemas, realizar experimentos, proyectos prácticos, participar en discusiones grupales, trabajar en grupos.';
+$string['reflexive_recommendations'] = 'Se sugiere desarrollar lecturas reflexivas, tomar notas y reflexionar sobre el material de aprendizaje, crear diagramas y organizar información, tomarse el tiempo para considerar las opciones antes de tomar decisiones, actividades de análisis de casos y actividades de autoevaluación.';
+$string['sensorial_recommendations'] = 'Se sugiere realizar una observación detallada y aplicación práctica de conceptos, utilizar ejemplos concretos y aplicaciones prácticas del material de aprendizaje, realizar actividades de laboratorio y proyectos. Desarrollar trabajo práctico.';
+$string['intuitive_recommendations'] = 'Se sugiere buscar conexiones y patrones en la información, utilizar analogías e historias para ilustrar los conceptos, hacer preguntas y explorar nuevas ideas. Actividades como la resolución de problemas complejos, actividades creativas y discusiones teóricas.';
+$string['visual_recommendations'] = 'Se sugiere utilizar gráficos, diagramas, videos y otros recursos visuales para representar la información, realizar mapas mentales y dibujar imágenes para comprender el material.';
+$string['verbal_recommendations'] = 'Se sugiere leer y escribir notas, desarrollar resúmenes del material, discutir el material en grupos o con un compañero de estudio, utilizar técnicas de memorización como la repetición verbal, discusiones o explicaciones verbales.';
+$string['sequential_recommendations'] = 'Se sugiere seguir una estructura lógica y organizada para aprender, tomar notas y resumir el material de aprendizaje, trabajar, analizar a través de pasos a pasos para resolver problemas.';
+$string['global_recommendations'] = 'Se sugiere buscar conexiones y patrones en la información, trabajar con el material de aprendizaje en su conjunto antes de enfocarse en los detalles, utilizar analogías y metáforas para ilustrar los conceptos. Trabajar en actividades que permiten la exploración y conexión de conceptos, aprendizaje basado en proyectos y discusión de temas complejos.';
+
+// Chart labels
+$string['chart_visual'] = 'Visual';
+$string['chart_sensorial'] = 'Sensitivo';
+$string['chart_active'] = 'Activo';
+$string['chart_global'] = 'Global';
+$string['chart_verbal'] = 'Verbal';
+$string['chart_intuitive'] = 'Intuitivo';
+$string['chart_reflexive'] = 'Reflexivo';
+$string['chart_sequential'] = 'Secuencial';
+
+// Navigation buttons for pagination
+$string['btn_previous'] = 'Anterior';
+$string['btn_next'] = 'Siguiente';
+$string['btn_finish'] = 'Finalizar Test';
+$string['complete_previous_pages'] = 'Por favor, completa las páginas anteriores antes de finalizar el test.';
+$string['questions_answered'] = '{$a->answered} de {$a->total} preguntas respondidas';
+$string['option_a'] = 'A';
+$string['option_b'] = 'B';
+
+// Individual results view strings
+$string['learning_dimensions'] = 'Dimensiones de Aprendizaje';
+
+// Alert messages for completed but not submitted test
+$string['finish_test'] = 'Finalizar Test';
+
+// Admin view UI
+$string['most_common_types'] = 'Estilos de Aprendizaje más comunes';
+$string['search_participant_placeholder'] = 'Buscar participante...';
+$string['export_csv'] = 'Exportar CSV';
+$string['status_completed'] = 'Completado';
+$string['status_in_progress'] = 'En progreso';
+$string['progress_questions'] = '{$a->answered} de {$a->total} preguntas';
+
+// Results
+$string['result_act_ref'] = 'Resultado Act/Ref';
+$string['result_sen_int'] = 'Resultado Sen/Int';
+$string['result_vis_vrb'] = 'Resultado Vis/Vrb';
+$string['result_seq_glo'] = 'Resultado Seq/Glo';
