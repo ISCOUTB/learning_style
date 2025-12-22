@@ -1,5 +1,90 @@
-let exp = false;
-document.addEventListener("DOMContentLoaded", async () => {
+require(['core/chartjs', 'core/str', 'core/config'], function(Chart, Str, Config) {
+  let exp = false;
+
+  const loadStrings = async () => {
+    const reqs = [
+      {key: 'visual', component: 'block_learning_style'},
+      {key: 'sensorial', component: 'block_learning_style'},
+      {key: 'active', component: 'block_learning_style'},
+      {key: 'global', component: 'block_learning_style'},
+      {key: 'verbal', component: 'block_learning_style'},
+      {key: 'intuitive', component: 'block_learning_style'},
+      {key: 'reflexive', component: 'block_learning_style'},
+      {key: 'sequential', component: 'block_learning_style'},
+
+      {key: 'visual_rec1', component: 'block_learning_style'},
+      {key: 'visual_rec2', component: 'block_learning_style'},
+      {key: 'sensory_rec1', component: 'block_learning_style'},
+      {key: 'sensory_rec2', component: 'block_learning_style'},
+      {key: 'active_rec1', component: 'block_learning_style'},
+      {key: 'active_rec2', component: 'block_learning_style'},
+      {key: 'active_rec3', component: 'block_learning_style'},
+      {key: 'global_rec1', component: 'block_learning_style'},
+      {key: 'global_rec2', component: 'block_learning_style'},
+      {key: 'verbal_rec1', component: 'block_learning_style'},
+      {key: 'verbal_rec2', component: 'block_learning_style'},
+      {key: 'intuitive_rec1', component: 'block_learning_style'},
+      {key: 'intuitive_rec2', component: 'block_learning_style'},
+      {key: 'intuitive_rec3', component: 'block_learning_style'},
+      {key: 'reflexive_rec1', component: 'block_learning_style'},
+      {key: 'reflexive_rec2', component: 'block_learning_style'},
+      {key: 'reflexive_rec3', component: 'block_learning_style'},
+      {key: 'sequential_rec1', component: 'block_learning_style'},
+      {key: 'sequential_rec2', component: 'block_learning_style'},
+
+      {key: 'teacher_recommendation', component: 'block_learning_style'},
+      {key: 'dashboard_of', component: 'block_learning_style'},
+      {key: 'dashboard_no_dominance', component: 'block_learning_style'},
+      {key: 'chart_title', component: 'block_learning_style'},
+      {key: 'no_completed_tests_title', component: 'block_learning_style'},
+      {key: 'no_completed_tests_message', component: 'block_learning_style'},
+      {key: 'na_label', component: 'block_learning_style'},
+    ];
+
+    const values = await Str.get_strings(reqs);
+    let i = 0;
+
+    return {
+      label_visual: values[i++],
+      label_sensory: values[i++],
+      label_active: values[i++],
+      label_global: values[i++],
+      label_verbal: values[i++],
+      label_intuitive: values[i++],
+      label_reflexive: values[i++],
+      label_sequential: values[i++],
+
+      visual_rec1: values[i++],
+      visual_rec2: values[i++],
+      sensory_rec1: values[i++],
+      sensory_rec2: values[i++],
+      active_rec1: values[i++],
+      active_rec2: values[i++],
+      active_rec3: values[i++],
+      global_rec1: values[i++],
+      global_rec2: values[i++],
+      verbal_rec1: values[i++],
+      verbal_rec2: values[i++],
+      intuitive_rec1: values[i++],
+      intuitive_rec2: values[i++],
+      intuitive_rec3: values[i++],
+      reflexive_rec1: values[i++],
+      reflexive_rec2: values[i++],
+      reflexive_rec3: values[i++],
+      sequential_rec1: values[i++],
+      sequential_rec2: values[i++],
+
+      teacher_recommendation: values[i++],
+      dashboard_of: values[i++],
+      dashboard_no_dominance: values[i++],
+      chart_title: values[i++],
+      no_completed_tests_title: values[i++],
+      no_completed_tests_message: values[i++],
+      na_label: values[i++],
+    };
+  };
+  
+  const initDashboard = async () => {
   let total_enc = document.getElementById("total_enc");
   let est_dom = document.getElementById("est_dom");
   let est_men_dom = document.getElementById("est_men_dom");
@@ -7,8 +92,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   let actor_expandir = document.getElementById("expandir_actor");
   let icon_exp = document.getElementById("icon_exp");
 
-  // Get strings from injected translations
-  const strings = window.learningStyleStrings || {};
+  let strings = {};
+  try {
+    strings = await loadStrings();
+  } catch (e) {
+    console.error(e);
+    strings = {};
+  }
 
   // Obtener el course_id desde el atributo data-courseid del contenedor
   const dashboardContainer = document.getElementById("learning-style-dashboard");
@@ -28,107 +118,35 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
   
-  let form = new FormData();
-  form.append("id", course_id);
-  let request_get_metrics = await fetch(
-    "../blocks/learning_style/dashboard/api/get_metrics.php",
-    {
-      method: "POST",
-      body: form,
-    }
-  );
-  if (request_get_metrics.ok) {
-    let response_get_metrics = await request_get_metrics.json();
-    let total_curso = response_get_metrics["total_students_on_course"];
-    let enc = response_get_metrics["total_students"];
-    total_enc.innerText = Math.floor((enc / total_curso) * 100) + "% (" + enc + " de " + total_curso + ")";
-
-    let llave_max = "";
-    let llave_min = "";
-    let estilo_hu = "";
-    let estilo_men = "";
-    let max_value = 0;
-    let min_value = 0;
-
-    //Calculo estilo dominante y menos dominante
-    for (let estilo in response_get_metrics["data"]) {
-      if (response_get_metrics["data"][estilo] > max_value) {
-        llave_max = estilo;
-        max_value = response_get_metrics["data"][estilo];
+  try {
+    // Fetch metrics from the server-side metrics endpoint.
+    let response_get_metrics = null;
+    try {
+      const endpoint = Config.wwwroot + '/blocks/learning_style/dashboard/metrics.php?courseid=' + encodeURIComponent(course_id) + '&sesskey=' + encodeURIComponent(Config.sesskey);
+      const resp = await fetch(endpoint, { credentials: 'same-origin' });
+      if (!resp.ok) {
+        throw new Error('Network response was not ok: ' + resp.status);
       }
-    }
-    min_value = max_value;
-    for (let estilo in response_get_metrics["data"]) {
-      if (response_get_metrics["data"][estilo] < min_value) {
-        llave_min = estilo;
-        min_value = response_get_metrics["data"][estilo];
+      response_get_metrics = await resp.json();
+      if (response_get_metrics && response_get_metrics.error) {
+        throw new Error(response_get_metrics.error);
       }
+    } catch (e) {
+      console.error('Could not fetch metrics:', e);
+      total_enc.innerText = strings.na_label || 'N/A';
+      est_dom.innerText = strings.na_label || 'N/A';
+      est_men_dom.innerText = strings.na_label || 'N/A';
+      return;
     }
-    //Determina estilo dominante
-    switch (llave_max) {
-      case "num_act":
-        estilo_hu = strings.label_active || "Activo";
-        break;
-      case "num_ref":
-        estilo_hu = strings.label_reflexive || "Reflexivo";
-        break;
-      case "num_vis":
-        estilo_hu = strings.label_visual || "Visual";
-        break;
-      case "num_vrb":
-        estilo_hu = strings.label_verbal || "Verbal";
-        break;
-      case "num_sen":
-        estilo_hu = strings.label_sensory || "Sensorial";
-        break;
-      case "num_int":
-        estilo_hu = strings.label_intuitive || "Intuitivo";
-        break;
-      case "num_sec":
-        estilo_hu = strings.label_sequential || "Secuencial";
-        break;
-      case "num_glo":
-        estilo_hu = strings.label_global || "Global";
-        break;
-      default:
-        estilo_hu = strings.na_label || "N/A";
-        break;
+    let total_curso = response_get_metrics["total_students_on_course"] || 0;
+    let enc = response_get_metrics["total_students"] || 0;
+    // Evitar división por cero: si no hay usuarios matriculados, mostrar 0% de forma segura.
+    const ofWord = strings.dashboard_of || 'de';
+    if (!total_curso) {
+      total_enc.innerText = "0% (" + enc + " " + ofWord + " " + total_curso + ")";
+    } else {
+      total_enc.innerText = Math.floor((enc / total_curso) * 100) + "% (" + enc + " " + ofWord + " " + total_curso + ")";
     }
-
-    //Determina estilo menos dominante
-    switch (llave_min) {
-      case "num_act":
-        estilo_men = strings.label_active || "Activo";
-        break;
-      case "num_ref":
-        estilo_men = strings.label_reflexive || "Reflexivo";
-        break;
-      case "num_vis":
-        estilo_men = strings.label_visual || "Visual";
-        break;
-      case "num_vrb":
-        estilo_men = strings.label_verbal || "Verbal";
-        break;
-      case "num_sen":
-        estilo_men = strings.label_sensory || "Sensorial";
-        break;
-      case "num_int":
-        estilo_men = strings.label_intuitive || "Intuitivo";
-        break;
-      case "num_sec":
-        estilo_men = strings.label_sequential || "Secuencial";
-        break;
-      case "num_glo":
-        estilo_men = strings.label_global || "Global";
-        break;
-      default:
-        estilo_men = strings.na_label || "N/A";
-        break;
-    }
-
-    //Muestra resultados
-    est_dom.innerText = estilo_hu;
-    est_men_dom.innerText = estilo_men;
 
     //Grafico
     
@@ -138,55 +156,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     data.push(response_get_metrics["data"]["num_vis"]);
     labels.push(strings.label_visual || "Visual");
-    descriptions.push(`
-        <li>${strings.visual_rec1}</li>
-        <li>${strings.visual_rec2}</li>
-    `);
+    descriptions.push([strings.visual_rec1, strings.visual_rec2]);
     data.push(response_get_metrics["data"]["num_sen"]);
     labels.push(strings.label_sensory || "Sensitivo");
-    descriptions.push(`
-        <li>${strings.sensory_rec1}</li>
-        <li>${strings.sensory_rec2}</li>
-    `);
+    descriptions.push([strings.sensory_rec1, strings.sensory_rec2]);
     data.push(response_get_metrics["data"]["num_act"]);
     labels.push(strings.label_active || "Activo");
-    descriptions.push(`
-        <li>${strings.active_rec1}</li>
-        <li>${strings.active_rec2}</li>
-        <li>${strings.active_rec3}</li>
-    `);
+    descriptions.push([strings.active_rec1, strings.active_rec2, strings.active_rec3]);
     data.push(response_get_metrics["data"]["num_glo"]);
     labels.push(strings.label_global || "Global");
-    descriptions.push(`
-        <li>${strings.global_rec1}</li>
-        <li>${strings.global_rec2}</li>
-    `);
+    descriptions.push([strings.global_rec1, strings.global_rec2]);
     data.push(response_get_metrics["data"]["num_vrb"]);
     labels.push(strings.label_verbal || "Verbal");
-    descriptions.push(`
-        <li>${strings.verbal_rec1}</li>
-        <li>${strings.verbal_rec2}</li>
-    `);
+    descriptions.push([strings.verbal_rec1, strings.verbal_rec2]);
     data.push(response_get_metrics["data"]["num_int"]);
     labels.push(strings.label_intuitive || "Intuitivo");
-    descriptions.push(`
-        <li>${strings.intuitive_rec1}</li>
-        <li>${strings.intuitive_rec2}</li>
-        <li>${strings.intuitive_rec3}</li>
-    `);
+    descriptions.push([strings.intuitive_rec1, strings.intuitive_rec2, strings.intuitive_rec3]);
     data.push(response_get_metrics["data"]["num_ref"]);
     labels.push(strings.label_reflexive || "Reflexivo");
-    descriptions.push(`
-        <li>${strings.reflexive_rec1}</li>
-        <li>${strings.reflexive_rec2}</li>
-        <li>${strings.reflexive_rec3}</li>
-    `);
+    descriptions.push([strings.reflexive_rec1, strings.reflexive_rec2, strings.reflexive_rec3]);
     data.push(response_get_metrics["data"]["num_sec"]);
     labels.push(strings.label_sequential || "Secuencial");
-    descriptions.push(`
-        <li>${strings.sequential_rec1}</li>
-        <li>${strings.sequential_rec2}</li>
-    `);
+    descriptions.push([strings.sequential_rec1, strings.sequential_rec2]);
     
     
     let chartTypeSelector = document.getElementById("chart-type-selector");
@@ -210,9 +201,100 @@ document.addEventListener("DOMContentLoaded", async () => {
         const message = strings.no_completed_tests_message || 'Los gráficos y estadísticas se mostrarán cuando los estudiantes completen el test de estilos de aprendizaje.';
         messageContainer.style.display = 'block';
         messageContainer.style.cssText = 'text-align: center; padding: 40px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #dee2e6; margin: 20px 0; display: block;';
-        messageContainer.innerHTML = '<i class="fa fa-chart-bar" style="font-size: 48px; color: #6c757d; margin-bottom: 15px; display: block;"></i><h5 style="color: #495057; margin-bottom: 10px;">' + title + '</h5><p style="color: #6c757d; margin: 0;">' + message + '</p>';
+        messageContainer.textContent = '';
+        const icon = document.createElement('i');
+        icon.className = 'fa fa-chart-bar';
+        icon.style.fontSize = '48px';
+        icon.style.color = '#6c757d';
+        icon.style.marginBottom = '15px';
+        icon.style.display = 'block';
+
+        const titleEl = document.createElement('h5');
+        titleEl.style.color = '#495057';
+        titleEl.style.marginBottom = '10px';
+        titleEl.textContent = title;
+
+        const messageEl = document.createElement('p');
+        messageEl.style.color = '#6c757d';
+        messageEl.style.margin = '0';
+        messageEl.textContent = message;
+
+        messageContainer.appendChild(icon);
+        messageContainer.appendChild(titleEl);
+        messageContainer.appendChild(messageEl);
       }
+      
       return;
+    }
+
+    // Show dominant and least dominant style blocks (only when there is data)
+    const dominantBlock = document.getElementById('dominant-style-block');
+    const leastDominantBlock = document.getElementById('least-dominant-style-block');
+    if (dominantBlock) {
+      dominantBlock.style.display = 'block';
+    }
+    if (leastDominantBlock) {
+      leastDominantBlock.style.display = 'block';
+    }
+
+    // Dominance is computed server-side (supports ties) to avoid duplicating logic.
+    const keyToLabel = {
+      num_act: strings.label_active || 'Activo',
+      num_ref: strings.label_reflexive || 'Reflexivo',
+      num_vis: strings.label_visual || 'Visual',
+      num_vrb: strings.label_verbal || 'Verbal',
+      num_sen: strings.label_sensory || 'Sensorial',
+      num_int: strings.label_intuitive || 'Intuitivo',
+      num_sec: strings.label_sequential || 'Secuencial',
+      num_glo: strings.label_global || 'Global',
+    };
+
+    const normalizeKeys = (keys) => {
+      if (!Array.isArray(keys)) {
+        return [];
+      }
+      // unique + stable order
+      return Array.from(new Set(keys.filter(Boolean)));
+    };
+
+    const labelsForKeys = (keys) => {
+      const labels = normalizeKeys(keys)
+        .map((k) => keyToLabel[k])
+        .filter(Boolean);
+      if (!labels.length) {
+        return strings.na_label || 'N/A';
+      }
+      return labels.join(' / ');
+    };
+
+    const setEqual = (a, b) => {
+      const aa = normalizeKeys(a);
+      const bb = normalizeKeys(b);
+      if (aa.length !== bb.length) {
+        return false;
+      }
+      const s = new Set(aa);
+      return bb.every((x) => s.has(x));
+    };
+
+    const dominantKeys = response_get_metrics.dominant_keys;
+    const leastKeys = response_get_metrics.least_dominant_keys;
+
+    const dominanceIsFlat = !!response_get_metrics.dominance_is_flat;
+    const sameLists = dominanceIsFlat || setEqual(dominantKeys, leastKeys);
+
+    if (sameLists) {
+      est_dom.innerText = strings.dashboard_no_dominance || 'Sin dominancia clara';
+      est_men_dom.innerText = strings.na_label || 'N/A';
+      if (leastDominantBlock) {
+        leastDominantBlock.style.display = 'none';
+      }
+    } else {
+      est_dom.innerText = labelsForKeys(dominantKeys);
+      est_men_dom.innerText = labelsForKeys(leastKeys);
+      if (leastDominantBlock) {
+        leastDominantBlock.style.display = 'block';
+      }
     }
     
     const context = document.getElementById("grafic").getContext("2d"); // Contexto del canvas
@@ -222,15 +304,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       cambiarGrafico(savedChartType); // Cambiar el gráfico según lo guardado en localStorage
     } else {
       localStorage.setItem("chartType", "pie"); // Establecer 'pie' por defecto si no hay valor guardado
+      chartTypeSelector.value = "pie";
       cambiarGrafico("pie"); // Crear gráfico por defecto
     }
 
-    // Función para cambiar el gráfico
-    chartTypeSelector.addEventListener("change", function () {
-      let selectedType = chartTypeSelector.value;
-      localStorage.setItem("chartType", selectedType); // Guardar el tipo de gráfico seleccionado
-      cambiarGrafico(selectedType); // Cambiar el gráfico según el tipo seleccionado
-    });
+    // Función para cambiar el gráfico. Use `onchange` to ensure a single handler
+    // even if `initDashboard` runs multiple times.
+    if (chartTypeSelector) {
+      chartTypeSelector.onchange = function () {
+        const selectedType = chartTypeSelector.value;
+        try {
+          localStorage.setItem("chartType", selectedType);
+        } catch (e) {
+          // ignore storage errors (e.g., quota or disabled)
+        }
+        cambiarGrafico(selectedType);
+      };
+    }
 
     // Función para crear y destruir gráficos
     function cambiarGrafico(tipo) {
@@ -249,76 +339,93 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
     ordenar_e_insertar(labels, data, descriptions, container_blocks_exp, strings);
-    actor_expandir.addEventListener("click", () => {
-      if (exp) {
-        //se cierra el expandible
-        exp = false;
-        container_blocks_exp.className = "learning_style_exp_close";
-        icon_exp.style.transform = "rotate(0deg)";
-      } else {
-        //se abre el expandible
-        exp = true;
-        container_blocks_exp.className = "learning_style_exp_open";
-        icon_exp.style.transform = "rotate(180deg)";
-      }
-    });
+    // Ensure a single click handler for the expand control to avoid duplicates.
+    if (actor_expandir) {
+      actor_expandir.onclick = () => {
+        if (exp) {
+          // se cierra el expandible
+          exp = false;
+          if (container_blocks_exp) container_blocks_exp.className = "learning_style_exp_close";
+          if (icon_exp) icon_exp.style.transform = "rotate(0deg)";
+        } else {
+          // se abre el expandible
+          exp = true;
+          if (container_blocks_exp) container_blocks_exp.className = "learning_style_exp_open";
+          if (icon_exp) icon_exp.style.transform = "rotate(180deg)";
+        }
+      };
+    }
+  } catch (e) {
+    console.error(e);
+    total_enc.innerText = "Error";
+    est_dom.innerText = strings.na_label || "N/A";
+    est_men_dom.innerText = strings.na_label || "N/A";
+    return;
   }
-});
-function crearGrafico(tipo, ctx, etiquetas, valores, titulo) {
-  return new Chart(ctx, {
-    type: tipo,
-    data: {
-      labels: etiquetas,
-      datasets: [
-        {
-          label: "Valor",
-          data: valores,
-          backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 0.2)",
-            "rgba(75, 192, 192, 0.2)",
-            "rgba(153, 102, 255, 0.2)",
-            "rgba(255, 159, 64, 0.2)",
-            "rgba(100, 221, 23, 0.2)",
-            "rgba(255, 87, 34, 0.2)",
-          ],
-          borderColor: [
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)",
-            "rgba(100, 221, 23, 1)",
-            "rgba(255, 87, 34, 1)",
-          ],
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        title: {
-          display: true,
-          text: titulo,
-        },
-        legend: {
-          display: false,
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", initDashboard);
+  } else {
+    initDashboard();
+  }
+
+  function crearGrafico(tipo, ctx, etiquetas, valores, titulo) {
+    return new Chart(ctx, {
+      type: tipo,
+      data: {
+        labels: etiquetas,
+        datasets: [
+          {
+            label: "Valor",
+            data: valores,
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 206, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(100, 221, 23, 0.2)",
+              "rgba(255, 87, 34, 0.2)",
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(153, 102, 255, 1)",
+              "rgba(255, 159, 64, 1)",
+              "rgba(100, 221, 23, 1)",
+              "rgba(255, 87, 34, 1)",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: titulo,
+          },
+          legend: {
+            display: false,
+          },
         },
       },
-    },
-  });
-}
-function ordenar_e_insertar(
-  array_cuali,
-  array_cuant,
-  array_description,
-  container,
-  strings
-) {
+    });
+  }
+
+  function ordenar_e_insertar(
+    array_cuali,
+    array_cuant,
+    array_description,
+    container,
+    strings
+  ) {
   // Crear un array de pares de valores [número, nombre]
   let combinados = array_cuant.map((num, index) => [
     num,
@@ -340,18 +447,46 @@ function ordenar_e_insertar(
 
   // Get recommendation text from strings
   const recommendationText = strings.teacher_recommendation || 'Se le recomienda al docente:';
-  
+
   let colors = ["#159600","#007aa7","#6F42C1","#DC3545","#FD7E14","#FFC107","#a76628","#000000"];
   for (let i = 0; i < desc[0].length; i++) {
     if(desc[0][i] > 0){
-      let block_html = document.createElement("div");
-      block_html.innerHTML = `<div class="flex block_reco_style" style="border-color: ${colors[i]}"><span style="color: ${colors[i]}" >${desc[1][i]}</span><span style="color: ${colors[i]}">${desc[0][i]}</span></div>
-                            ${recommendationText}
-                            <div>
-                                <ul>${desc[2][i]}</ul>
-                            </div>
-    `;
-      container.appendChild(block_html);
+      const block = document.createElement('div');
+
+      const header = document.createElement('div');
+      header.className = 'flex block_reco_style';
+      header.style.borderColor = colors[i];
+
+      const nameSpan = document.createElement('span');
+      nameSpan.style.color = colors[i];
+      nameSpan.textContent = desc[1][i];
+
+      const valueSpan = document.createElement('span');
+      valueSpan.style.color = colors[i];
+      valueSpan.textContent = String(desc[0][i]);
+
+      header.appendChild(nameSpan);
+      header.appendChild(valueSpan);
+
+      const recoText = document.createElement('div');
+      recoText.textContent = recommendationText;
+
+      const recoWrap = document.createElement('div');
+      const ul = document.createElement('ul');
+      const items = Array.isArray(desc[2][i]) ? desc[2][i] : [];
+      items.filter(Boolean).forEach((text) => {
+        const li = document.createElement('li');
+        li.textContent = text;
+        ul.appendChild(li);
+      });
+      recoWrap.appendChild(ul);
+
+      block.appendChild(header);
+      block.appendChild(recoText);
+      block.appendChild(recoWrap);
+
+      container.appendChild(block);
     }
   }
-}
+  }
+});
