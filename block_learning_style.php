@@ -318,7 +318,7 @@ class block_learning_style extends block_base
                 if (file_exists($embedded_file)) {
                     ob_start();
                     $courseid = $COURSE->id;
-                    include($embedded_file);
+                    include_once($embedded_file);
                     $this->content->text .= ob_get_clean();
                 } else {
                     $this->content->text .= '<p>' . get_string('dashboard_not_found', 'block_learning_style') . '</p>';
