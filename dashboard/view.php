@@ -34,7 +34,7 @@ echo $OUTPUT->header();
 
 $embedded_file = $CFG->dirroot . '/blocks/learning_style/dashboard/embedded.php';
 if (file_exists($embedded_file)) {
-    include($embedded_file);
+    include_once($embedded_file);
 }
 
 echo $OUTPUT->footer();
