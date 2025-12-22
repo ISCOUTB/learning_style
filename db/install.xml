@@ -8,10 +8,8 @@
     <TABLE NAME="learning_style" COMMENT="Stores learning style test responses and results" >
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="user"/>
-        <FIELD NAME="user" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="state"/>
-        <FIELD NAME="state" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="user" NEXT="course"/>
-        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="state" NEXT="is_completed"/>
-        <FIELD NAME="is_completed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="course" NEXT="q1"/>
+        <FIELD NAME="user" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="is_completed"/>
+        <FIELD NAME="is_completed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="user" NEXT="q1"/>
         <!-- Individual question responses (44 questions) -->
         <FIELD NAME="q1" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" PREVIOUS="is_completed" NEXT="q2"/>
         <FIELD NAME="q2" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" PREVIOUS="q1" NEXT="q3"/>
@@ -71,8 +69,7 @@
         <FIELD NAME="ap_secuencial" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" PREVIOUS="ap_verbal" NEXT="ap_global"/>
         <FIELD NAME="ap_global" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" PREVIOUS="ap_secuencial" NEXT="created_at"/>
         <FIELD NAME="created_at" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="ap_global" NEXT="updated_at"/>
-        <FIELD NAME="updated_at" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="created_at" NEXT="timemodified"/>
-        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="updated_at" />
+        <FIELD NAME="updated_at" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="created_at" />
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
