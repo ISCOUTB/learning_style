@@ -1,19 +1,3 @@
-body {
-    background-size: 300px;
-    background-position: center;
-    background-repeat: repeat;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-attachment: fixed;
-}
-.container {
-  padding-top: 20px;
-  padding-bottom: 15px;
-  box-shadow: 0px 0px 10px #dfdfdf;
-  border-radius: 5px;
-  background: #fff;
-  margin-top: 30px;
-  padding: 20px;
-}
 #page-blocks-learning_style-view .content_learning_style {
   width: 60%;
   margin: 30px auto;
@@ -71,10 +55,18 @@ body {
   margin: 0 3px 3px 0;
 }
 
+/* Do not float the new block SVG icon; allow true centering. */
+.block_learning_style img.learning-style-icon {
+    float: none !important;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
 /* Slider */
 .alpy input[type="range"] {
   height: 27px;
   -webkit-appearance: none;
+  appearance: none;
   margin: 10px 0;
   width: 100%;
 }
@@ -241,4 +233,611 @@ body {
     position: absolute;
     top: 0;
     transform: translateX(-50%);
+    z-index: 2;
+}
+
+/* Barra de resultados (slider) dentro del bloque: mantener visible el track y reforzar extremos (±11). */
+.block_learning_style .slider-container .progress.learning-style-progress {
+    /* Asegura que el "resto" de la línea se perciba aunque el marcador esté al borde. */
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+/* En extremos (±11): sombrear el 2% pegado al borde para que se vea el "tope". */
+.block_learning_style .slider-container .progress.learning-style-progress.ls-edge-left::before,
+.block_learning_style .slider-container .progress.learning-style-progress.ls-edge-right::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 2%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.block_learning_style .slider-container .progress.learning-style-progress.ls-edge-left::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(13, 110, 253, 0.28), rgba(13, 110, 253, 0));
+}
+
+.block_learning_style .slider-container .progress.learning-style-progress.ls-edge-right::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(13, 110, 253, 0.28), rgba(13, 110, 253, 0));
+}
+
+/* Block invitation and results cards - consolidated from inline styles */
+.block_learning_style .learning-invitation-block {
+    padding: 15px !important;
+    background: linear-gradient(135deg, #e3f2fd 0%, #f8f9fa 100%) !important;
+    border-radius: 8px !important;
+    border: 1px solid #dee2e6 !important;
+    position: relative !important;
+}
+
+.block_learning_style .learning-invitation-block::before,
+.block_learning_style .learning-invitation-block::after {
+    content: none !important;
+    display: none !important;
+}
+
+.block_learning_style .learning-header i {
+    width: 24px;
+    height: 24px;
+    border-radius: 50% !important;
+    background-color: #28a745 !important;
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+    font-size: 15px !important;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.block_learning_style .learning-description .card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    background: white !important;
+    border: 1px solid #1567f9 !important;
+    position: relative !important;
+}
+
+/* Eliminar solo el pin del título interior (h6.card-title dentro de .learning-description) */
+.block_learning_style .learning-description .card-title::before,
+.block_learning_style .learning-description .card-title::after {
+    content: none !important;
+    display: none !important;
+}
+
+.block_learning_style .learning-description .card-title {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border-bottom: none !important;
+    font-weight: bold !important;
+}
+
+.block_learning_style .learning-progress {
+    background: white !important;
+    padding: 12px !important;
+    border-radius: 5px !important;
+    border: 1px solid #e9ecef !important;
+}
+
+.block_learning_style .learning-invitation-block .learning-actions .btn {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+
+.block_learning_style .learning-invitation-block .learning-actions .btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
+
+.block_learning_style .learning-invitation-block .learning-actions .btn-warning {
+    background-color: #1567f9 !important;
+    border-color: #1567f9 !important;
+    color: #fff !important;
+}
+
+.block_learning_style .learning-invitation-block .learning-actions .btn-success {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    color: #fff !important;
+}
+
+/* Admin view styles - consolidated from inline */
+.block_learning_style_container h1 {
+    color: #0054ce;
+    border-bottom: 3px solid #0054ce;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+/* IMPORTANTE: Scope total al contenedor del bloque para no afectar el header (botón de perfil/admin) */
+.block_learning_style_container {
+    font-weight: normal !important;
+}
+
+.block_learning_style_container .card {
+    border: 1px solid #e3f2fd !important;
+    box-shadow: 0 2px 4px rgba(21, 103, 249, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.block_learning_style_container .card:hover {
+    box-shadow: 0 4px 8px rgba(21, 103, 249, 0.2) !important;
+    transform: translateY(-2px) !important;
+}
+
+.block_learning_style_container .card-header {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f8f9fa 100%) !important;
+    border-bottom: 2px solid #0054ce !important;
+}
+
+.block_learning_style_container .card-header h5 {
+    color: #0054ce !important;
+    font-weight: 700 !important;
+}
+
+.block_learning_style_container .card-title {
+    color: #5a6268 !important;
+    font-weight: 600 !important;
+}
+
+.block_learning_style_container .table thead th {
+    background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%) !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 700 !important;
+}
+
+.block_learning_style_container .table {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.block_learning_style_container .btn-info {
+    background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.block_learning_style_container .btn-info:hover {
+    background: linear-gradient(135deg, #0054ce 0%, #044ba0 100%) !important;
+    color: white !important;
+}
+
+.block_learning_style_container .btn-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+    border: none !important;
+    color: #fff !important;
+}
+
+.block_learning_style_container .btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%) !important;
+    border: none !important;
+    color: #fff !important;
+}
+
+.block_learning_style_container .badge.bg-primary {
+    background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%) !important;
+}
+
+.block_learning_style_container .text-primary {
+    color: #0054ce !important;
+}
+
+.block_learning_style_container .text-warning {
+    color: #1567f9 !important;
+}
+
+.block_learning_style_container .alert-info {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f8f9fa 100%) !important;
+    border-left: 4px solid #1567f9 !important;
+}
+
+.block_learning_style_container .border-info {
+    border-color: #1567f9 !important;
+}
+
+.block_learning_style_container .border-warning {
+    border-color: #ffc107 !important;
+}
+
+/* Negrilla SOLO donde corresponde (dentro del bloque) */
+.block_learning_style_container strong {
+    font-weight: 700 !important;
+}
+
+/* ========================================
+   VIEW.PHP STYLES - Test Form Page
+   ======================================== */
+
+/* Estilos específicos solo para el formulario del test - con mayor especificidad */
+body#page-blocks-learning_style-view .title_learning_style {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #0054ce;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: -0.5px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Contenedor para alinear contenido superior con cards */
+body#page-blocks-learning_style-view .content-header {
+    max-width: 1100px;
+    margin: 0 auto 2rem auto;
+}
+
+body#page-blocks-learning_style-view #learningStyleForm {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+body#page-blocks-learning_style-view .learning_style_q {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+}
+
+body#page-blocks-learning_style-view .learning_style_item {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px rgba(0, 84, 206, 0.06);
+    transition: all 0.3s ease;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #37474f;
+}
+
+body#page-blocks-learning_style-view .learning_style_item:hover {
+    box-shadow: 0 4px 12px rgba(0, 84, 206, 0.12);
+    transform: translateY(-2px);
+    border-color: #0054ce;
+}
+
+/* Select moderno y blindado contra el tema */
+body#page-blocks-learning_style-view .learning_style_item select.my-custom-select {
+    display: block !important;
+    width: 100% !important;
+    min-width: 280px !important;
+    padding: 16px 45px 16px 20px !important;
+    font-size: 1.05rem !important;
+    font-weight: 500 !important;
+    color: #333333 !important;
+    background: #ffffff !important;
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 10px !important;
+    margin-top: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230054ce' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 14px center !important;
+    background-size: 20px !important;
+    line-height: normal !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+}
+
+body#page-blocks-learning_style-view .learning_style_item select option {
+    color: #333333 !important;
+    background-color: #ffffff !important;
+    background-size: 22px !important;
+    box-shadow: 0 2px 4px rgba(0, 84, 206, 0.08) !important;
+    position: relative !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+    padding: 14px !important;
+    font-size: 1rem !important;
+}
+
+/* Placeholder legible: usa validación nativa del select */
+body#page-blocks-learning_style-view .select-q:invalid {
+    color: #6c757d !important;
+}
+
+body#page-blocks-learning_style-view .select-q:valid {
+    color: #37474f !important;
+}
+
+body#page-blocks-learning_style-view .learning_style_item select:hover {
+    border-color: #0054ce;
+    box-shadow: 0 4px 12px rgba(0, 84, 206, 0.15);
+    transform: translateY(-1px);
+}
+
+body#page-blocks-learning_style-view .learning_style_item select:focus {
+    outline: none;
+    border-color: #0054ce;
+    box-shadow: 0 0 0 4px rgba(0, 84, 206, 0.1), 0 4px 12px rgba(0, 84, 206, 0.2);
+    background-color: #f0f8ff;
+}
+
+body#page-blocks-learning_style-view .learning_style_item select option:disabled {
+    color: #9e9e9e;
+    font-style: italic;
+}
+
+/* Estilo para preguntas sin responder después de intentar enviar */
+body#page-blocks-learning_style-view form.attempted .learning_style_item:has(select:invalid) {
+    border: 2px solid #d32f2f !important;
+    background-color: #fff5f5 !important;
+}
+
+body#page-blocks-learning_style-view form.attempted .learning_style_item:has(select:invalid):hover {
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.15);
+}
+
+/* Botón de envío */
+body#page-blocks-learning_style-view #learningStyleForm input[type="submit"].btn {
+    background: linear-gradient(135deg, #0054ce 0%, #044ba0 100%);
+    color: white;
+    border: none;
+    padding: 16px 48px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 84, 206, 0.3);
+    display: block;
+    margin: 2.5rem auto;
+    min-width: 200px;
+}
+
+body#page-blocks-learning_style-view #learningStyleForm input[type="submit"].btn:hover {
+    background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%);
+    box-shadow: 0 6px 20px rgba(21, 103, 249, 0.4);
+    transform: translateY(-2px);
+}
+
+body#page-blocks-learning_style-view #learningStyleForm input[type="submit"].btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 84, 206, 0.3);
+}
+
+/* Mensaje de error */
+body#page-blocks-learning_style-view .content-accept .error {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #d32f2f;
+    font-weight: 500;
+}
+
+/* Mejoras generales de tipografía solo para el test */
+body#page-blocks-learning_style-view .generalbox {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Estilos para el cuadro informativo */
+body#page-blocks-learning_style-view .generalbox > div:first-of-type {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #455a64;
+    margin-bottom: 1rem;
+    padding: 0 4px;
+}
+
+body#page-blocks-learning_style-view .generalbox > div[style*="background-color"] {
+    background: linear-gradient(135deg, #e8f5ff 0%, #e3f2fd 100%) !important;
+    border-left: 4px solid #0054ce !important;
+    padding: 16px 20px !important;
+    margin-bottom: 2rem !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 6px rgba(0, 84, 206, 0.08);
+}
+
+/* Navigation buttons - only within the form */
+body#page-blocks-learning_style-view #learningStyleForm .navigation-buttons .btn-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 14px 32px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3) !important;
+}
+
+body#page-blocks-learning_style-view #learningStyleForm .navigation-buttons .btn-secondary:hover {
+    background: linear-gradient(135deg, #5a6268 0%, #545b62 100%) !important;
+    box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+body#page-blocks-learning_style-view #learningStyleForm .navigation-buttons .btn-primary {
+    background: linear-gradient(135deg, #0054ce 0%, #044ba0 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 14px 32px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 10px rgba(0, 84, 206, 0.3) !important;
+}
+
+body#page-blocks-learning_style-view #learningStyleForm .navigation-buttons .btn-primary:hover {
+    background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%) !important;
+    box-shadow: 0 6px 16px rgba(21, 103, 249, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+body#page-blocks-learning_style-view #learningStyleForm .navigation-buttons .btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #218838 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 14px 32px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3) !important;
+}
+
+body#page-blocks-learning_style-view #learningStyleForm .navigation-buttons .btn-success:hover {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%) !important;
+    box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Responsive para view.php */
+@media (max-width: 768px) {
+    body#page-blocks-learning_style-view .learning_style_item {
+        padding: 20px 22px;
+    }
+    
+    body#page-blocks-learning_style-view .learning_style_item select {
+        font-size: 0.95rem;
+        padding: 12px 35px 12px 14px;
+    }
+    
+    body#page-blocks-learning_style-view .navigation-buttons {
+        flex-direction: column !important;
+        gap: 10px;
+    }
+    
+    body#page-blocks-learning_style-view .navigation-buttons > div {
+        width: 100%;
+    }
+    
+    body#page-blocks-learning_style-view .navigation-buttons button {
+        width: 100%;
+    }
+}
+
+/* ========================================
+   VIEW_INDIVIDUAL.PHP STYLES - Individual Results Page
+   ======================================== */
+
+body#page-blocks-learning_style-view_individual .learning-style-individual-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+body#page-blocks-learning_style-view_individual .header-card {
+    background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(21, 103, 249, 0.2);
+}
+
+body#page-blocks-learning_style-view_individual .dimension-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+body#page-blocks-learning_style-view_individual .dimension-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+body#page-blocks-learning_style-view_individual .dimension-card .card-header {
+    border-radius: 12px 12px 0 0 !important;
+    border: none;
+    font-weight: 600;
+    padding: 1rem 1.25rem;
+}
+
+body#page-blocks-learning_style-view_individual .progress-bar-modern {
+    height: 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.6s ease;
+    color: white;
+}
+
+body#page-blocks-learning_style-view_individual .progress-wrapper {
+    position: relative;
+    height: 32px;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    overflow: visible;
+    margin-bottom: 1rem;
+}
+
+body#page-blocks-learning_style-view_individual .progress-value {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+    z-index: 5;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+body#page-blocks-learning_style-view_individual .progress-value.inside {
+    color: white;
+    left: calc(var(--bar-width) / 2);
+    transform: translate(-50%, -50%);
+}
+
+body#page-blocks-learning_style-view_individual .progress-value.outside {
+    color: #495057;
+    left: calc(var(--bar-width) + 8px);
+    transform: translateY(-50%);
+}
+
+body#page-blocks-learning_style-view_individual .progress-value.center-all {
+    color: #495057;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+body#page-blocks-learning_style-view_individual .profile-summary-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 12px;
+    border-left: 5px solid #1567f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+body#page-blocks-learning_style-view_individual .technical-badge {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+body#page-blocks-learning_style-view_individual .btn-modern {
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+body#page-blocks-learning_style-view_individual .btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
