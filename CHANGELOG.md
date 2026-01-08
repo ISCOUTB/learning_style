@@ -2,7 +2,7 @@
 
 Todas las modificaciones importantes del proyecto se documentarán en este archivo.
 
-## [2.0.1] — 2026-01-06
+## [2.0.1] — 2026-01-08
 - Paginación en la lista de estudiantes en el panel de administración.
 - Nueva forma de mostrar las estadísticas generales en el panel de administración.
 - Uso de arquitectura de plantillas Mustache para todas las vistas del bloque.
