@@ -1,0 +1,45 @@
+<div class="learning-invitation-block" style="padding: 15px; background: linear-gradient(135deg, #e3f2fd 0%, #f8f9fa 100%); border-radius: 8px; border: 1px solid #dee2e6;">
+    <div class="learning-header text-center mb-3" style="text-align: center !important;">
+        <div style="text-align: center; margin: 0 auto;">
+            {{{icon}}}
+        </div>
+        <h6 class="mt-2 mb-1">{{#str}} test_title, block_learning_style {{/str}}</h6>
+        <small class="text-muted">{{#str}} discover_your_style, block_learning_style {{/str}}</small>
+    </div>
+
+    <div class="learning-description mb-3" style="background: white; padding: 10px 12px; border-radius: 5px; border-left: 3px solid #1567f9;">
+        <small class="text-muted" style="line-height: 1.5;">
+            <i class="fa fa-info-circle text-info"></i>
+            {{#str}} test_description, block_learning_style {{/str}}
+        </small>
+    </div>
+
+    {{#all_answered}}
+    <div class="alert alert-info mb-3" style="padding: 12px 15px; margin-bottom: 15px; border-left: 4px solid #ffc107; background-color: #fff3cd; border-radius: 4px;">
+        <div style="display: flex; align-items: start;">
+            <i class="fa fa-exclamation-triangle" style="color: #856404; margin-right: 10px; margin-top: 2px; font-size: 1.2em;"></i>
+            <div>
+                <strong style="color: #856404;">{{#str}} all_answered_title, block_learning_style {{/str}}</strong><br>
+                <small style="color: #856404;">{{#str}} all_answered_message, block_learning_style {{/str}}</small>
+            </div>
+        </div>
+    </div>
+    {{/all_answered}}
+
+    <div class="learning-progress mb-3" style="background: white; padding: 12px; border-radius: 5px; border: 1px solid #e9ecef;">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="small font-weight-bold">{{#str}} your_progress, block_learning_style {{/str}}</span>
+            <span class="small text-muted">{{answered_count}}/44</span>
+        </div>
+        <div class="progress mb-2" style="height: 8px;">
+            <div class="progress-bar" style="width: {{progress_percentage}}%; background: linear-gradient(135deg, #649dffff 0%, #0054ce 100%);"></div>
+        </div>
+        <small class="text-muted">{{formatted_percentage}}% {{#str}} completed, block_learning_style {{/str}}</small>
+    </div>
+
+    <div class="learning-actions text-center">
+        <a href="{{url}}" class="btn {{button_class}} btn-block" style="box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: 500; transition: all 0.3s ease;">
+            <i class="fa {{button_icon}}"></i> {{button_text}}
+        </a>
+    </div>
+</div>
