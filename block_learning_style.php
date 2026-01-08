@@ -1,4 +1,12 @@
 <?php
+/**
+ * Learning Style Block
+ *
+ * @package    block_learning_style
+ * @copyright  2026 SAVIO - Sistema de Aprendizaje Virtual Interactivo (UTB)
+ * @author     SAVIO Development Team
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 class block_learning_style extends block_base
 {
