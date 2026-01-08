@@ -1,0 +1,50 @@
+<div class="learning-results-block" style="padding: 15px; background: white; border-radius: 8px; border: 1px solid #dee2e6;">
+    <div class="learning-header text-center mb-3">
+        <div style="position: relative; display: inline-block; line-height: 0;">
+            {{{icon}}}
+            <i class="fa fa-check text-primary" style="position: absolute; top: -6px; right: -9px; font-size: 1.4em; background: white; border-radius: 50%; line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,0.1);"></i>
+        </div>
+        <h6 class="mt-2 mb-1">{{#str}} test_completed, block_learning_style {{/str}}</h6>
+        <small class="text-muted">{{#str}} your_learning_style, block_learning_style {{/str}}</small>
+    </div>
+
+    <div class="learning-description mb-3" style="background: #f8f9fa; padding: 10px 12px; border-radius: 5px; border-left: 3px solid #0d6efd;">
+        <small class="text-muted" style="line-height: 1.5;">
+            <i class="fa fa-info-circle" style="color: #0d6efd;"></i>
+            {{#str}} test_description, block_learning_style {{/str}}
+        </small>
+    </div>
+
+    <p>{{#str}} felder_soloman_intro, block_learning_style {{/str}}</p>
+    
+    <ul class="lsorder">
+        {{#sliders}}
+            <li>{{{html}}}</li>
+        {{/sliders}}
+    </ul>
+
+    <p class="alpyintro" style="margin: 0;">{{#str}} click_bold_for_recommendations, block_learning_style {{/str}}</p>
+    
+    <canvas id="radarstyle" style="width: 100%;"></canvas>
+</div>
+{{#js}}
+require(['jquery'], function($) {
+    var instanceId = "{{instanceid}}";
+    /* Check if instanceId is valid before proceeding */
+    if (instanceId && window.location.hash) {
+        var targetHash = "#inst" + instanceId;
+        if (window.location.hash === targetHash) {
+             /* Add a small delay to ensure rendering is complete */
+             setTimeout(function() {
+                 var $target = $(targetHash);
+                 if ($target.length) {
+                     /* Scroll to element with some top offset (e.g. 100px for header) */
+                     $('html, body').animate({
+                         scrollTop: $target.offset().top - 100
+                     }, 500);
+                 }
+             }, 300);
+        }
+    }
+});
+{{/js}}
