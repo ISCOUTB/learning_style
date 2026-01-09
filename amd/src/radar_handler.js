@@ -7,7 +7,7 @@ define(['core/chartjs'], function(Chart) {
             if (!canvas) { return; }
             var ctx = canvas.getContext('2d');
             
-            new Chart(ctx, {
+            return new Chart(ctx, {
                 type: 'radar',
                 data: {
                     labels: params.labels,
