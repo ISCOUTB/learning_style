@@ -226,8 +226,8 @@ $string['admin_title'] = 'Administración - Estilos de Aprendizaje';
 $string['admin_access_denied'] = 'Acceso denegado. Solo profesores y administradores pueden ver esta página.';
 $string['admin_statistics'] = 'Estadísticas Generales';
 $string['total_participants'] = 'Total de Participantes';
-$string['participants_list'] = 'Lista de Participantes';
-$string['participant'] = 'Participante';
+$string['participants_list'] = 'Respuestas de Estudiantes';
+$string['participant'] = 'Estudiante';
 $string['learning_profile'] = 'Perfil de Aprendizaje';
 $string['actions'] = 'Acciones';
 $string['view_details'] = 'Ver';
@@ -439,7 +439,8 @@ $string['finish_test'] = 'Finalizar Test';
 
 // Admin view UI
 $string['most_common_types'] = 'Estilos de Aprendizaje más comunes';
-$string['search_participant_placeholder'] = 'Buscar participante...';
+$string['search_participant_placeholder'] = 'Buscar estudiante o correo...';
+$string['no_results_search'] = 'Ningún nombre o correo contiene "{$a}"';
 $string['export_csv'] = 'Exportar CSV';
 $string['status_completed'] = 'Completado';
 $string['status_in_progress'] = 'En progreso';

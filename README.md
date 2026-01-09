@@ -105,7 +105,7 @@ El profesor cuenta con una vista ejecutiva desde el bloque, donde puede monitori
 Un panel de administración que centraliza el seguimiento grupal. Permite visualizar quiénes han completado el proceso, quiénes están en curso y gestionar los resultados colectivos para adaptar la estrategia pedagógica del aula.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/258d6fe2-4468-450d-8ec1-f53e01ffb0e0" alt="Panel de Administración" width="800">
+  <img src="https://github.com/user-attachments/assets/bcb983b3-fce0-4346-8693-095d86008932" alt="Panel de Administración" width="800">
 </p>
 
 **Seguimiento Individualizado y Detallado**

@@ -1,0 +1,21 @@
+<div class="learning-header text-center mb-3" style="text-align: center !important;">
+    {{{icon}}}
+    <h6 class="mt-2 mb-1 font-weight-bold">{{#str}} management_title, block_learning_style {{/str}}</h6>
+    <small class="text-muted">{{#str}} course_overview, block_learning_style {{/str}}</small>
+</div>
+
+{{{dashboard_html}}}
+
+{{#show_buttons}}
+<div class="text-center" style="margin: 10px 0;">
+    <a href="{{admin_url}}" class="btn btn-primary btn-sm" style="margin: 2px; background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%); border: none;" title="{{#str}} view_admin_results, block_learning_style {{/str}}">
+        {{#str}} view_admin_results, block_learning_style {{/str}}
+    </a>
+    
+    {{#show_download}}
+    <a href="{{download_url}}" class="btn btn-sm" style="margin: 2px; background-color: #1e7e34; color: #ffffff; text-decoration: none; border: none;" title="{{#str}} download_results, block_learning_style {{/str}}">
+        {{#str}} download_results, block_learning_style {{/str}}
+    </a>
+    {{/show_download}}
+</div>
+{{/show_buttons}}

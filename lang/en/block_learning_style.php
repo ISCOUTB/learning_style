@@ -226,8 +226,8 @@ $string['admin_title'] = 'Learning Style Administration';
 $string['admin_access_denied'] = 'Access denied. Only teachers and administrators can view this page.';
 $string['admin_statistics'] = 'General Statistics';
 $string['total_participants'] = 'Total Participants';
-$string['participants_list'] = 'Participants List';
-$string['participant'] = 'Participant';
+$string['participants_list'] = 'Student Responses';
+$string['participant'] = 'Student';
 $string['learning_profile'] = 'Learning Profile';
 $string['actions'] = 'Actions';
 $string['view_details'] = 'View';
@@ -439,7 +439,8 @@ $string['finish_test'] = 'Finish Test';
 
 // Admin view UI
 $string['most_common_types'] = 'Most Common Learning Styles';
-$string['search_participant_placeholder'] = 'Search participant...';
+$string['search_participant_placeholder'] = 'Search student or email...';
+$string['no_results_search'] = 'No name or email contains "{$a}"';
 $string['export_csv'] = 'Export CSV';
 $string['status_completed'] = 'Completed';
 $string['status_in_progress'] = 'In progress';

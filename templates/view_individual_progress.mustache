@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading"><i class="fa fa-clock-o"></i> {{#str}} test_in_progress, block_learning_style {{/str}}</h4>
+        <p>{{#str}} test_in_progress_message, block_learning_style, {{user_fullname}} {{/str}}</p>
+        <hr>
+        <p class="mb-1"><strong>{{#str}} progress_label, block_learning_style {{/str}}:</strong></p>
+        <div class="progress mb-2" style="height: 30px;">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: {{progress_percentage}}%" aria-valuenow="{{progress_percentage}}" aria-valuemin="0" aria-valuemax="100">
+                <strong>{{progress_percentage}}%</strong>
+            </div>
+        </div>
+        <p><strong>{{#str}} has_answered, block_learning_style {{/str}}:</strong> {{answered_count}}/44 {{#str}} questions, block_learning_style {{/str}}</p>
+        
+        {{#all_answered}}
+        <div class="alert alert-info mt-2" role="alert">
+            <i class="fa fa-info-circle"></i> 
+            <strong>{{#str}} remind_submit_test, block_learning_style {{/str}}</strong>
+        </div>
+        {{/all_answered}}
+        
+        <p class="mb-0"><em>{{#str}} results_available_when_complete, block_learning_style, {{user_fullname}} {{/str}}</em></p>
+    </div>
+</div>
+
+<div class="mt-5 text-center d-flex gap-3 justify-content-center">
+    <a href="{{admin_view_url}}" class="btn btn-secondary btn-modern mr-3">
+        <i class="fa fa-arrow-left mr-2"></i>{{#str}} back_to_admin, block_learning_style {{/str}}
+    </a>
+    <a href="{{course_url}}" class="btn btn-modern" style="background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%); border: none; color: white;">
+        <i class="fa fa-home mr-2"></i>{{#str}} back_to_course, block_learning_style {{/str}}
+    </a>
+</div>

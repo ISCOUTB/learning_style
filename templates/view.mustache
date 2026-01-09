@@ -1,0 +1,67 @@
+<div class="text-center mb-3">
+    <img src="{{icon_url}}" alt="Learning Style Icon" style="width: 70px; height: 70px; margin-bottom: 10px;" />
+</div>
+
+<h1 class="title_learning_style">{{#str}}test_page_title, block_learning_style{{/str}}</h1>
+
+<div class="content-header">
+    <div>
+        {{#str}}test_intro_p1, block_learning_style{{/str}}
+        {{#str}}test_intro_p2, block_learning_style{{/str}}
+    </div>
+    <br>
+    <div style="background-color: #e8f5ff; border-left: 4px solid #0054ce; padding: 12px 16px; margin-bottom: 20px; border-radius: 4px;">
+        <strong>{{#str}}test_note, block_learning_style{{/str}}</strong> {{#str}}test_all_required, block_learning_style{{/str}} (<span style="color: #d32f2f;">*</span>)
+    </div>
+</div>
+
+<form method="POST" action="{{action_url}}" id="learningStyleForm">
+    <div class="content-accept">
+        <ol class="learning_style_q" style="padding: 0px; list-style: none;">
+        {{#questions}}
+            <li class="learning_style_item" data-question="{{number}}">
+                <div>{{question_text}}</div>
+                <select name="q{{number}}" class="my-custom-select select-q" data-question="{{number}}" style="font-weight: 500 !important;">
+                    <option value="" {{#is_unanswered}}selected{{/is_unanswered}}>{{#str}} select_option, block_learning_style {{/str}}</option>
+                    <option value="0" {{#is_a}}selected{{/is_a}}>A) {{option_a}}</option>
+                    <option value="1" {{#is_b}}selected{{/is_b}}>B) {{option_b}}</option>
+                </select>
+            </li>
+        {{/questions}}
+        </ol>
+        
+        <div class="clearfix"></div>
+        
+        <!-- Navigation buttons -->
+        <div class="navigation-buttons" style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+            <div>
+                {{#has_previous}}
+                    <button type="submit" name="action" value="previous" class="btn btn-secondary">
+                        {{#str}} btn_previous, block_learning_style {{/str}}
+                    </button>
+                {{/has_previous}}
+            </div>
+            
+            <div>
+                {{#has_next}}
+                    <button type="submit" name="action" value="next" class="btn btn-primary">
+                        {{#str}} btn_next, block_learning_style {{/str}}
+                    </button>
+                {{/has_next}}
+                
+                {{#show_finish}}
+                    <button type="submit" name="action" value="finish" id="submitBtn" class="btn btn-success">
+                        {{#str}} btn_finish, block_learning_style {{/str}}
+                    </button>
+                {{/show_finish}}
+            </div>
+        </div>
+    
+    </div>
+    
+    <input type="hidden" name="cid" value="{{courseid}}">
+    <input type="hidden" name="page" value="{{page}}">
+    <input type="hidden" name="sesskey" value="{{sesskey}}">
+    <div class="clearfix"></div>
+    
+</form>

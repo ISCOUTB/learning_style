@@ -1,5 +1,15 @@
 <?php
-require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
+/**
+ * Admin Dashboard for Learning Style Block
+ *
+ * @package    block_learning_style
+ * @copyright  2026 SAVIO - Sistema de Aprendizaje Virtual Interactivo (UTB)
+ * @author     SAVIO Development Team
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+require_once('../../config.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 $courseid = optional_param('courseid', 0, PARAM_INT);
 if (!$courseid) {
@@ -17,511 +27,279 @@ $PAGE->set_context($context);
 
 require_login($course);
 
-// Friendly redirect for students/unauthorized users (instead of showing a nopermissions error page).
-if (!has_capability('block/learning_style:viewreports', $context) && !is_siteadmin()) {
-    $redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
-    redirect($redirecturl);
+// Check if the block is added to the course
+if (!$DB->record_exists('block_instances', array('blockname' => 'learning_style', 'parentcontextid' => $context->id))) {
+    redirect(new moodle_url('/course/view.php', array('id' => $courseid)));
 }
 
+// Friendly redirect for unauthorized users
+if (!has_capability('block/learning_style:viewreports', $context) && !is_siteadmin()) {
+    redirect(new moodle_url('/course/view.php', array('id' => $courseid)));
+}
+
+// Parameters
 $action = optional_param('action', '', PARAM_ALPHA);
 $userid = optional_param('userid', 0, PARAM_INT);
+$page = optional_param('page', 0, PARAM_INT);
+$perpage = optional_param('perpage', 20, PARAM_INT);
+$search = optional_param('search', '', PARAM_NOTAGS);
 
-// Procesar acciones
+$admin_url = new moodle_url('/blocks/learning_style/admin_view.php', array('courseid' => $courseid));
+$PAGE->set_url($admin_url);
+
+// Handle Delete Action
 if ($action === 'delete' && $userid && confirm_sesskey()) {
     $confirm = optional_param('confirm', 0, PARAM_INT);
     if ($confirm) {
-        // PRIVACY: Teachers can only delete results for users enrolled in THIS course.
+        // Privacy check
         $targetuser = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
         if (!is_siteadmin() && (
             !is_enrolled($context, $targetuser, 'block/learning_style:take_test', true)
             || has_capability('block/learning_style:viewreports', $context, $userid)
             || is_siteadmin($userid)
         )) {
-            $redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
-            redirect($redirecturl);
+            redirect(new moodle_url('/course/view.php', array('id' => $courseid)));
         }
-        // Eliminar registro global del test del usuario
+        
         $DB->delete_records('learning_style', array('user' => $userid));
-        redirect(new moodle_url('/blocks/learning_style/admin_view.php', array('courseid' => $courseid)), 
-                 get_string('learning_style_deleted', 'block_learning_style'));
+        redirect($admin_url, get_string('learning_style_deleted', 'block_learning_style'));
     }
 }
 
-$PAGE->set_url('/blocks/learning_style/admin_view.php', array('courseid' => $courseid));
 $title = get_string('admin_title', 'block_learning_style');
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title($title . " : " . $course->fullname);
 $PAGE->set_heading($title . " : " . $course->fullname);
+$PAGE->requires->css('/blocks/learning_style/styles.css');
 
-// CSS del plugin: usar el sistema de Moodle (evita romper el theme).
-$PAGE->requires->css(new moodle_url('/blocks/learning_style/styles.css'));
+// Template Data Construction
+$data = [
+    'title' => $title,
+    'plugin_icon_url' => (new moodle_url('/blocks/learning_style/pix/icon.svg'))->out(),
+    'description' => format_text(get_string('admin_dashboard_description', 'block_learning_style'), FORMAT_HTML),
+    'courseid' => $courseid,
+    'admin_url' => $admin_url->out(false),
+    'export_url' => (new moodle_url('/blocks/learning_style/download_results.php', ['courseid' => $courseid, 'sesskey' => sesskey()]))->out(false),
+    'course_url' => (new moodle_url('/course/view.php', ['id' => $courseid]))->out(false),
+    'search_term' => $search
+];
 
-echo $OUTPUT->header();
-echo "<div class='block_learning_style_container'>";
-
-// Header con icono SVG en línea con el título
-$iconurl = new moodle_url('/blocks/learning_style/pix/learning_style_icon.svg');
-echo "<h1 class='mb-4 text-center'>";
-echo "<img src='" . $iconurl . "' alt='Learning Style Icon' style='width: 50px; height: 50px; vertical-align: middle; margin-right: 15px;' />";
-echo get_string('admin_title', 'block_learning_style');
-echo "</h1>";
-
-// Confirmación de eliminación
-if ($action === 'delete' && $userid) {
-    $user = $DB->get_record('user', array('id' => $userid), 'firstname, lastname');
-    if ($user) {
-        echo "<div class='alert alert-warning'>";
-        echo "<h4>" . get_string('confirm_delete_learning_style', 'block_learning_style') . "</h4>";
-        echo "<p>" . s(fullname($user)) . "</p>";
-        echo "<div class='mt-3'>";
-        echo "<a href='" . new moodle_url('/blocks/learning_style/admin_view.php', 
-            array('courseid' => $courseid, 'action' => 'delete', 'userid' => $userid, 'confirm' => 1, 'sesskey' => sesskey())) . 
-            "' class='btn btn-danger text-white'>" . get_string('delete') . "</a> ";
-        echo "<a href='" . new moodle_url('/blocks/learning_style/admin_view.php', array('courseid' => $courseid)) . 
-                "' class='btn btn-secondary text-white'>" . get_string('cancel') . "</a>";
-        echo "</div>";
-        echo "</div>";
-    }
-} else {
-    // Description banner (match other admin dashboards)
-    echo "<div class='alert alert-info mb-4'>";
-    echo format_text(get_string('admin_dashboard_description', 'block_learning_style'), FORMAT_HTML);
-    echo "</div>";
-
-    // Obtener estadísticas
-    // Get enrolled students in this course (capability-based)
-    $enrolled_users = get_enrolled_users($context, 'block/learning_style:take_test', 0, 'u.id');
-    $enrolled_ids = array_keys($enrolled_users);
-
-    // Defensive: ensure only students show in admin tables (exclude report-capable users).
-    $student_ids = array();
-    foreach ($enrolled_ids as $candidateid) {
-        $candidateid = (int)$candidateid;
-        if (is_siteadmin($candidateid)) {
-            continue;
-        }
-        if (has_capability('block/learning_style:viewreports', $context, $candidateid)) {
-            continue;
-        }
-        $student_ids[] = $candidateid;
-    }
-    $enrolled_ids = $student_ids;
+$user = $DB->get_record('user', array('id' => $userid), 'firstname, lastname');
+if ($user) {
+    $data['delete_confirmation'] = true;
+    $data['confirm_message'] = get_string('confirm_delete_learning_style', 'block_learning_style') . ' ' . fullname($user);
+    $data['confirm_url'] = (new moodle_url('/blocks/learning_style/admin_view.php', [
+        'courseid' => $courseid,
+        'action' => 'delete',
+        'userid' => $userid,
+        'confirm' => 1,
+        'sesskey' => sesskey()
+    ]))->out(false);
+    $data['cancel_url'] = $admin_url->out(false);
     
-    // Total students in course
-    $total_students = count($enrolled_ids);
-    
-    // Obtener participantes con información del usuario PRIMERO (antes de calcular estadísticas)
-    $userfields = \core_user\fields::for_name()->with_userpic()->get_sql('u', false, '', '', false)->selects;
-    $participants = array();
-    if (!empty($enrolled_ids)) {
-        list($insql, $params) = $DB->get_in_or_equal($enrolled_ids, SQL_PARAMS_NAMED);
-        $sql = "SELECT ls.*, {$userfields}
-                FROM {learning_style} ls
-                JOIN {user} u ON ls.user = u.id
-                WHERE ls.user $insql
-                ORDER BY ls.created_at DESC";
-        
-        $participants = $DB->get_records_sql($sql, $params);
-    }
-    
-    // Count participants who are enrolled in this course
-    $completed_tests = 0;
-    $in_progress_tests = 0;
-    if (!empty($enrolled_ids)) {
-        list($insql, $params) = $DB->get_in_or_equal($enrolled_ids, SQL_PARAMS_NAMED);
-        
-        // Count completed tests
-        $params_completed = $params;
-        $params_completed['completed'] = 1;
-        $completed_tests = $DB->count_records_select('learning_style', "user $insql AND is_completed = :completed", $params_completed);
-        
-        // Count in-progress tests
-        $params_progress = $params;
-        $params_progress['completed'] = 0;
-        $in_progress_tests = $DB->count_records_select('learning_style', "user $insql AND is_completed = :completed", $params_progress);
-    }
-    
-    echo "<div class='row mb-4'>";
-
-    // Total students card
-    echo "<div class='col-md-3 mb-4'>";
-    echo "<div class='card border-info h-100' style='border-color: #1567f9 !important;'>";
-    echo "<div class='card-body text-center'>";
-    echo "<i class='fa fa-users' style='font-size: 2em; margin-bottom: 10px; color: #1567f9;'></i>";
-    echo "<h5 class='card-title'>" . get_string('total_students', 'block_learning_style') . "</h5>";
-    echo "<h2 class='text-info' style='color: #1567f9 !important;'>" . $total_students . "</h2>";
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-
-    // Completed tests card
-    echo "<div class='col-md-3 mb-4'>";
-    echo "<div class='card border-success h-100' style='border-color: #28a745 !important;'>";
-    echo "<div class='card-body text-center'>";
-    echo "<i class='fa fa-check-circle text-success' style='font-size: 2em; margin-bottom: 10px;'></i>";
-    echo "<h5 class='card-title'>" . get_string('completed_tests', 'block_learning_style') . "</h5>";
-    echo "<h2 class='text-success'>" . $completed_tests . "</h2>";
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-
-    // In progress tests card
-    echo "<div class='col-md-3 mb-4'>";
-    echo "<div class='card border-warning h-100' style='border-color: #ffc107 !important;'>";
-    echo "<div class='card-body text-center'>";
-    echo "<i class='fa fa-clock-o' style='font-size: 2em; margin-bottom: 10px; color: #ffc107;'></i>";
-    echo "<h5 class='card-title'>" . get_string('in_progress_tests', 'block_learning_style') . "</h5>";
-    echo "<h2 class='text-info' style='color: #ffc107 !important;'>" . $in_progress_tests . "</h2>";
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-
-    // Completion rate card
-    $completion_rate = $total_students > 0 ? round(($completed_tests / $total_students) * 100, 1) : 0;
-    echo "<div class='col-md-3 mb-4'>";
-    echo "<div class='card border-primary h-100' style='border-color: #1567f9 !important;'>";   
-    echo "<div class='card-body text-center'>"; 
-    echo '<i class="fa fa-percent" style="font-size: 2em; margin-bottom: 10px; color: #1567f9;"></i>';
-    echo "<h5 class='card-title'>" . get_string('completion_rate', 'block_learning_style') . "</h5>";
-    echo "<h2 class='text-info' style='color: #1567f9 !important;'>" . $completion_rate . "%</h2>";
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-
-    echo "</div>";
-
-    // General statistics section (only meaningful when there are completed tests)
-    if ($completed_tests > 0) {
-        echo "<div class='row mt-4'>";
-        echo "<div class='col-12'>";
-        echo "<div class='card'>";
-        echo "<div class='card-header'>";
-        echo "<h5 class='mb-0'><i class='fa fa-chart-bar'></i> " . get_string('general_statistics', 'block_learning_style') . "</h5>";
-        echo "</div>";
-        echo "<div class='card-body'>";
-        echo "<div class='row'>";
-        
-        // Calculate learning style distribution
-        $style_distribution = array(
-            'Active' => 0,
-            'Reflexive' => 0,
-            'Sensorial' => 0,
-            'Intuitive' => 0,
-            'Visual' => 0,
-            'Verbal' => 0,
-            'Sequential' => 0,
-            'Global' => 0
-        );
-        
-        if (!empty($participants)) {
-            foreach ($participants as $p) {
-                if ($p->is_completed == 1) {
-                    // Determinate dominant style on each dimension
-                    // Processing Dimension
-                    if ($p->ap_active > $p->ap_reflexivo) {
-                        $style_distribution['Active']++;
-                    } else {
-                        $style_distribution['Reflexive']++;
-                    }
-                    
-                    // Perceiving Dimension
-                    if ($p->ap_sensorial > $p->ap_intuitivo) {
-                        $style_distribution['Sensorial']++;
-                    } else {
-                        $style_distribution['Intuitive']++;
-                    }
-
-                    // Receiving Dimension
-                    if ($p->ap_visual > $p->ap_verbal) {
-                        $style_distribution['Visual']++;
-                    } else {
-                        $style_distribution['Verbal']++;
-                    }
-
-                    // Understanding Dimension
-                    if ($p->ap_secuencial > $p->ap_global) {
-                        $style_distribution['Sequential']++;
-                    } else {
-                        $style_distribution['Global']++;
-                    }
-                }
-            }
-        }
-        
-        // Display most common learning styles (localized)
-        arsort($style_distribution);
-        $top_styles = array_slice($style_distribution, 0, 4, true);
-
-        // Map internal keys to language strings to support multiple languages
-        $style_labels = array(
-            'Active' => get_string('active', 'block_learning_style'),
-            'Reflexive' => get_string('reflexive', 'block_learning_style'),
-            'Sensorial' => get_string('sensorial', 'block_learning_style'),
-            'Intuitive' => get_string('intuitive', 'block_learning_style'),
-            'Visual' => get_string('visual', 'block_learning_style'),
-            'Verbal' => get_string('verbal', 'block_learning_style'),
-            'Sequential' => get_string('sequential', 'block_learning_style'),
-            'Global' => get_string('global', 'block_learning_style')
-        );
-
-        echo "<div class='col-md-6'>";
-        echo "<h6 class='text-center text-md-left mt-3 mb-3 mt-md-0 mb-md-2'>" . get_string('most_common_types', 'block_learning_style') . "</h6>";
-        if (!empty($top_styles) && $completed_tests > 0) {
-            echo "<ul class='list-group'>";
-            foreach ($top_styles as $style => $count) {
-                if ($count > 0) {
-                    $percentage = round(($count / $completed_tests) * 100, 1);
-                    $label = isset($style_labels[$style]) ? $style_labels[$style] : $style;
-                    echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-                    echo "<strong>" . s($label) . "</strong>";
-                    echo "<span class='badge bg-secondary rounded-pill'>" . $count . " (" . $percentage . "%)</span>";
-                    echo "</li>";
-                }
-            }
-            echo "</ul>";
-        } else {
-            echo "<p class='text-muted'>" . get_string('no_data_available', 'block_learning_style') . "</p>";
-        }
-        echo "</div>";
-        
-        // Average dimension scores - Mostrar las 8 dimensiones por separado
-        echo "<div class='col-md-6'>";
-        echo "<h6 class='text-center text-md-left mt-3 mb-3 mt-md-0 mb-md-2'>" . get_string('average_dimensions', 'block_learning_style') . "</h6>";
-        if ($completed_tests > 0) {
-            $avg_active = 0;
-            $avg_reflexivo = 0;
-            $avg_sensorial = 0;
-            $avg_intuitivo = 0;
-            $avg_visual = 0;
-            $avg_verbal = 0;
-            $avg_secuencial = 0;
-            $avg_global = 0;
-            
-            foreach ($participants as $p) {
-                if ($p->is_completed == 1) {
-                    $avg_active += $p->ap_active;
-                    $avg_reflexivo += $p->ap_reflexivo;
-                    $avg_sensorial += $p->ap_sensorial;
-                    $avg_intuitivo += $p->ap_intuitivo;
-                    $avg_visual += $p->ap_visual;
-                    $avg_verbal += $p->ap_verbal;
-                    $avg_secuencial += $p->ap_secuencial;
-                    $avg_global += $p->ap_global;
-                }
-            }
-            
-            $avg_active = round($avg_active / $completed_tests, 1);
-            $avg_reflexivo = round($avg_reflexivo / $completed_tests, 1);
-            $avg_sensorial = round($avg_sensorial / $completed_tests, 1);
-            $avg_intuitivo = round($avg_intuitivo / $completed_tests, 1);
-            $avg_visual = round($avg_visual / $completed_tests, 1);
-            $avg_verbal = round($avg_verbal / $completed_tests, 1);
-            $avg_secuencial = round($avg_secuencial / $completed_tests, 1);
-            $avg_global = round($avg_global / $completed_tests, 1);
-            
-            echo "<div class='row'>";
-            
-            // Primera subcolumna - 4 dimensiones
-            echo "<div class='col-md-6'>";
-            echo "<ul class='list-group'>";
-            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-            echo "<strong>" . get_string('active', 'block_learning_style') . ":</strong>";
-            echo $avg_active;
-            echo "</li>";
-            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-            echo "<strong>" . get_string('reflexive', 'block_learning_style') . ":</strong>";
-            echo $avg_reflexivo;
-            echo "</li>";
-            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-            echo "<strong>" . get_string('sensorial', 'block_learning_style') . ":</strong>";
-            echo $avg_sensorial;
-            echo "</li>";
-            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-            echo "<strong>" . get_string('intuitive', 'block_learning_style') . ":</strong>";
-            echo $avg_intuitivo;
-            echo "</li>";
-            echo "</ul>";
-            echo "</div>";
-            
-            // Segunda subcolumna - 4 dimensiones
-            echo "<div class='col-md-6 mt-3 mt-md-0'>";
-            echo "<ul class='list-group'>";
-            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-            echo "<strong>" . get_string('visual', 'block_learning_style') . ":</strong>";
-            echo $avg_visual;
-            echo "</li>";
-            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-            echo "<strong>" . get_string('verbal', 'block_learning_style') . ":</strong>";
-            echo $avg_verbal;
-            echo "</li>";
-            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-            echo "<strong>" . get_string('sequential', 'block_learning_style') . ":</strong>";
-            echo $avg_secuencial;
-            echo "</li>";
-            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-            echo "<strong>" . get_string('global', 'block_learning_style') . ":</strong>";
-            echo $avg_global;
-            echo "</li>";
-            echo "</ul>";
-            echo "</div>";
-            
-            echo "</div>"; // Cierra row de subcolumnas
-        } else {
-            echo "<p class='text-muted'>" . get_string('no_data_available', 'block_learning_style') . "</p>";
-        }
-        echo "</div>";
-        
-        echo "</div>"; // Cierra row de estadísticas
-        echo "</div>"; // Cierra card-body
-        echo "</div>"; // Cierra card
-        echo "</div>"; // Cierra col-12
-        echo "</div>"; // Cierra row mt-4
-    }
-
-    // Sección de Participants List
-    if (empty($participants)) {
-        echo "<div class='alert alert-info mt-4'>";
-        echo "<i class='fa fa-info-circle'></i> ";
-        echo "<h5>" . get_string('no_participants', 'block_learning_style') . "</h5>";
-        echo "<p>" . get_string('no_participants_message', 'block_learning_style') . "</p>";
-        echo "</div>";
-    } else {
-        echo "<div class='card mt-5'>";
-        echo "<div class='card-header'>";
-        echo "<h5 class='mb-0'>" . get_string('participants_list', 'block_learning_style') . "</h5>";
-        echo "</div>";
-        echo "<div class='card-body'>";
-        
-        // Filtros y búsqueda
-        echo "<div class='row mb-3'>";
-        echo "<div class='col-md-8'>";
-        echo "<input type='text' id='searchInput' class='form-control' placeholder='" . s(get_string('search_participant_placeholder', 'block_learning_style')) . "'>";
-        echo "</div>";
-        echo "<div class='col-12 col-md-4 text-end d-flex justify-content-center justify-content-md-start mt-3 mt-md-0'>";
-        echo "<button class='btn btn-success' onclick='exportData(\"csv\")'><i class='fa fa-download mr-2'></i>" . s(get_string('export_csv', 'block_learning_style')) . "</button>";
-        echo "</div>";
-        echo "</div>";
-
-        // Tabla de participantes
-        echo "<div class='table-responsive'>";
-        echo "<table class='table table-striped table-hover' id='participantsTable'>";
-        echo "<thead class='table-dark'>";
-        echo "<tr>";
-        echo "<th>" . get_string('participant', 'block_learning_style') . "</th>";
-        echo "<th>" . get_string('email') . "</th>";
-        echo "<th>" . get_string('status', 'block_learning_style') . "</th>";
-        echo "<th>" . get_string('learning_profile', 'block_learning_style') . "</th>";
-        echo "<th>" . get_string('completion_date', 'block_learning_style') . "</th>";
-        echo "<th>" . get_string('actions', 'block_learning_style') . "</th>";
-        echo "</tr>";
-        echo "</thead>";
-        echo "<tbody>";
-
-        foreach ($participants as $participant) {
-            echo "<tr class='participant-row'>";
-            echo "<td>";
-            echo "<div class='d-flex align-items-center'>";
-            $userpicture = new user_picture($participant);
-            $userpicture->size = 35;
-            echo $OUTPUT->render($userpicture);
-            echo "<span class='ms-2'><strong>" . s(fullname($participant)) . "</strong></span>";
-            echo "</div>";
-            echo "</td>";
-            echo "<td>" . $participant->email . "</td>";
-            
-            // Estado y Progreso
-            echo "<td>";
-            if ($participant->is_completed == 1) {
-                echo "<span class='badge bg-success text-white'>" . get_string('status_completed', 'block_learning_style') . "</span>";
-            } else {
-                // Calcular progreso - contar respuestas no nulas (q1 a q44)
-                $answered = 0;
-                for ($i = 1; $i <= 44; $i++) {
-                    $field = 'q' . $i;
-                    if (isset($participant->$field) && $participant->$field !== null && $participant->$field !== '') {
-                        $answered++;
-                    }
-                }
-                echo "<span class='badge bg-warning text-dark'>" . get_string('status_in_progress', 'block_learning_style') . "</span>";
-                echo "<br><small class='text-muted'>" . get_string('progress_questions', 'block_learning_style', ['answered' => $answered, 'total' => 44]) . "</small>";
-            }
-            echo "</td>";
-            
-            // Learning Profile (solo si está completado)
-            echo "<td>";
-            if ($participant->is_completed == 1) {
-                $profile = array();
-                $profile[] = ($participant->ap_active > $participant->ap_reflexivo) ? get_string('active', 'block_learning_style') : get_string('reflexive', 'block_learning_style');
-                $profile[] = ($participant->ap_sensorial > $participant->ap_intuitivo) ? get_string('sensorial', 'block_learning_style') : get_string('intuitive', 'block_learning_style');
-                $profile[] = ($participant->ap_visual > $participant->ap_verbal) ? get_string('visual', 'block_learning_style') : get_string('verbal', 'block_learning_style');
-                $profile[] = ($participant->ap_secuencial > $participant->ap_global) ? get_string('sequential', 'block_learning_style') : get_string('global', 'block_learning_style');
-                echo "<strong>" . implode(', ', $profile) . "</strong>";
-            } else {
-                echo "<span class='text-muted'>-</span>";
-            }
-            echo "</td>";
-            
-            $date_to_show = $participant->updated_at > 0 ? $participant->updated_at : $participant->created_at;
-            echo "<td>" . date('d/m/Y H:i', $date_to_show) . "</td>";
-            echo "<td>";
-                echo "<a href='" . new moodle_url('/blocks/learning_style/view_individual.php', 
-                    array('userid' => $participant->user, 'courseid' => $courseid)) . 
-                    "' class='btn btn-sm btn-info mr-2 mt-1 mb-1' title='" . get_string('view_details', 'block_learning_style') . "'>";
-                echo "<i class='fa fa-eye'></i> " . get_string('view_details', 'block_learning_style');
-            echo "</a>";
-            echo "<a href='" . new moodle_url('/blocks/learning_style/admin_view.php', 
-                    array('courseid' => $courseid, 'action' => 'delete', 'userid' => $participant->user, 'sesskey' => sesskey())) . 
-                    "' class='btn btn-sm btn-danger' title='" . get_string('delete') . "'>";
-                echo "<i class='fa fa-trash'></i> " . get_string('delete');
-            echo "</a>";
-            echo "</td>";
-            echo "</tr>";
-        }
-
-        echo "</tbody>";
-        echo "</table>";
-        echo "</div>";
-        echo "</div>";
-        echo "</div>";
-    }
+    echo $OUTPUT->header();
+    echo $OUTPUT->render_from_template('block_learning_style/admin_view', $data);
+    echo $OUTPUT->footer();
+    exit;
 }
 
-// Botón para regresar al curso
-echo "<div class='mt-4 text-center'>";
-echo "<a href='" . new moodle_url('/course/view.php', array('id' => $courseid)) . "' class='btn btn-secondary'>";
-echo "<i class='fa fa-arrow-left'></i> " . get_string('back_to_course', 'block_learning_style');
-echo "</a>";
-echo "</div>";
+// 1. Get Enrolled Users Helper
+list($esql, $params) = get_enrolled_sql($context, 'block/learning_style:take_test', 0, true);
 
-echo "</div>";
+// 2. Statistics (Count only)
+$sql_enrolled = "SELECT COUNT(DISTINCT u.id) FROM {user} u JOIN ($esql) je ON je.id = u.id WHERE u.deleted = 0";
+$total_enrolled = $DB->count_records_sql($sql_enrolled, $params);
 
-// JavaScript para funcionalidad
-echo "<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    
-    function filterTable() {
-        const filter = searchInput.value.toLowerCase();
-        const rows = document.querySelectorAll('#participantsTable .participant-row');
-        
-        rows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            const matchesSearch = text.includes(filter);
-            row.style.display = matchesSearch ? '' : 'none';
-        });
-    }
-    
-    if (searchInput) {
-        searchInput.addEventListener('input', filterTable);
-    }
-    
-    // Función para exportar datos
-    window.exportData = function(format) {
-        if (format === 'csv') {
-            window.location.href = '" . $CFG->wwwroot . "/blocks/learning_style/download_results.php?courseid=" . $courseid . "&sesskey=" . sesskey() . "&format=csv';
+// SQL for completed/in-progress
+$sql_completed_count = "SELECT COUNT(ls.id) FROM {learning_style} ls JOIN ($esql) je ON je.id = ls.user WHERE ls.is_completed = 1";
+$total_completed = $DB->count_records_sql($sql_completed_count, $params);
+
+$sql_all_responses = "SELECT COUNT(ls.id) FROM {learning_style} ls JOIN ($esql) je ON je.id = ls.user";
+$count_responses = $DB->count_records_sql($sql_all_responses, $params);
+$total_in_progress = $count_responses - $total_completed;
+
+$completion_rate = $total_enrolled > 0 ? round(($total_completed / $total_enrolled) * 100, 1) : 0;
+
+$data['total_enrolled'] = $total_enrolled;
+$data['total_completed'] = $total_completed;
+$data['total_in_progress'] = $total_in_progress;
+$data['completion_rate'] = $completion_rate;
+$data['has_completed'] = ($total_completed > 0);
+
+// 3. Stats Optimization (SQL instead of Loop)
+if ($total_completed > 0) {
+    // Single Query for Averages and Distribution Counts
+    $sql_stats = "SELECT 
+            AVG(ap_active) as avg_active,
+            AVG(ap_reflexivo) as avg_reflexivo,
+            AVG(ap_sensorial) as avg_sensorial,
+            AVG(ap_intuitivo) as avg_intuitivo,
+            AVG(ap_visual) as avg_visual,
+            AVG(ap_verbal) as avg_verbal,
+            AVG(ap_secuencial) as avg_secuencial,
+            AVG(ap_global) as avg_global,
+            
+            SUM(CASE WHEN ap_active > ap_reflexivo THEN 1 ELSE 0 END) as count_active,
+            SUM(CASE WHEN ap_reflexivo >= ap_active THEN 1 ELSE 0 END) as count_reflexivo,
+            
+            SUM(CASE WHEN ap_sensorial > ap_intuitivo THEN 1 ELSE 0 END) as count_sensorial,
+            SUM(CASE WHEN ap_intuitivo >= ap_sensorial THEN 1 ELSE 0 END) as count_intuitivo,
+            
+            SUM(CASE WHEN ap_visual > ap_verbal THEN 1 ELSE 0 END) as count_visual,
+            SUM(CASE WHEN ap_verbal >= ap_visual THEN 1 ELSE 0 END) as count_verbal,
+            
+            SUM(CASE WHEN ap_secuencial > ap_global THEN 1 ELSE 0 END) as count_secuencial,
+            SUM(CASE WHEN ap_global >= ap_secuencial THEN 1 ELSE 0 END) as count_global
+            
+          FROM {learning_style} ls 
+          JOIN ($esql) je ON je.id = ls.user 
+          WHERE ls.is_completed = 1";
+
+    $stats = $DB->get_record_sql($sql_stats, $params);
+
+    // Process Most Common Types
+    $top_styles_list = [
+        'Active' => ['count' => $stats->count_active, 'label' => get_string('active', 'block_learning_style'), 'color_hex' => '#e74c3c'],
+        'Reflexive' => ['count' => $stats->count_reflexivo, 'label' => get_string('reflexive', 'block_learning_style'), 'color_hex' => '#3498db'],
+        'Sensorial' => ['count' => $stats->count_sensorial, 'label' => get_string('sensorial', 'block_learning_style'), 'color_hex' => '#27ae60'],
+        'Intuitive' => ['count' => $stats->count_intuitivo, 'label' => get_string('intuitive', 'block_learning_style'), 'color_hex' => '#f39c12'],
+        'Visual' => ['count' => $stats->count_visual, 'label' => get_string('visual', 'block_learning_style'), 'color_hex' => '#9b59b6'],
+        'Verbal' => ['count' => $stats->count_verbal, 'label' => get_string('verbal', 'block_learning_style'), 'color_hex' => '#e67e22'],
+        'Sequential' => ['count' => $stats->count_secuencial, 'label' => get_string('sequential', 'block_learning_style'), 'color_hex' => '#1abc9c'],
+        'Global' => ['count' => $stats->count_global, 'label' => get_string('global', 'block_learning_style'), 'color_hex' => '#34495e']
+    ];
+
+    uasort($top_styles_list, function($a, $b) {
+        return $b['count'] - $a['count'];
+    });
+
+    $top_4_styles = array_slice($top_styles_list, 0, 4);
+    $formatted_top_styles = [];
+    $rank_counter = 1;
+    foreach ($top_4_styles as $key => $style) {
+        if ($style['count'] > 0) {
+            $formatted_top_styles[] = [
+                'rank' => $rank_counter++,
+                'label' => $style['label'],
+                'count' => $style['count'],
+                'percentage' => round(($style['count'] / $total_completed) * 100, 1),
+                'color_hex' => $style['color_hex']
+            ];
         }
-    };
-});
-</script>";
+    }
+    $data['top_styles'] = $formatted_top_styles;
 
+    // Process Dimension Stats (Averages)
+    // Structure: Pairs
+    $helper_dim = function($avg1, $avg2, $color1, $color2, $l1, $l2) {
+        $val1 = round($avg1, 1);
+        $val2 = round($avg2, 1);
+        $total = $val1 + $val2;
+        // avoid div by zero
+        $pct1 = $total > 0 ? ($val1 / $total) * 100 : 50;
+        $pct2 = $total > 0 ? ($val2 / $total) * 100 : 50;
+        
+        return [
+            'left_label' => $l1,
+            'right_label' => $l2,
+            'left_avg' => $val1,
+            'right_avg' => $val2,
+            'left_pct' => $pct1,
+            'right_pct' => $pct2,
+            'left_color' => $color1,
+            'right_color' => $color2
+        ];
+    };
+
+    $data['dimension_stats'] = [
+        $helper_dim($stats->avg_active, $stats->avg_reflexivo, '#e74c3c', '#3498db', get_string('active', 'block_learning_style'), get_string('reflexive', 'block_learning_style')),
+        $helper_dim($stats->avg_sensorial, $stats->avg_intuitivo, '#27ae60', '#f39c12', get_string('sensorial', 'block_learning_style'), get_string('intuitive', 'block_learning_style')),
+        $helper_dim($stats->avg_visual, $stats->avg_verbal, '#9b59b6', '#e67e22', get_string('visual', 'block_learning_style'), get_string('verbal', 'block_learning_style')),
+        $helper_dim($stats->avg_secuencial, $stats->avg_global, '#1abc9c', '#34495e', get_string('sequential', 'block_learning_style'), get_string('global', 'block_learning_style'))
+    ];
+}
+
+// 4. Participants Table (Paginated & Search)
+$userfields = \core_user\fields::for_name()->with_userpic()->get_sql('u', false, '', '', false)->selects;
+$where_search = "";
+$search_params = [];
+
+if (!empty($search)) {
+    $where_search = " AND (" . $DB->sql_like('u.firstname', ':s1', false) . " OR " . $DB->sql_like('u.lastname', ':s2', false) . " OR " . $DB->sql_like('u.email', ':s3', false) . ")";
+    $search_params = ['s1' => "%$search%", 's2' => "%$search%", 's3' => "%$search%"];
+}
+
+$sql_count_participants = "SELECT COUNT(ls.id) 
+                           FROM {learning_style} ls
+                           JOIN {user} u ON ls.user = u.id
+                           JOIN ($esql) je ON je.id = ls.user
+                           WHERE 1=1 $where_search";
+
+$total_participants = $DB->count_records_sql($sql_count_participants, array_merge($params, $search_params));
+
+$sql_list = "SELECT ls.*, {$userfields}
+             FROM {learning_style} ls
+             JOIN {user} u ON ls.user = u.id
+             JOIN ($esql) je ON je.id = ls.user
+             WHERE 1=1 $where_search
+             ORDER BY ls.created_at DESC";
+
+$participants = $DB->get_records_sql($sql_list, array_merge($params, $search_params), $page * $perpage, $perpage);
+
+// Show table if there are ANY responses in strict sense, OR if a search is active (even if 0 results)
+$data['show_table'] = ($count_responses > 0);
+
+$list = [];
+if ($participants) {
+    foreach ($participants as $p) {
+        $userpicture = new user_picture($p);
+        $userpicture->size = 35;
+        
+        $row = [
+            'userpicture' => $OUTPUT->render($userpicture),
+            'fullname' => fullname($p),
+            'email' => $p->email,
+            'is_completed' => ($p->is_completed == 1),
+            'completion_date' => userdate($p->updated_at, get_string('strftimedatetimeshort')),
+            'view_url' => (new moodle_url('/blocks/learning_style/view_individual.php', ['courseid' => $courseid, 'userid' => $p->user]))->out(false),
+            'delete_url' => (new moodle_url('/blocks/learning_style/admin_view.php', ['courseid' => $courseid, 'action' => 'delete', 'userid' => $p->user, 'sesskey' => sesskey()]))->out(false)
+        ];
+        
+        if ($p->is_completed == 1) {
+             // Calculate brief profile summary using standard strings
+             $profile = [];
+             $profile[] = ($p->ap_active > $p->ap_reflexivo) ? get_string('active', 'block_learning_style') : get_string('reflexive', 'block_learning_style');
+             $profile[] = ($p->ap_sensorial > $p->ap_intuitivo) ? get_string('sensorial', 'block_learning_style') : get_string('intuitive', 'block_learning_style');
+             $profile[] = ($p->ap_visual > $p->ap_verbal) ? get_string('visual', 'block_learning_style') : get_string('verbal', 'block_learning_style');
+             $profile[] = ($p->ap_secuencial > $p->ap_global) ? get_string('sequential', 'block_learning_style') : get_string('global', 'block_learning_style');
+             
+             $row['profile_summary'] = implode(', ', $profile);
+        } else {
+             // Calculate progress for in-progress tests
+             $answered = 0;
+             for ($i = 1; $i <= 44; $i++) {
+                 $field = 'q' . $i;
+                 if (isset($p->$field) && $p->$field !== null && $p->$field !== '') {
+                     $answered++;
+                 }
+             }
+             $row['answered'] = $answered;
+             $row['total_questions'] = 44;
+        }
+        
+        $list[] = $row;
+    }
+}
+$data['list'] = $list;
+
+// Pagination Bar
+$baseurl = new moodle_url('/blocks/learning_style/admin_view.php', ['courseid' => $courseid]);
+if ($search) {
+    $baseurl->param('search', $search);
+}
+$data['pagination'] = $OUTPUT->render(new paging_bar($total_participants, $page, $perpage, $baseurl, 'page'));
+
+// 5. Render
+echo $OUTPUT->header();
+echo $OUTPUT->render_from_template('block_learning_style/admin_view', $data);
 echo $OUTPUT->footer();
