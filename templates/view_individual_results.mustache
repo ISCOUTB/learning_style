@@ -55,10 +55,12 @@
 
     <div class="profile-summary-card card mt-5 p-4">
         <div class="d-flex align-items-center mb-4">
-            <i class="fa fa-lightbulb" style="font-size: 2rem; color: #1567f9;"></i>
-            <h4 class="mb-0">{{#str}} learning_profile_summary, block_learning_style {{/str}}</h4>
+            <i class="fa fa-lightbulb-o mr-2" style="font-size: 2rem; color: #1567f9; margin-right: 0.5rem;"></i>
+            <h4 class="mb-0 ms-3">{{#str}} learning_profile_summary, block_learning_style {{/str}}</h4>
         </div>
-        <ul class="list-unstyled mb-0">
+        
+        <h5 class="mb-3 text-muted">{{#str}} characteristics, block_learning_style {{/str}}</h5>
+        <ul class="list-unstyled mb-4">
             {{#profile_characteristics}}
             <li class="mb-3" style="font-size: 1.05rem;">
                 <i class="fa fa-check-circle mr-2" style="color: #28a745;"></i>
@@ -66,6 +68,20 @@
             </li>
             {{/profile_characteristics}}
         </ul>
+
+        <h5 class="mb-3 text-muted">{{#str}} recommendations, block_learning_style {{/str}}</h5>
+        <div class="row">
+            {{#recommendations}}
+            <div class="col-md-6 mb-3">
+                <div class="card h-100 border-light bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title text-primary">{{title}}</h6>
+                        <p class="card-text small">{{text}}</p>
+                    </div>
+                </div>
+            </div>
+            {{/recommendations}}
+        </div>
     </div>
 
     <div class="card mt-4" style="border-radius: 12px; overflow: hidden;">
@@ -74,55 +90,67 @@
             <h5 class="mb-0 d-inline" style="color: #0054ce !important;">{{#str}} technical_data, block_learning_style {{/str}}</h5>
         </div>
         <div class="card-body p-4">
-            <div class="row g-4">
-                {{#technical_data}}
-                <div class="col-6 col-md-3 text-center mb-4">
-                    <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_active, block_learning_style {{/str}}</div>
-                    <span class="technical-badge" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white;">{{active}}</span>
+            <div class="row">
+                <!-- COLUMNA IZQUIERDA: BADGES -->
+                <div class="col-lg-5 d-flex flex-column justify-content-center">
+                    <h6 class="mb-3 text-center text-muted">{{#str}} scores, block_learning_style {{/str}}</h6>
+                    <div class="row g-4">
+                        {{#technical_data}}
+                        <div class="col-6 text-center mb-4">
+                            <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_active, block_learning_style {{/str}}</div>
+                            <span class="technical-badge mx-auto mt-2" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{active}}</span>
+                        </div>
+                        <div class="col-6 text-center mb-4">
+                            <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_reflexive, block_learning_style {{/str}}</div>
+                            <span class="technical-badge mx-auto mt-2" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{reflexive}}</span>
+                        </div>
+                        <div class="col-6 text-center mb-4">
+                            <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_sensorial, block_learning_style {{/str}}</div>
+                            <span class="technical-badge mx-auto mt-2" style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{sensorial}}</span>
+                        </div>
+                        <div class="col-6 text-center mb-4">
+                            <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_intuitive, block_learning_style {{/str}}</div>
+                            <span class="technical-badge mx-auto mt-2" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{intuitive}}</span>
+                        </div>
+                         <div class="col-6 text-center mb-4">
+                            <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_visual, block_learning_style {{/str}}</div>
+                            <span class="technical-badge mx-auto mt-2" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{visual}}</span>
+                        </div>
+                        <div class="col-6 text-center mb-4">
+                            <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_verbal, block_learning_style {{/str}}</div>
+                            <span class="technical-badge mx-auto mt-2" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{verbal}}</span>
+                        </div>
+                        <div class="col-6 text-center mb-4">
+                            <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_sequential, block_learning_style {{/str}}</div>
+                            <span class="technical-badge mx-auto mt-2" style="background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{sequential}}</span>
+                        </div>
+                        <div class="col-6 text-center mb-4">
+                            <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_global, block_learning_style {{/str}}</div>
+                            <span class="technical-badge mx-auto mt-2" style="background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{global}}</span>
+                        </div>
+                        {{/technical_data}}
+                    </div>
                 </div>
-                <div class="col-6 col-md-3 text-center mb-4">
-                    <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_reflexive, block_learning_style {{/str}}</div>
-                    <span class="technical-badge" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white;">{{reflexive}}</span>
-                </div>
-                <div class="col-6 col-md-3 text-center mb-4">
-                    <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_sensorial, block_learning_style {{/str}}</div>
-                    <span class="technical-badge" style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%); color: white;">{{sensorial}}</span>
-                </div>
-                <div class="col-6 col-md-3 text-center mb-4">
-                    <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_intuitive, block_learning_style {{/str}}</div>
-                    <span class="technical-badge" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); color: white;">{{intuitive}}</span>
-                </div>
-                {{/technical_data}}
-            </div>
 
-            <div class="row g-4 mt-2">
-                {{#technical_data}}
-                <div class="col-6 col-md-3 text-center mb-4">
-                    <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_visual, block_learning_style {{/str}}</div>
-                    <span class="technical-badge" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); color: white;">{{visual}}</span>
+                <!-- COLUMNA DERECHA: RADAR -->
+                <div class="col-lg-7 d-flex align-items-center justify-content-center border-start">
+                     <div style="width: 100%; max-width: 600px;">
+                        <h6 class="mb-3 text-center text-muted">{{#str}} radar_chart_title, block_learning_style {{/str}}</h6>
+                        <canvas id="radarstyle"></canvas>
+                     </div>
                 </div>
-                <div class="col-6 col-md-3 text-center mb-4">
-                    <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_verbal, block_learning_style {{/str}}</div>
-                    <span class="technical-badge" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white;">{{verbal}}</span>
-                </div>
-                <div class="col-6 col-md-3 text-center mb-4">
-                    <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_sequential, block_learning_style {{/str}}</div>
-                    <span class="technical-badge" style="background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); color: white;">{{sequential}}</span>
-                </div>
-                <div class="col-6 col-md-3 text-center mb-4">
-                    <div style="font-weight: 600; color: #6c757d;">{{#str}} dimension_global, block_learning_style {{/str}}</div>
-                    <span class="technical-badge" style="background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%); color: white;">{{global}}</span>
-                </div>
-                {{/technical_data}}
+
             </div>
         </div>
     </div>
 </div>
 
 <div class="mt-5 text-center d-flex gap-3 justify-content-center">
+    {{#can_view_reports}}
     <a href="{{admin_view_url}}" class="btn btn-secondary mr-3">
         <i class="fa fa-arrow-left mr-2"></i>{{#str}} back_to_admin, block_learning_style {{/str}}
     </a>
+    {{/can_view_reports}}
     <a href="{{course_url}}" class="btn" style="background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%); border: none; color: white;">
         <i class="fa fa-home mr-2"></i>{{#str}} back_to_course, block_learning_style {{/str}}
     </a>
