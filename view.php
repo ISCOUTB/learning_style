@@ -42,9 +42,9 @@ if (has_capability('block/learning_style:viewreports', $context)) {
 // Check for existing response
 $existing_response = $DB->get_record('learning_style', array('user' => $USER->id));
 
-// If test is completed, redirect to results
+// If test is completed, redirect to results (view_individual.php)
 if ($existing_response && $existing_response->is_completed) {
-    redirect(new moodle_url('/course/view.php', array('id' => $courseid)), 
+    redirect(new moodle_url('/blocks/learning_style/view_individual.php', array('courseid' => $courseid, 'userid' => $USER->id)), 
              get_string('redirect_accept_exist', 'block_learning_style'), 
              null, \core\output\notification::NOTIFY_INFO);
 }
@@ -87,7 +87,7 @@ if ($ispost && $action !== '') {
 
     // If test already completed, block finishing again (cross-course).
     if ($existing_response && $existing_response->is_completed && $action === 'finish') {
-        $redirect_url = new moodle_url('/course/view.php', array('id' => $courseid));
+        $redirect_url = new moodle_url('/blocks/learning_style/view_individual.php', array('courseid' => $courseid, 'userid' => $USER->id));
         redirect($redirect_url, get_string('redirect_accept_exist', 'block_learning_style'), null, \core\output\notification::NOTIFY_INFO);
     }
 
@@ -285,7 +285,7 @@ if ($ispost && $action !== '') {
         $data->ap_secuencial = $seq_glo["a"];
         $data->ap_global = $seq_glo["b"];
 
-        $redirect_url = new moodle_url('/course/view.php', array('id' => $courseid));
+        $redirect_url = new moodle_url('/blocks/learning_style/view_individual.php', array('courseid' => $courseid, 'userid' => $USER->id));
 
         try {
             if ($existing_response) {
