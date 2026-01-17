@@ -311,7 +311,7 @@ $string['feature_instant_results'] = 'Instant results with recommendations';
 $string['start_test'] = 'Start Exploration';
 $string['test_not_configured'] = 'Exploration is not configured. Please contact your instructor.';
 $string['test_completed'] = 'Learning Styles Exploration Completed';
-$string['your_results_here'] = 'See your results here';
+$string['your_results_here'] = 'View your results here';
 
 // Test page content
 $string['test_intro_p1'] = 'This exploration is based on the <strong>Felder-Soloman Model</strong>, a tool that identifies your preferences in how you process and organize information for learning.';
@@ -383,7 +383,7 @@ $string['test_in_progress_message'] = '{$a} has started the exploration but has 
 $string['remind_submit_test'] = 'Remind the student to click the "Finish Exploration" button to view the results.';
 $string['questions'] = 'questions';
 $string['all_answered_title'] = 'All Questions Answered!';
-$string['all_answered_message'] = 'You have answered all 44 questions. Don\'t forget to click "Finish Exploration" to submit your answers and see your learning style results!';
+$string['all_answered_message'] = 'You have answered all 44 questions. Don\'t forget to click "Finish Exploration" to submit your answers and view your learning style results!';
 
 // Admin view strings (NEW - matching personality_test structure)
 $string['total_students'] = 'Total Students';
@@ -455,7 +455,7 @@ $string['result_vis_vrb'] = 'Result Vis/Vrb';
 
 $string['scores'] = 'Dimension Scores';
 $string['radar_chart_title'] = 'Learning Profile Radar Chart';
-$string['see_full_results'] = 'See Detailed Results';
+$string['see_full_results'] = 'View Detailed Results';
 $string['characteristics'] = 'Characteristics';
 $string['recommendations'] = 'Recommendations';
 $string['result_seq_glo'] = 'Result Seq/Glo';
