@@ -315,6 +315,7 @@
 .block_learning_style .learning-results-block .card-title {
     padding-left: 0 !important;
     margin-left: 0 !important;
+    min-height: 0px !important;
     background: transparent !important;
     background-color: transparent !important;
     border-bottom: none !important;
