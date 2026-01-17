@@ -302,14 +302,17 @@
     position: relative !important;
 }
 
-/* Eliminar solo el pin del título interior (h6.card-title dentro de .learning-description) */
+/* Eliminar solo el pin del título interior (h6 en el bloque) */
 .block_learning_style .learning-description .card-title::before,
-.block_learning_style .learning-description .card-title::after {
+.block_learning_style .learning-description .card-title::after,
+.block_learning_style .learning-results-block .card-title::before,
+.block_learning_style .learning-results-block .card-title::after {
     content: none !important;
     display: none !important;
 }
 
-.block_learning_style .learning-description .card-title {
+.block_learning_style .learning-description .card-title,
+.block_learning_style .learning-results-block .card-title {
     padding-left: 0 !important;
     margin-left: 0 !important;
     background: transparent !important;
