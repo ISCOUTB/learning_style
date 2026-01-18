@@ -2,6 +2,9 @@
 
 Todas las modificaciones importantes del proyecto se documentarán en este archivo.
 
+## [2.0.3] — 2026-01-18
+- El bloque ahora respeta el rol local del curso. Los administradores o gestores inscritos como estudiantes ahora verán la vista de estudiante (invitación al test) en lugar del dashboard de profesor.
+
 ## [2.0.2] — 2026-01-18
 - Opción para mostrar/ocultar las descripciones en el bloque principal.
 - Adición del gráfico radar en resultados detallados y acceso permitido a los estudiantes a esta vista.
