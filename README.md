@@ -88,7 +88,7 @@ Si el estudiante ha completado las 44 preguntas pero aún no ha procesado el env
 Al finalizar, el estudiante recibe un resumen el bloque principal de sus estilos de aprendizaje predominantes, junto con un acceso directo a sus resultados detallados donde podrá ver gráficos y recomendaciones específicas.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b50f6520-4530-436c-b995-d806790c1994" alt="Resultados del Estudiante" width="528">
+  <img src="https://github.com/user-attachments/assets/2991a026-675f-41cb-942d-741ad2270dbd" alt="Resultados del Estudiante" width="528">
 </p>
 
 <p align="center">
@@ -102,7 +102,7 @@ Al finalizar, el estudiante recibe un resumen el bloque principal de sus estilos
 El profesor cuenta con una vista ejecutiva desde el bloque, donde puede monitorizar métricas clave y gráficos de tendencia de forma inmediata, además de acceder a funciones avanzadas de exportación y administración.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/7788c773-6184-4867-bd61-76785bbe05a5" alt="Bloque del Profesor" width="528">
+  <img src="https://github.com/user-attachments/assets/e60a4ab9-265d-473d-aa5b-0185afbc3dd8" alt="Bloque del Profesor" width="528">
 </p>
 
 **Centro de Gestión y Analíticas**
@@ -183,7 +183,7 @@ Ejemplo (Activo/Reflexivo):
 El flujo del estudiante está diseñado para soportar progreso parcial:
 
 - Se crea/actualiza un registro con `is_completed = 0` mientras el test está en curso.
-- El guardado automático se activa en cambios de respuesta y se ejecuta **2 segundos** después de la última interacción.
+- El guardado automático se activa en cambios de respuesta y se ejecuta **400 milisegundos** después de la última interacción.
 - El guardado progresivo envía un `POST` con `action=autosave` y `sesskey`, y actualiza únicamente las respuestas presentes en la página actual.
 
 Reglas de integridad implementadas:
