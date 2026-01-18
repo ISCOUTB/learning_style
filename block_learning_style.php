@@ -130,8 +130,8 @@ class block_learning_style extends block_base
     /**
      * Check if user can view dashboard
      */
-    private function can_view_dashboard($context) {
-        return has_capability('block/learning_style:viewreports', $context);
+    private function can_view_dashboard($context, $userid = null) {
+        return has_capability('block/learning_style:viewreports', $context, $userid);
     }
 
     /**
@@ -280,7 +280,7 @@ class block_learning_style extends block_base
         ];
 
         // Agregar botones al final (después del dashboard) para profesores/administradores 
-        $is_teacher = has_capability('block/learning_style:viewreports', $context) || is_siteadmin();
+        $is_teacher = $this->can_view_dashboard($context);
         if ($is_teacher) {
             $template_data['show_buttons'] = true;
             $template_data['admin_url'] = (new moodle_url('/blocks/learning_style/admin_view.php', array('courseid' => $COURSE->id)))->out();
@@ -293,10 +293,8 @@ class block_learning_style extends block_base
             $filtered_student_ids = array();
             foreach ($student_ids as $candidateid) {
                 $candidateid = (int)$candidateid;
-                if (is_siteadmin($candidateid)) {
-                    continue;
-                }
-                if (has_capability('block/learning_style:viewreports', $context, $candidateid)) {
+                
+                if ($this->can_view_dashboard($context, $candidateid)) {
                     continue;
                 }
                 $filtered_student_ids[] = $candidateid;
