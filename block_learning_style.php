@@ -208,21 +208,6 @@ class block_learning_style extends block_base
              ];
         }
 
-        // Understanding: Sequential vs Global
-        if ($entry->ap_secuencial >= $entry->ap_global) {
-             $results_cards[] = [
-                 'dimension' => get_string('understanding_dimension', 'block_learning_style'),
-                 'style' => get_string('sequential', 'block_learning_style'),
-                 'icon' => 'fa-list-ol'
-             ];
-        } else {
-             $results_cards[] = [
-                 'dimension' => get_string('understanding_dimension', 'block_learning_style'),
-                 'style' => get_string('global', 'block_learning_style'),
-                 'icon' => 'fa-globe'
-             ];
-        }
-
         // Input: Visual vs Verbal
         if ($entry->ap_visual >= $entry->ap_verbal) {
              $results_cards[] = [
@@ -235,6 +220,21 @@ class block_learning_style extends block_base
                  'dimension' => get_string('input_dimension', 'block_learning_style'),
                  'style' => get_string('verbal', 'block_learning_style'),
                  'icon' => 'fa-comments-o'
+             ];
+        }
+
+        // Understanding: Sequential vs Global
+        if ($entry->ap_secuencial >= $entry->ap_global) {
+             $results_cards[] = [
+                 'dimension' => get_string('understanding_dimension', 'block_learning_style'),
+                 'style' => get_string('sequential', 'block_learning_style'),
+                 'icon' => 'fa-list-ol'
+             ];
+        } else {
+             $results_cards[] = [
+                 'dimension' => get_string('understanding_dimension', 'block_learning_style'),
+                 'style' => get_string('global', 'block_learning_style'),
+                 'icon' => 'fa-globe'
              ];
         }
         
