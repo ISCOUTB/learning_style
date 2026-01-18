@@ -27,15 +27,14 @@ if (!$DB->record_exists('block_instances', array('blockname' => 'learning_style'
 // Security: Check permissions and enrollment
 $is_own_results = ($USER->id == $userid);
 $can_view_reports = has_capability('block/learning_style:viewreports', $context);
-$is_siteadmin = is_siteadmin();
 
 // Basic access check: If not owner, not teacher, and not admin -> Kick out
-if (!$is_own_results && !$can_view_reports && !$is_siteadmin) {
+if (!$is_own_results && !$can_view_reports) {
     redirect(new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 // Cross-course privacy check: If teacher (not admin/owner), ensure target user is in this course
-if (!$is_own_results && !$is_siteadmin && !is_enrolled($context, $user)) {
+if (!$is_own_results && !$can_view_reports && !is_enrolled($context, $user)) {
     redirect(new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
