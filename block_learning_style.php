@@ -131,9 +131,7 @@ class block_learning_style extends block_base
      * Check if user can view dashboard
      */
     private function can_view_dashboard($context) {
-        return is_siteadmin()
-            || has_capability('block/learning_style:viewreports', $context)
-            || has_capability('moodle/course:viewhiddensections', $context);
+        return has_capability('block/learning_style:viewreports', $context);
     }
 
     /**
