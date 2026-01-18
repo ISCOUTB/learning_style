@@ -33,7 +33,7 @@ if (!$DB->record_exists('block_instances', array('blockname' => 'learning_style'
 }
 
 // Friendly redirect for unauthorized users
-if (!has_capability('block/learning_style:viewreports', $context) && !is_siteadmin()) {
+if (!has_capability('block/learning_style:viewreports', $context)) {
     redirect(new moodle_url('/course/view.php', array('id' => $courseid)));
 }
 
@@ -53,11 +53,8 @@ if ($action === 'delete' && $userid && confirm_sesskey()) {
     if ($confirm) {
         // Privacy check
         $targetuser = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
-        if (!is_siteadmin() && (
-            !is_enrolled($context, $targetuser, 'block/learning_style:take_test', true)
-            || has_capability('block/learning_style:viewreports', $context, $userid)
-            || is_siteadmin($userid)
-        )) {
+        if (!is_enrolled($context, $targetuser, 'block/learning_style:take_test', true)
+            || has_capability('block/learning_style:viewreports', $context, $userid)) {
             redirect(new moodle_url('/course/view.php', array('id' => $courseid)));
         }
         
