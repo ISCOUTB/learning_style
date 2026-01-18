@@ -36,6 +36,7 @@ Este repositorio incluye:
   - Acceso a **vista individual** por estudiante.
   - Posibilidad de **eliminación** de resultados individuales.
   - **Descarga CSV** de resultados completados.
+- Opción para **mostrar/ocultar** las descripciones en el bloque principal.
 - **Controles de privacidad**: acceso restringido por capacidades y por matrícula en el curso.
 
 ---
@@ -47,14 +48,14 @@ Este repositorio incluye:
 
 El recorrido comienza con una invitación clara y directa. Desde el bloque principal del curso, el estudiante puede visualizar su estado actual y acceder al test con un solo click, facilitando la participación sin fricciones.
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b07430c3-9fed-454a-b1bd-0f4249f6c2a6" alt="Invitación al Test" width="528">
+  <img src="https://github.com/user-attachments/assets/3b25dfef-7d84-4fbd-9f55-e3fe08735397" alt="Invitación al Test" width="528">
 </p>
 
 **Interfaz de Evaluación Optimizada**
 
 Se presenta un entorno de respuesta limpio y libre de distracciones. La interfaz ha sido diseñada para priorizar la legibilidad y la facilidad de uso, permitiendo que el estudiante se concentre totalmente en el proceso de autodescubrimiento.
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/18642df6-8cd3-4b28-ab89-fb0afe574ecb" alt="Formulario del Test" height="500">
+  <img src="https://github.com/user-attachments/assets/0eaabfda-483e-41f9-b23a-34ae8b6f7083" alt="Formulario del Test" height="500">
 </p>
 
 **Asistencia y Validación en Tiempo Real**
@@ -70,7 +71,7 @@ Para garantizar la integridad de los datos, el sistema implementa una validació
 Entendemos que el tiempo es valioso. Si el estudiante debe interrumpir su sesión, el sistema guarda automáticamente su avance. Al regresar, el bloque muestra el porcentaje de progreso y permite reanudar el test exactamente donde se dejó, resaltando visualmente la siguiente pregunta a responder.
 	
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/556d6dc7-3baa-4fe3-bebd-df02ceafa115" alt="Progreso del Test" height="350">
+  <img src="https://github.com/user-attachments/assets/4e234873-70ed-41c7-a3b1-5a219c78bb24" alt="Progreso del Test" height="350">
   &nbsp;&nbsp;
   <img src="https://github.com/user-attachments/assets/e53ca651-9442-42d5-b6e8-aa40e5e9ef3f" alt="Continuar Test" height="350">
 </p>
@@ -79,15 +80,19 @@ Entendemos que el tiempo es valioso. Si el estudiante debe interrumpir su sesió
 Si el estudiante ha completado las 44 preguntas pero aún no ha procesado el envío, el bloque muestra una notificación clara y amigable, invitándolo a formalizar la entrega y conocer su perfil de aprendizaje.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8f2f5a45-eadc-44d0-822c-058ed5e0555e" alt="Confirmación de Test Completado" width="528">
+  <img src="https://github.com/user-attachments/assets/a87de948-abe0-409a-a346-e60fcc1dac9f" alt="Confirmación de Test Completado" width="528">
 </p>
 
 **Análisis de Perfil y Recomendaciones Personalizadas**
 
-Al concluir, el estudiante recibe un diagnóstico detallado de su estilo de aprendizaje. Más allá de un simple resultado, la plataforma ofrece interactividad: al pulsar sobre sus estilos predominantes, se despliegan estrategias de estudio personalizadas para potenciar su rendimiento académico.
+Al finalizar, el estudiante recibe un resumen el bloque principal de sus estilos de aprendizaje predominantes, junto con un acceso directo a sus resultados detallados donde podrá ver gráficos y recomendaciones específicas.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d53d9c79-9cc4-4ee2-a400-1bcdfd92faee" alt="Resultados del Estudiante" width="528">
+  <img src="https://github.com/user-attachments/assets/b50f6520-4530-436c-b995-d806790c1994" alt="Resultados del Estudiante" width="528">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/43c4217b-50e7-476b-a2b0-65281406bec9" alt="Vista Detallada del Estudiante" width="600">
 </p>
 
 ### 2. Experiencia del Profesor
@@ -97,7 +102,7 @@ Al concluir, el estudiante recibe un diagnóstico detallado de su estilo de apre
 El profesor cuenta con una vista ejecutiva desde el bloque, donde puede monitorizar métricas clave y gráficos de tendencia de forma inmediata, además de acceder a funciones avanzadas de exportación y administración.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/1d66eb62-448f-436a-a733-87fc6082abcb" alt="Bloque del Profesor" width="528">
+  <img src="https://github.com/user-attachments/assets/7788c773-6184-4867-bd61-76785bbe05a5" alt="Bloque del Profesor" width="528">
 </p>
 
 **Centro de Gestión y Analíticas**
@@ -105,17 +110,14 @@ El profesor cuenta con una vista ejecutiva desde el bloque, donde puede monitori
 Un panel de administración que centraliza el seguimiento grupal. Permite visualizar quiénes han completado el proceso, quiénes están en curso y gestionar los resultados colectivos para adaptar la estrategia pedagógica del aula.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/bcb983b3-fce0-4346-8693-095d86008932" alt="Panel de Administración" width="800">
+  <img src="https://github.com/user-attachments/assets/5b826521-a4f5-4b12-98b4-d5e701dc2041" alt="Panel de Administración" width="800">
 </p>
 
 **Seguimiento Individualizado y Detallado**
 
 El docente puede profundizar en el perfil específico de cada estudiante. Esta vista permite comprender las necesidades particulares de cada alumno y las recomendaciones sugeridas por el sistema para brindar un apoyo docente más humano y dirigido.
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/02dfbfc1-42c2-4d2a-bb84-a4ff9a5a491d" alt="Vista Detallada del Estudiante" width="600">
-</p>
-
+- **Nota:** Esta vista es la misma que la del estudiante, pero accesible por el profesor para cualquier alumno del curso.
 ---
 
 ## Sección técnica
