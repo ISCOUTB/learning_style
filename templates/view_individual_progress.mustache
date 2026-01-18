@@ -23,9 +23,11 @@
 </div>
 
 <div class="mt-5 text-center d-flex gap-3 justify-content-center">
+    {{#can_view_reports}}
     <a href="{{admin_view_url}}" class="btn btn-secondary btn-modern mr-3">
         <i class="fa fa-arrow-left mr-2"></i>{{#str}} back_to_admin, block_learning_style {{/str}}
     </a>
+    {{/can_view_reports}}
     <a href="{{course_url}}" class="btn btn-modern" style="background: linear-gradient(135deg, #1567f9 0%, #0054ce 100%); border: none; color: white;">
         <i class="fa fa-home mr-2"></i>{{#str}} back_to_course, block_learning_style {{/str}}
     </a>

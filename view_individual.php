@@ -24,20 +24,19 @@ if (!$DB->record_exists('block_instances', array('blockname' => 'learning_style'
     redirect(new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
-// Verificar permisos de administrador o profesor (redirect amigable al curso si no puede ver).
-$canview = is_siteadmin()
-    || has_capability('block/learning_style:viewreports', $context)
-    || has_capability('moodle/course:viewhiddensections', $context);
+// Security: Check permissions and enrollment
+$is_own_results = ($USER->id == $userid);
+$can_view_reports = has_capability('block/learning_style:viewreports', $context);
+$is_siteadmin = is_siteadmin();
 
-if (!$canview) {
-    $redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
-    redirect($redirecturl);
+// Basic access check: If not owner, not teacher, and not admin -> Kick out
+if (!$is_own_results && !$can_view_reports && !$is_siteadmin) {
+    redirect(new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
-// PRIVACY: Teachers/managers in a course must not be able to view other (non-enrolled) users.
-if (!is_siteadmin() && !is_enrolled($context, $user, 'block/learning_style:take_test', true)) {
-    $redirecturl = new moodle_url('/course/view.php', array('id' => $courseid));
-    redirect($redirecturl);
+// Cross-course privacy check: If teacher (not admin/owner), ensure target user is in this course
+if (!$is_own_results && !$is_siteadmin && !is_enrolled($context, $user)) {
+    redirect(new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 // Obtener datos del estilo de aprendizaje (en cualquier curso)
@@ -45,6 +44,11 @@ $learning_style = $DB->get_record('learning_style', array('user' => $userid));
 
 if (!$learning_style) {
     throw new moodle_exception('learning_style_not_found', 'block_learning_style');
+}
+
+// Si está incompleto y es el estudiante, sacarlo antes de pintar nada
+if (!$learning_style->is_completed && $is_own_results) {
+    redirect(new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 $PAGE->set_url('/blocks/learning_style/view_individual.php', array('courseid' => $courseid, 'userid' => $userid));
@@ -75,7 +79,8 @@ if (!$learning_style->is_completed) {
         'answered_count' => $answered,
         'all_answered' => ($answered == 44),
         'admin_view_url' => (new moodle_url('/blocks/learning_style/admin_view.php', array('courseid' => $courseid)))->out(false),
-        'course_url' => (new moodle_url('/course/view.php', array('id' => $courseid)))->out(false)
+        'course_url' => (new moodle_url('/course/view.php', array('id' => $courseid)))->out(false),
+        'can_view_reports' => $can_view_reports
     ];
 
     echo $OUTPUT->render_from_template('block_learning_style/view_individual_progress', $template_data);
@@ -144,35 +149,79 @@ $dimensions = [
     )
 ];
 
-// Profile Characteristics Strings
+// Profile Characteristics Strings and Recommendations
 $profile_characteristics = [];
+$recommendations = [];
 
 if ($learning_style->ap_active > $learning_style->ap_reflexivo) {
     $profile_characteristics[] = get_string('profile_active_description', 'block_learning_style');
+    $recommendations[] = ['text' => get_string('active_recommendations', 'block_learning_style'), 'title' => get_string('active', 'block_learning_style')];
 } else {
     $profile_characteristics[] = get_string('profile_reflexive_description', 'block_learning_style');
+    $recommendations[] = ['text' => get_string('reflexive_recommendations', 'block_learning_style'), 'title' => get_string('reflexive', 'block_learning_style')];
 }
 if ($learning_style->ap_sensorial > $learning_style->ap_intuitivo) {
     $profile_characteristics[] = get_string('profile_sensorial_description', 'block_learning_style');
+    $recommendations[] = ['text' => get_string('sensorial_recommendations', 'block_learning_style'), 'title' => get_string('sensorial', 'block_learning_style')];
 } else {
     $profile_characteristics[] = get_string('profile_intuitive_description', 'block_learning_style');
+    $recommendations[] = ['text' => get_string('intuitive_recommendations', 'block_learning_style'), 'title' => get_string('intuitive', 'block_learning_style')];
 }
 if ($learning_style->ap_visual > $learning_style->ap_verbal) {
     $profile_characteristics[] = get_string('profile_visual_description', 'block_learning_style');
+    $recommendations[] = ['text' => get_string('visual_recommendations', 'block_learning_style'), 'title' => get_string('visual', 'block_learning_style')];
 } else {
     $profile_characteristics[] = get_string('profile_verbal_description', 'block_learning_style');
+    $recommendations[] = ['text' => get_string('verbal_recommendations', 'block_learning_style'), 'title' => get_string('verbal', 'block_learning_style')];
 }
 if ($learning_style->ap_secuencial > $learning_style->ap_global) {
     $profile_characteristics[] = get_string('profile_sequential_description', 'block_learning_style');
+    $recommendations[] = ['text' => get_string('sequential_recommendations', 'block_learning_style'), 'title' => get_string('sequential', 'block_learning_style')];
 } else {
     $profile_characteristics[] = get_string('profile_global_description', 'block_learning_style');
+    $recommendations[] = ['text' => get_string('global_recommendations', 'block_learning_style'), 'title' => get_string('global', 'block_learning_style')];
 }
+
+// Chart Data Preparation
+$json_style = [
+    "act" => intval($learning_style->ap_active),
+    "ref" => intval($learning_style->ap_reflexivo),
+    "sen" => intval($learning_style->ap_sensorial),
+    "int" => intval($learning_style->ap_intuitivo),
+    "vis" => intval($learning_style->ap_visual),
+    "vrb" => intval($learning_style->ap_verbal),
+    "seq" => intval($learning_style->ap_secuencial),
+    "glo" => intval($learning_style->ap_global)
+];
+
+$chart_labels = [
+    get_string('chart_visual', 'block_learning_style'),
+    get_string('chart_sensorial', 'block_learning_style'),
+    get_string('chart_active', 'block_learning_style'),
+    get_string('chart_global', 'block_learning_style'),
+    get_string('chart_verbal', 'block_learning_style'),
+    get_string('chart_intuitive', 'block_learning_style'),
+    get_string('chart_reflexive', 'block_learning_style'),
+    get_string('chart_sequential', 'block_learning_style')
+];
+
+$dataset_label = get_string('learning_style_label', 'block_learning_style');
+
+$params = [
+    'canvasId' => 'radarstyle',
+    'data' => $json_style,
+    'labels' => $chart_labels,
+    'datasetLabel' => $dataset_label
+];
+
+$PAGE->requires->js_call_amd('block_learning_style/radar_handler', 'init', [$params]);
 
 $template_data = [
     'fullname' => $fullname,
     'completion_date' => $completion_date,
     'dimensions' => $dimensions,
     'profile_characteristics' => $profile_characteristics,
+    'recommendations' => $recommendations,
     'technical_data' => [
         'active' => $learning_style->ap_active,
         'reflexive' => $learning_style->ap_reflexivo,
@@ -184,7 +233,8 @@ $template_data = [
         'global' => $learning_style->ap_global
     ],
     'admin_view_url' => (new moodle_url('/blocks/learning_style/admin_view.php', array('courseid' => $courseid)))->out(false),
-    'course_url' => (new moodle_url('/course/view.php', array('id' => $courseid)))->out(false)
+    'course_url' => (new moodle_url('/course/view.php', array('id' => $courseid)))->out(false),
+    'can_view_reports' => $can_view_reports
 ];
 
 echo $OUTPUT->render_from_template('block_learning_style/view_individual_results', $template_data);

@@ -1,7 +1,7 @@
 <?php
 /**
  * Learning Style Block Major Update
- * Version 2.0.1 - Production Ready
+ * Version 2.0.2 - Production Ready
  *
  * @package    block_learning_style
  * @copyright  2026 Jairo Serrano, Yuranis Henriquez, Isaac Sanchez, Santiago Orejuela, Maria Valentina
@@ -10,8 +10,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2026010800;
+$plugin->version = 2026011800; // YYYYMMDDXX (year, month, day, 2-digit version number).
 $plugin->requires = 2022041900; // Moodle 4.0+
 $plugin->component = 'block_learning_style';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.0.1';
+$plugin->release = '2.0.2';

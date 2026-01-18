@@ -55,8 +55,8 @@ define(['jquery', 'core/ajax'], function($, Ajax) {
                     clearTimeout(autoSaveTimer);
                 }
                 
-                // Auto-save after 2 seconds of inactivity
-                autoSaveTimer = setTimeout(autoSaveProgress, 2000);
+                // Auto-save after 400ms of inactivity
+                autoSaveTimer = setTimeout(autoSaveProgress, 400);
             });
 
             // Handle form submission for navigation

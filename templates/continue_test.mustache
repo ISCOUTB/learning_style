@@ -3,16 +3,18 @@
         <div style="text-align: center; margin: 0 auto;">
             {{{icon}}}
         </div>
-        <h6 class="mt-2 mb-1">{{#str}} test_title, block_learning_style {{/str}}</h6>
+        <h6 class="mt-2 mb-1">{{#str}} pluginname, block_learning_style {{/str}}</h6>
         <small class="text-muted">{{#str}} discover_your_style, block_learning_style {{/str}}</small>
     </div>
 
+    {{#showdescriptions}}
     <div class="learning-description mb-3" style="background: white; padding: 10px 12px; border-radius: 5px; border-left: 3px solid #1567f9;">
         <small class="text-muted" style="line-height: 1.5;">
             <i class="fa fa-info-circle text-info"></i>
             {{#str}} test_description, block_learning_style {{/str}}
         </small>
     </div>
+    {{/showdescriptions}}
 
     {{#all_answered}}
     <div class="alert alert-info mb-3" style="padding: 12px 15px; margin-bottom: 15px; border-left: 4px solid #ffc107; background-color: #fff3cd; border-radius: 4px;">

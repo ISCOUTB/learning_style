@@ -173,83 +173,77 @@ class block_learning_style extends block_base
      * Render results and chart
      */
     private function render_results($entry) {
-        global $OUTPUT;
-        $final_style = [];
-        $sliders_data = [];
+        global $COURSE, $OUTPUT;
 
-        $izq_title = get_string('active_recommendations', 'block_learning_style');
-        $der_title = get_string('reflexive_recommendations', 'block_learning_style');
+        $results_cards = [];
 
-        // Si Activo es mayor, el resultado es negativo y la barra se va a la izquierda.
-        $diff_active = $entry->ap_reflexivo - $entry->ap_active; 
-        $final_style[abs($diff_active) . "ar"] = $this->my_slider($diff_active, get_string("active", 'block_learning_style'), get_string("reflexive", 'block_learning_style'),$izq_title,$der_title);
-
-        $izq_title = get_string('sensorial_recommendations', 'block_learning_style');
-        $der_title = get_string('intuitive_recommendations', 'block_learning_style');
-        
-        // Intuitivo (der) - Sensorial (izq)
-        $diff_sensorial = $entry->ap_intuitivo - $entry->ap_sensorial;
-        $final_style[abs($diff_sensorial) . "si"] = $this->my_slider($diff_sensorial, get_string("sensorial", 'block_learning_style'), get_string("intuitive", 'block_learning_style'),$izq_title,$der_title);
-
-        $izq_title = get_string('visual_recommendations', 'block_learning_style');
-        $der_title = get_string('verbal_recommendations', 'block_learning_style');
-        
-        // Verbal (der) - Visual (izq)
-        $diff_visual = $entry->ap_verbal - $entry->ap_visual;
-        $final_style[abs($diff_visual) . "vv"] = $this->my_slider($diff_visual, get_string("visual", 'block_learning_style'), get_string("verbal", 'block_learning_style'),$izq_title,$der_title);
-
-        $izq_title = get_string('sequential_recommendations', 'block_learning_style');
-        $der_title = get_string('global_recommendations', 'block_learning_style');
-        
-        // Global (der) - Secuencial (izq)
-        $diff_secuencial = $entry->ap_global - $entry->ap_secuencial;
-        $final_style[abs($diff_secuencial) . "sg"] = $this->my_slider($diff_secuencial, get_string("sequential", 'block_learning_style'), get_string("global", 'block_learning_style'),$izq_title,$der_title);
-        krsort($final_style);
-
-        foreach ($final_style as $html) {
-            $sliders_data[] = ['html' => $html];
+        // Definition of dimensions and icons
+        // Processing: Active vs Reflexive
+        if ($entry->ap_active >= $entry->ap_reflexivo) {
+             $results_cards[] = [
+                 'dimension' => get_string('processing_dimension', 'block_learning_style'),
+                 'style' => get_string('active', 'block_learning_style'),
+                 'icon' => 'fa-bolt'
+             ];
+        } else {
+             $results_cards[] = [
+                 'dimension' => get_string('processing_dimension', 'block_learning_style'),
+                 'style' => get_string('reflexive', 'block_learning_style'),
+                 'icon' => 'fa-lightbulb-o'
+             ];
         }
 
-        // Inicializar popovers de forma segura
-        $this->page->requires->js_call_amd('block_learning_style/popoverinit', 'init');
+        // Perception: Sensorial vs Intuitive
+        if ($entry->ap_sensorial >= $entry->ap_intuitivo) {
+             $results_cards[] = [
+                 'dimension' => get_string('perception_dimension', 'block_learning_style'),
+                 'style' => get_string('sensorial', 'block_learning_style'),
+                 'icon' => 'fa-wrench'
+             ];
+        } else {
+             $results_cards[] = [
+                 'dimension' => get_string('perception_dimension', 'block_learning_style'),
+                 'style' => get_string('intuitive', 'block_learning_style'),
+                 'icon' => 'fa-puzzle-piece'
+             ];
+        }
 
-        $json_style = [
-            "act" => intval($entry->ap_active),
-            "ref" => intval($entry->ap_reflexivo),
-            "sen" => intval($entry->ap_sensorial),
-            "int" => intval($entry->ap_intuitivo),
-            "vis" => intval($entry->ap_visual),
-            "vrb" => intval($entry->ap_verbal),
-            "seq" => intval($entry->ap_secuencial),
-            "glo" => intval($entry->ap_global)
-        ];
-        
-        $chart_labels = [
-            get_string('chart_visual', 'block_learning_style'),
-            get_string('chart_sensorial', 'block_learning_style'),
-            get_string('chart_active', 'block_learning_style'),
-            get_string('chart_global', 'block_learning_style'),
-            get_string('chart_verbal', 'block_learning_style'),
-            get_string('chart_intuitive', 'block_learning_style'),
-            get_string('chart_reflexive', 'block_learning_style'),
-            get_string('chart_sequential', 'block_learning_style')
-        ];
-        
-        $dataset_label = get_string('learning_style_label', 'block_learning_style');
+        // Input: Visual vs Verbal
+        if ($entry->ap_visual >= $entry->ap_verbal) {
+             $results_cards[] = [
+                 'dimension' => get_string('input_dimension', 'block_learning_style'),
+                 'style' => get_string('visual', 'block_learning_style'),
+                 'icon' => 'fa-eye'
+             ];
+        } else {
+             $results_cards[] = [
+                 'dimension' => get_string('input_dimension', 'block_learning_style'),
+                 'style' => get_string('verbal', 'block_learning_style'),
+                 'icon' => 'fa-comments-o'
+             ];
+        }
 
-        $params = [
-            'canvasId' => 'radarstyle',
-            'data' => $json_style,
-            'labels' => $chart_labels,
-            'datasetLabel' => $dataset_label
-        ];
-
-        $this->page->requires->js_call_amd('block_learning_style/radar_handler', 'init', [$params]);
+        // Understanding: Sequential vs Global
+        if ($entry->ap_secuencial >= $entry->ap_global) {
+             $results_cards[] = [
+                 'dimension' => get_string('understanding_dimension', 'block_learning_style'),
+                 'style' => get_string('sequential', 'block_learning_style'),
+                 'icon' => 'fa-list-ol'
+             ];
+        } else {
+             $results_cards[] = [
+                 'dimension' => get_string('understanding_dimension', 'block_learning_style'),
+                 'style' => get_string('global', 'block_learning_style'),
+                 'icon' => 'fa-globe'
+             ];
+        }
         
         $template_data = [
             'icon' => $this->get_learning_style_icon('4em', 'display: block;', false),
-            'sliders' => $sliders_data,
-            'instanceid' => $this->instance->id
+            'results_cards' => $results_cards,
+            'summary_url' => (new moodle_url('/blocks/learning_style/view_individual.php', ['courseid' => $COURSE->id, 'userid' => $entry->user]))->out(false),
+            'instanceid' => $this->instance->id,
+            'showdescriptions' => !empty($this->config->showdescriptions)
         ];
 
         return $OUTPUT->render_from_template('block_learning_style/results', $template_data);
@@ -353,7 +347,8 @@ class block_learning_style extends block_base
         
         $template_data = [
             'icon' => $this->get_learning_style_icon('4em', '', true),
-            'url' => (new moodle_url('/blocks/learning_style/view.php', array('cid' => $COURSE->id)))->out()
+            'url' => (new moodle_url('/blocks/learning_style/view.php', array('cid' => $COURSE->id)))->out(),
+            'showdescriptions' => !empty($this->config->showdescriptions)
         ];
         
         return $OUTPUT->render_from_template('block_learning_style/test_invitation', $template_data);
@@ -399,7 +394,8 @@ class block_learning_style extends block_base
             'url' => $url->out(false),
             'button_text' => $button_text,
             'button_icon' => $button_icon,
-            'button_class' => $button_class
+            'button_class' => $button_class,
+            'showdescriptions' => !empty($this->config->showdescriptions)
         ];
         
         return $OUTPUT->render_from_template('block_learning_style/continue_test', $template_data);
