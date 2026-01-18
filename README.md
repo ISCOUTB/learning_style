@@ -36,7 +36,7 @@ Este repositorio incluye:
   - Acceso a **vista individual** por estudiante.
   - Posibilidad de **eliminación** de resultados individuales.
   - **Descarga CSV** de resultados completados.
-- Opción para **mostrar/ocultar** las descripciones en el bloque principal.
+- Opción para **mostrar/ocultar** las descripciones en el bloque principal **(oculto por defecto)**.
 - **Controles de privacidad**: acceso restringido por capacidades y por matrícula en el curso.
 
 ---
@@ -55,7 +55,7 @@ El recorrido comienza con una invitación clara y directa. Desde el bloque princ
 
 Se presenta un entorno de respuesta limpio y libre de distracciones. La interfaz ha sido diseñada para priorizar la legibilidad y la facilidad de uso, permitiendo que el estudiante se concentre totalmente en el proceso de autodescubrimiento.
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/0eaabfda-483e-41f9-b23a-34ae8b6f7083" alt="Formulario del Test" height="500">
+  <img src="https://github.com/user-attachments/assets/0eaabfda-483e-41f9-b23a-34ae8b6f7083" alt="Formulario del Test" width="528">
 </p>
 
 **Asistencia y Validación en Tiempo Real**
