@@ -44,9 +44,7 @@ $enrolled_ids = array_keys($enrolled_users);
 $student_ids = array();
 foreach ($enrolled_ids as $candidateid) {
     $candidateid = (int)$candidateid;
-    if (is_siteadmin($candidateid)) {
-        continue;
-    }
+    
     if (has_capability('block/learning_style:viewreports', $context, $candidateid)) {
         continue;
     }
